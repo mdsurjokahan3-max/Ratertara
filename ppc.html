@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>PPC</title>
+
+  <!-- libtl SDK (user requested) -->
+  <script src="//libtl.com/sdk.js" data-zone="10064795" data-sdk="show_10064795"></script>
+
+  <style>
+    :root{
+      --bg:#041022; --card:#0b1220; --muted:#9aa4b2; --accent:#06b6d4;
+      --glass: rgba(255,255,255,0.03);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#041020 0%, #071428 100%);color:#e6eef6}
+    .wrap{max-width:880px;margin:18px auto;padding:16px;}
+    header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,#06b6d4,#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:700}
+    h1{font-size:18px;margin:0}
+    p.sub{margin:0;color:var(--muted);font-size:13px}
+    .card{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 8px 28px rgba(2,6,23,0.6);margin-bottom:12px}
+    .row{display:flex;gap:12px;align-items:center}
+    .points{font-size:32px;font-weight:700}
+    .small{font-size:13px;color:var(--muted)}
+    .tasks{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+    .task{padding:12px;border-radius:10px;background:var(--glass);display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .btn{padding:8px 12px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.06);cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#7c3aed);border:none;color:#021025}
+    .center{text-align:center}
+    footer{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:14px;color:var(--muted);font-size:13px}
+    @media(min-width:700px){
+      .tasks{grid-template-columns:1fr 1fr}
+    }
+    .label{font-size:13px;color:var(--muted)}
+    .meta{font-size:12px;color:var(--muted)}
+    .chip{padding:6px 8px;border-radius:999px;border:1px solid rgba(255,255,255,0.04);font-size:13px}
+    /* Chat UI */
+    .chat-fab{position:fixed;right:16px;bottom:18px;width:64px;height:64px;border-radius:999px;background:linear-gradient(135deg,#06b6d4,#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:700;color:#021025;z-index:9999;box-shadow:0 10px 30px rgba(2,6,23,0.6);cursor:pointer}
+    .chat-modal{position:fixed;right:16px;bottom:92px;width:360px;max-width:95vw;max-height:80vh;background:var(--card);border-radius:12px;box-shadow:0 12px 40px rgba(2,6,23,0.6);overflow:hidden;display:flex;flex-direction:column;z-index:9999}
+    .chat-header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .chat-body{padding:8px;overflow:auto;flex:1;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+    .chat-footer{display:flex;padding:8px;border-top:1px solid rgba(255,255,255,0.03)}
+    .msg{margin-bottom:8px;padding:8px;border-radius:8px;max-width:78%}
+    .msg.me{background:linear-gradient(90deg,#06b6d4,#7c3aed);color:#021025;margin-left:auto}
+    .msg.other{background:rgba(255,255,255,0.03)}
+    .user-list{padding:8px;border-bottom:1px solid rgba(255,255,255,0.02);max-height:180px;overflow:auto}
+    .user-item{padding:8px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;background:rgba(255,255,255,0.01)}
+    .profile-btn{border:1px solid rgba(255,255,255,0.06);padding:6px 8px;border-radius:8px;cursor:pointer}
+    /* Profile modal */
+    .overlay{position:fixed;inset:0;background:rgba(1,3,8,0.6);display:flex;align-items:center;justify-content:center;z-index:10000}
+    .profile-modal{width:420px;max-width:95vw;background:var(--card);padding:16px;border-radius:12px}
+    .input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap" id="app-wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">P</div>
+        <div>
+          <h1>PointEarn — Income / Point Earning</h1>
+          <p class="sub">কাজ করে পয়েন্ট যোগ করো — এখন প্রোফাইল ও চ্যাট আছে</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn profile-btn" id="open-profile">Profile</button>
+        <div id="ad-zone" class="small"></div>
+      </div>
+    </header>
+
+    <!-- Existing point UI (kept same as before) -->
+    <main>
+      <div class="card" id="balance-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div>
+            <div class="label">Your Points</div>
+            <div class="points" id="points">0</div>
+            <div class="small">User: <span id="user-id">guest</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+            <button class="btn" id="withdraw-btn">Withdraw</button>
+            <div class="chip" id="last-activity">Last: —</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <strong>Tasks to earn points</strong>
+            <div class="small">প্রতিটি কাজের সামনে দেখানো পয়েন্ট পাবা</div>
+          </div>
+          <div class="small">Total earned: <span id="total-earned">0</span></div>
+        </div>
+
+        <div class="tasks" id="tasks-list"></div>
+      </div>
+
+      <div class="card" id="history-card">
+        <strong>Activity History</strong>
+        <div id="history-list" style="margin-top:10px" class="meta small"></div>
+        <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn" id="clear-history">Clear History</button>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="small">সবার ওপর মানুষ সত্য তাহার উপরে নাই </div>
+      <div class="small"> </div>
+    </footer>
+  </div>
+
+  <!-- Chat floating button -->
+  <div class="chat-fab" id="chat-fab" title="Open Chat">💬</div>
+
+  <!-- Chat modal (hidden initially) -->
+  <div class="chat-modal" id="chat-modal" style="display:none">
+    <div class="chat-header">
+      <div style="display:flex;flex-direction:column">
+        <strong>Chat — Users</strong>
+        <div class="small" id="chat-sub">Select a user to chat</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn" id="refresh-users">Refresh</button>
+        <button class="btn" id="close-chat">Close</button>
+      </div>
+    </div>
+
+    <div class="user-list" id="user-list"></div>
+
+    <div class="chat-body" id="chat-body" style="display:none"></div>
+
+    <div class="chat-footer" id="chat-footer" style="display:none">
+      <input id="chat-input" class="input" placeholder="Type a message..." />
+      <button class="btn primary" id="send-msg">Send</button>
+    </div>
+  </div>
+
+  <!-- Profile modal -->
+  <div id="profile-overlay" class="overlay" style="display:none">
+    <div class="profile-modal">
+      <h3>Profile</h3>
+      <div class="small">Set your display name and (optional) phone number for SMS sharing.</div>
+      <input id="profile-name" class="input" placeholder="Name (e.g., Suman)" />
+      <input id="profile-phone" class="input" placeholder="Phone (with country code, optional, e.g., +8801...)" />
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
+        <button class="btn" id="close-profile">Close</button>
+        <button class="btn primary" id="save-profile">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /***********************************************
+     * Config & Tasks (unchanged logic mostly)
+     ***********************************************/
+    const STORAGE_KEY = 'pointearn_v1_with_chat';
+    const TASKS = [
+      { id:'daily_checkin', label:'Daily Check-in', points:10, cooldown:24*3600 },
+      { id:'watch_ad', label:'Watch Ad (libtl)', points:15, cooldown:3600 },
+      { id:'quick_survey', label:'Complete Quick Task', points:20, cooldown:1800 },
+      { id:'refer_friend', label:'Refer & Earn', points:25, cooldown:0 }
+    ];
+
+    /***********************************************
+     * Storage helpers
+     ***********************************************/
+    function load(){
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return { users:[], me:null, points:0, totalEarned:0, history:[], taskTimestamps:{}, messages:[] };
+      try { return JSON.parse(raw); } catch(e){ return { users:[], me:null, points:0, totalEarned:0, history:[], taskTimestamps:{}, messages:[] } }
+    }
+    function save(state){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    // init state
+    let state = load();
+
+    // ensure current user (me) exists
+    function ensureMe(){
+      if(state.me) return;
+      // create a new local user id and add to users
+      const id = 'u_' + Math.random().toString(36).slice(2,10);
+      const name = 'guest_' + id.slice(-4);
+      const me = { id, name, phone: '' };
+      state.me = me;
+      // add to users if not present
+      if(!state.users) state.users = [];
+      state.users = state.users.filter(u=>u.id!==id);
+      state.users.push(me);
+      save(state);
+    }
+    ensureMe();
+
+    /***********************************************
+     * Telegram WebApp integration (best-effort)
+     ***********************************************/
+    const isTelegram = !!(window.Telegram && window.Telegram.WebApp);
+    try {
+      if(isTelegram){
+        const webapp = window.Telegram.WebApp;
+        webapp.expand();
+        try {
+          const user = webapp.initDataUnsafe && webapp.initDataUnsafe.user;
+          if(user && user.id){
+            // map TG user to local user (preserve phone if set)
+            const tgId = 'tg_' + user.id;
+            // if existing user with tgId, set as me
+            let found = state.users.find(u=>u.id===tgId);
+            if(!found){
+              found = { id: tgId, name: user.first_name || ('tg_'+user.id), phone: '' };
+              state.users.push(found);
+            }
+            state.me = found;
+            save(state);
+          }
+        } catch(e){}
+        // configure main button maybe
+        webapp.MainButton.text = "Withdraw / Cashout";
+        webapp.MainButton.color = "#06b6d4";
+      }
+    } catch(e){ /* ignore */ }
+
+    /***********************************************
+     * UI refs
+     ***********************************************/
+    const $points = document.getElementById('points');
+    const $userId = document.getElementById('user-id');
+    const $tasksList = document.getElementById('tasks-list');
+    const $historyList = document.getElementById('history-list');
+    const $totalEarned = document.getElementById('total-earned');
+    const $lastActivity = document.getElementById('last-activity');
+
+    const $chatFab = document.getElementById('chat-fab');
+    const $chatModal = document.getElementById('chat-modal');
+    const $userList = document.getElementById('user-list');
+    const $chatBody = document.getElementById('chat-body');
+    const $chatFooter = document.getElementById('chat-footer');
+    const $chatInput = document.getElementById('chat-input');
+    const $sendMsg = document.getElementById('send-msg');
+    const $chatSub = document.getElementById('chat-sub');
+
+    const $profileBtn = document.getElementById('open-profile');
+    const $profileOverlay = document.getElementById('profile-overlay');
+    const $profileName = document.getElementById('profile-name');
+    const $profilePhone = document.getElementById('profile-phone');
+    const $saveProfile = document.getElementById('save-profile');
+    const $closeProfile = document.getElementById('close-profile');
+
+    const $openProfile = document.getElementById('open-profile');
+
+    /***********************************************
+     * Render functions
+     ***********************************************/
+    function renderAll(){
+      // points & history
+      $points.textContent = state.points || 0;
+      $userId.textContent = state.me ? state.me.name + ' ('+ state.me.id +')' : 'guest';
+      $totalEarned.textContent = state.totalEarned || 0;
+      $historyList.innerHTML = (state.history||[]).slice().reverse().map(h => `<div style="margin-bottom:6px">${h.ts} — ${h.text}</div>`).join('') || '<div class="small">No activity yet</div>';
+      $lastActivity.textContent = state.history && state.history.length ? state.history[state.history.length-1].ts : '—';
+      renderTasks();
+      renderUserList();
+      renderChatIfOpen();
+    }
+
+    function renderTasks(){
+      $tasksList.innerHTML = '';
+      TASKS.forEach(task=>{
+        const wrapper = document.createElement('div');
+        wrapper.className = 'task' + (canPerform(task) ? '' : ' locked');
+
+        const left = document.createElement('div');
+        left.innerHTML = `<div style="font-weight:600">${task.label}</div><div class="meta small">${task.points} points</div>`;
+
+        const right = document.createElement('div');
+        if(canPerform(task)){
+          const btn = document.createElement('button'); btn.className='btn primary'; btn.textContent='Do';
+          btn.addEventListener('click', ()=>performTask(task));
+          right.appendChild(btn);
+        } else {
+          const rem = secondsRemaining(task);
+          const remText = Math.ceil(rem/60) + 'm left';
+          const info = document.createElement('div'); info.className='small'; info.textContent = remText;
+          right.appendChild(info);
+        }
+
+        wrapper.appendChild(left);
+        wrapper.appendChild(right);
+        $tasksList.appendChild(wrapper);
+      });
+    }
+
+    function renderUserList(){
+      $userList.innerHTML = '';
+      // ensure we show ME first
+      const users = (state.users || []).slice().sort((a,b)=> a.id===state.me.id ? -1 : 1);
+      users.forEach(u=>{
+        const el = document.createElement('div'); el.className='user-item';
+        el.innerHTML = `<div style="display:flex;flex-direction:column"><div style="font-weight:600">${u.name}</div><div class="small">${u.id}${u.phone ? ' • ' + u.phone : ''}</div></div>`;
+        const right = document.createElement('div');
+        if(u.id !== state.me.id){
+          const chatBtn = document.createElement('button'); chatBtn.className='btn'; chatBtn.textContent='Chat';
+          chatBtn.addEventListener('click', ()=>openChatWith(u.id));
+          right.appendChild(chatBtn);
+
+          const smsBtn = document.createElement('button'); smsBtn.className='btn'; smsBtn.textContent='SMS';
+          smsBtn.title = 'Open native SMS app to this user (requires phone)';
+          smsBtn.addEventListener('click', ()=>openSmsToUser(u));
+          right.appendChild(smsBtn);
+        } else {
+          const edit = document.createElement('button'); edit.className='btn'; edit.textContent='Edit';
+          edit.addEventListener('click', ()=>openProfileModal());
+          right.appendChild(edit);
+        }
+        el.appendChild(right);
+        $userList.appendChild(el);
+      });
+    }
+
+    /***********************************************
+     * Chat logic (localStorage messages)
+     ***********************************************/
+    let currentChatPartner = null; // user id
+
+    function openChatWith(userId){
+      currentChatPartner = userId;
+      $chatModal.style.display = 'flex';
+      $chatBody.style.display = 'block';
+      $chatFooter.style.display = 'flex';
+      $chatSub.textContent = 'Chat with ' + ( (state.users||[]).find(u=>u.id===userId) || {name:userId} ).name;
+      renderChatIfOpen();
+    }
+
+    function renderChatIfOpen(){
+      if(!$chatModal || $chatModal.style.display === 'none') return;
+      if(!currentChatPartner){
+        $chatBody.innerHTML = '<div class="small">Select a user from above to start chatting</div>';
+        $chatFooter.style.display = 'none';
+        return;
+      }
+      $chatFooter.style.display = 'flex';
+      const msgs = (state.messages||[]).filter(m => 
+        (m.from===state.me.id && m.to===currentChatPartner) || (m.to===state.me.id && m.from===currentChatPartner)
+      );
+      $chatBody.innerHTML = msgs.map(m=>{
+        const cls = m.from===state.me.id ? 'msg me' : 'msg other';
+        return `<div class="${cls}"><div style="font-size:12px;color:rgba(0,0,0,0.6);font-weight:600">${m.fromName||m.from}</div><div style="margin-top:6px">${escapeHtml(m.text)}</div><div class="small" style="margin-top:6px;opacity:0.8">${m.ts}</div></div>`;
+      }).join('') || '<div class="small">No messages yet</div>';
+      // scroll bottom
+      setTimeout(()=>{ $chatBody.scrollTop = $chatBody.scrollHeight; },50);
+    }
+
+    function sendMessageTo(partnerId, text){
+      if(!text || !partnerId) return;
+      const partner = (state.users||[]).find(u=>u.id===partnerId);
+      const msg = {
+        id: 'm_' + Math.random().toString(36).slice(2,9),
+        from: state.me.id,
+        fromName: state.me.name,
+        to: partnerId,
+        toName: partner ? partner.name : partnerId,
+        text: text,
+        ts: new Date().toLocaleString()
+      };
+      state.messages = state.messages || [];
+      state.messages.push(msg);
+      // add small history entry
+      addHistory(`Sent to ${partner ? partner.name : partnerId}: ${text.slice(0,40)}`);
+      save(state);
+      renderAll();
+    }
+
+    // helper: open native SMS composer to user's phone
+    function openSmsToUser(user){
+      if(!user || !user.phone){
+        alert('প্রাপকের ফোন নম্বর পাওয়া যায়নি — প্রথমে প্রোফাইলে ফোন নম্বর যুক্ত করুন।');
+        return;
+      }
+      // prefill message
+      const body = encodeURIComponent('Hi ' + (user.name || '') + ', I am contacting you via PointEarn app.');
+      // create sms: link (works on mobile)
+      // For Android use sms:+123?body=..., for iOS often sms:+123&body=...
+      const link = `sms:${encodeURIComponent(user.phone)}?body=${body}`;
+      window.location.href = link;
+    }
+
+    /***********************************************
+     * Profile modal functions
+     ***********************************************/
+    function openProfileModal(){
+      $profileOverlay.style.display = 'flex';
+      $profileName.value = state.me.name || '';
+      $profilePhone.value = state.me.phone || '';
+    }
+    function closeProfileModal(){
+      $profileOverlay.style.display = 'none';
+    }
+    function saveProfile(){
+      const name = $profileName.value.trim() || state.me.name || state.me.id;
+      const phone = $profilePhone.value.trim();
+      // update me and users list
+      state.me.name = name;
+      state.me.phone = phone;
+      // replace or add user in users list
+      state.users = state.users || [];
+      const idx = state.users.findIndex(u=>u.id===state.me.id);
+      if(idx>=0) state.users[idx] = state.me;
+      else state.users.push(state.me);
+      save(state);
+      closeProfileModal();
+      renderAll();
+    }
+
+    /***********************************************
+     * Task & points logic (same as earlier)
+     ***********************************************/
+    function addHistory(text){
+      state.history = state.history || [];
+      state.history.push({ ts: new Date().toLocaleString(), text });
+      if(state.history.length > 200) state.history.shift();
+    }
+
+    function canPerform(task){
+      if(!task.cooldown) return true;
+      const last = state.taskTimestamps[task.id] || 0;
+      const now = Math.floor(Date.now()/1000);
+      return (now - last) >= task.cooldown;
+    }
+    function secondsRemaining(task){
+      const last = state.taskTimestamps[task.id] || 0;
+      const now = Math.floor(Date.now()/1000);
+      const rem = task.cooldown - (now - last);
+      return rem > 0 ? rem : 0;
+    }
+
+    async function performTask(task){
+      state.taskTimestamps[task.id] = Math.floor(Date.now()/1000);
+      save(state);
+      renderAll();
+
+      if(task.id === 'watch_ad'){
+        try {
+          if(window.libtl && typeof window.libtl.showZone === 'function'){
+            await new Promise((resolve)=> {
+              try {
+                window.libtl.showZone && window.libtl.showZone('10064795', { container: null, onClose: ()=>resolve() });
+                setTimeout(()=>resolve(), 6000);
+              } catch(e){ resolve(); }
+            });
+          } else { await new Promise(r=>setTimeout(r,3500)); }
+        } catch(e){}
+        grantPoints(task.points, `Ad watched`);
+        return;
+      }
+
+      if(task.id === 'daily_checkin'){
+        grantPoints(task.points, `Checked in`);
+        return;
+      }
+
+      if(task.id === 'quick_survey'){
+        const ok = confirm('Take a quick 3-step task? (simulation)');
+        if(ok){ await new Promise(r=>setTimeout(r,900)); grantPoints(task.points, `Quick task done`); }
+        else { state.taskTimestamps[task.id] = 0; save(state); renderAll(); }
+        return;
+      }
+
+      if(task.id === 'refer_friend'){
+        const ref = window.location.href + '?ref=' + encodeURIComponent(state.me.id);
+        try { await navigator.clipboard.writeText(ref); alert('Referral link copied to clipboard.'); } catch(e){ prompt('Copy this referral link:', ref); }
+        grantPoints(task.points, `Referral generated`);
+        return;
+      }
+
+      grantPoints(task.points, `Completed: ${task.label}`);
+    }
+
+    function grantPoints(amount, reason){
+      state.points = (state.points || 0) + amount;
+      state.totalEarned = (state.totalEarned || 0) + amount;
+      addHistory(`${reason} (+${amount}p)`);
+      save(state);
+      renderAll();
+      try { if(isTelegram) window.Telegram.WebApp.MainButton.show(); } catch(e){}
+    }
+
+    document.getElementById('withdraw-btn').addEventListener('click', ()=>{
+      if(state.points < 50){ alert('আপনি অন্তত 50 পয়েন্ট থাকতে হবে Withdraw করার জন্য।'); return; }
+      const proceed = confirm(`আপনি ${state.points} পয়েন্ট Withdraw করতে চান? (demo)`);
+      if(!proceed) return;
+      addHistory(`Withdraw requested: ${state.points}p`);
+      state.points = 0;
+      save(state);
+      renderAll();
+      alert('Withdraw request noted (demo). বাস্তবে server-side প্রক্রিয়া দরকার।');
+    });
+
+    document.getElementById('clear-history').addEventListener('click', ()=>{
+      if(!confirm('Activity history মুছে ফেলতে চান?')) return;
+      state.history = [];
+      save(state);
+      renderAll();
+    });
+
+    /***********************************************
+     * Chat interactions (send button, refresh)
+     ***********************************************/
+    $chatFab.addEventListener('click', ()=>{
+      $chatModal.style.display = $chatModal.style.display === 'flex' ? 'none' : 'flex';
+      renderAll();
+    });
+    document.getElementById('close-chat').addEventListener('click', ()=>{ $chatModal.style.display='none'; currentChatPartner=null; });
+    document.getElementById('refresh-users').addEventListener('click', ()=>{ renderUserList(); alert('Users refreshed (local).'); });
+
+    $sendMsg.addEventListener('click', ()=>{
+      const text = $chatInput.value.trim();
+      if(!text) return;
+      if(!currentChatPartner){ alert('প্রথমে একটা ইউজার সিলেক্ট করুন।'); return; }
+      sendMessageTo(currentChatPartner, text);
+      $chatInput.value = '';
+      renderChatIfOpen();
+    });
+
+    // allow Enter to send
+    $chatInput.addEventListener('keypress', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); $sendMsg.click(); } });
+
+    /***********************************************
+     * Profile modal events
+     ***********************************************/
+    $openProfile.addEventListener('click', openProfileModal);
+    $closeProfile.addEventListener('click', closeProfileModal);
+    $saveProfile.addEventListener('click', saveProfile);
+
+    // also support saving on enter
+    $profileName.addEventListener('keypress', (e)=>{ if(e.key==='Enter') saveProfile(); });
+    $profilePhone.addEventListener('keypress', (e)=>{ if(e.key==='Enter') saveProfile(); });
+
+    /***********************************************
+     * Utilities & init
+     ***********************************************/
+    function escapeHtml(s){ return String(s).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; }); }
+
+    // seed few demo users if none (excluding me)
+    (function seedUsers(){
+      if(!state.users) state.users = [];
+      // ensure me exists in users list
+      if(!state.users.find(u=>u.id===state.me.id)) state.users.push(state.me);
+      if(state.users.length < 3){
+        const demo1 = { id: 'u_demo1', name: 'Rafi', phone: '' };
+        const demo2 = { id: 'u_demo2', name: 'Nabila', phone: '' };
+        if(!state.users.find(u=>u.id===demo1.id)) state.users.push(demo1);
+        if(!state.users.find(u=>u.id===demo2.id)) state.users.push(demo2);
+        save(state);
+      }
+    })();
+
+    // try to place libtl widget in ad-zone
+    try {
+      if(window.libtl && typeof window.libtl.showZone === 'function'){
+        try { window.libtl.showZone && window.libtl.showZone('10064795', { container: '#ad-zone' }); } catch(e){ }
+      }
+    } catch(e){}
+
+    // small helper: if URL contains ref param and it's not me, add as user (optional)
+    (function handleRefParam(){
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const ref = params.get('ref');
+        if(ref && ref !== state.me.id && !state.users.find(u=>u.id===ref)){
+          state.users.push({ id: ref, name: 'ref_'+ref, phone: '' });
+          save(state);
+        }
+      } catch(e){}
+    })();
+
+    // initial render
+    renderAll();
+
+    // simple auto-save on unload
+    window.addEventListener('beforeunload', ()=> save(state));
+  </script>
+</body>
+</html>
