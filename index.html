@@ -1,10 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rater Tara 🚷</title>
     <style>
+<div id="videoListContainer">
+    <h2>প্রকাশিত ভিডিও 🎬</h2>
+    <div id="videosFeed">
+        <!-- Uploaded videos will be displayed here -->
+        <p style="text-align: center; color: #666;">কোনো ভিডিও আপলোড করা হয়নি।</p>
+    </div>
+</div>
+
+<script>
+    let videos = []; // Array to store uploaded video data
+
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // ফর্ম সাবমিট হওয়া বন্ধ করুন
+
+        const title = document.getElementById('videoTitle').value;
+        const description = document.getElementById('videoDescription').value;
+        const videoFile = document.getElementById('videoFile').files[0];
+        const messageDiv = document.getElementById('message');
+
+        if (!videoFile) {
+            messageDiv.style.color = 'red';
+            messageDiv.textContent = 'অনুগ্রহ করে একটি ভিডিও ফাইল নির্বাচন করুন।';
+            return;
+        }
+
+        // In a real application, you would upload the file to a server
+        // and get a URL for the video. For this example, we'll create a blob URL.
+        const videoURL = URL.createObjectURL(videoFile);
+
+        const newVideo = {
+            id: Date.now(), // Unique ID for the video
+            title: title,
+            description: description,
+            url: videoURL,
+            likes: 0,
+            comments: [],
+            shares: 0
+        };
+
+        videos.push(newVideo);
+        renderVideos(); // Re-render the video list
+
+        messageDiv.style.color = 'blue';
+        messageDiv.textContent = 'ভিডিও আপলোড প্রক্রিয়া চলছে... (এটি শুধুমাত্র একটি ডামি)।';
+        setTimeout(() => {
+            messageDiv.style.color = 'green';
+            messageDiv.textContent = 'ভিডিও সফলভাবে আপলোডের জন্য প্রস্তুত হয়েছে!';
+            document.getElementById('uploadForm').reset();
+        }, 2000);
+    });
+
+    function renderVideos() {
+        const videosFeed = document.getElementById('videosFeed');
+        videosFeed.innerHTML = ''; // Clear previous videos
+
+        if (videos.length === 0) {
+            videosFeed.innerHTML = '<p style="text-align: center; color: #666;">কোনো ভিডিও আপলোড করা হয়নি।</p>';
+            return;
+        }
+
+        videos.forEach(video => {
+            const videoItem = document.createElement('div');
+            videoItem.className = 'video-item';
+            videoItem.innerHTML = `
+                <h3>${video.title}</h3>
+                <p>${video.description}</p>
+                <video controls src="${video.url}"></video>
+                <div class="video-actions">
+                    <button onclick="likeVideo(${video.id})">লাইক 👍</button>
+                    <span>${video.likes}</span>
+                    <button onclick="shareVideo(${video.id})">শেয়ার ↗️</button>
+                    <span>${video.shares}</span>
+                </div>
+                <div class="comment-section">
+                    <textarea id="commentInput-${video.id}" placeholder="একটি মন্তব্য লিখুন..."></textarea>
+                    <button onclick="addComment(${video.id})">মন্তব্য করুন</button>
+                    <div class="comments-list" id="commentsList-${video.id}">
+                        ${video.comments.length > 0 ? video.comments.map(comment => `<div class="comment"><strong>আপনি:</strong> ${comment}</div>`).join('') : '<p>কোনো মন্তব্য নেই।</p>'}
+                    </div>
+                </div>
+            `;
+            videosFeed.appendChild(videoItem);
+        });
+    }
+
+    function likeVideo(videoId) {
+        const video = videos.find(v => v.id === videoId);
+        if (video) {
+            video.likes++;
+            renderVideos();
+        }
+    }
+
+    function shareVideo(videoId) {
+        const video = videos.find(v => v.id === videoId);
+        if (video) {
+            video.shares++;
+            renderVideos();
+            // In a real app, you would implement actual sharing functionality
+            alert(`"${video.title}" ভিডিওটি শেয়ার করার জন্য প্রস্তুত!`);
+        }
+    }
+
+    function addComment(videoId) {
+        const commentInput = document.getElementById(`commentInput-${videoId}`);
+        const commentText = commentInput.value.trim();
+
+        if (commentText) {
+            const video = videos.find(v => v.id === videoId);
+            if (video) {
+                video.comments.push(commentText);
+                commentInput.value = ''; // Clear the input
+                renderVideos(); // Re-render to show new comment
+            }
+        } else {
+            alert('অনুগ্রহ করে একটি মন্তব্য লিখুন।');
+        }
+    }
+
+    // Initial render in case of pre-existing data (not applicable in this client-side example)
+    renderVideos();
+</script>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -94,6 +217,129 @@
         </form>
         <div id="message"></div>
     </div>
+<div id="videoListContainer">
+    <h2>প্রকাশিত ভিডিও 🎬</h2>
+    <div id="videosFeed">
+        <!-- Uploaded videos will be displayed here -->
+        <p style="text-align: center; color: #666;">কোনো ভিডিও আপলোড করা হয়নি।</p>
+    </div>
+</div>
+
+<script>
+    let videos = []; // Array to store uploaded video data
+
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // ফর্ম সাবমিট হওয়া বন্ধ করুন
+
+        const title = document.getElementById('videoTitle').value;
+        const description = document.getElementById('videoDescription').value;
+        const videoFile = document.getElementById('videoFile').files[0];
+        const messageDiv = document.getElementById('message');
+
+        if (!videoFile) {
+            messageDiv.style.color = 'red';
+            messageDiv.textContent = 'অনুগ্রহ করে একটি ভিডিও ফাইল নির্বাচন করুন।';
+            return;
+        }
+
+        // In a real application, you would upload the file to a server
+        // and get a URL for the video. For this example, we'll create a blob URL.
+        const videoURL = URL.createObjectURL(videoFile);
+
+        const newVideo = {
+            id: Date.now(), // Unique ID for the video
+            title: title,
+            description: description,
+            url: videoURL,
+            likes: 0,
+            comments: [],
+            shares: 0
+        };
+
+        videos.push(newVideo);
+        renderVideos(); // Re-render the video list
+
+        messageDiv.style.color = 'blue';
+        messageDiv.textContent = 'ভিডিও আপলোড প্রক্রিয়া চলছে... (এটি শুধুমাত্র একটি ডামি)।';
+        setTimeout(() => {
+            messageDiv.style.color = 'green';
+            messageDiv.textContent = 'ভিডিও সফলভাবে আপলোডের জন্য প্রস্তুত হয়েছে!';
+            document.getElementById('uploadForm').reset();
+        }, 2000);
+    });
+
+    function renderVideos() {
+        const videosFeed = document.getElementById('videosFeed');
+        videosFeed.innerHTML = ''; // Clear previous videos
+
+        if (videos.length === 0) {
+            videosFeed.innerHTML = '<p style="text-align: center; color: #666;">কোনো ভিডিও আপলোড করা হয়নি।</p>';
+            return;
+        }
+
+        videos.forEach(video => {
+            const videoItem = document.createElement('div');
+            videoItem.className = 'video-item';
+            videoItem.innerHTML = `
+                <h3>${video.title}</h3>
+                <p>${video.description}</p>
+                <video controls src="${video.url}"></video>
+                <div class="video-actions">
+                    <button onclick="likeVideo(${video.id})">লাইক 👍</button>
+                    <span>${video.likes}</span>
+                    <button onclick="shareVideo(${video.id})">শেয়ার ↗️</button>
+                    <span>${video.shares}</span>
+                </div>
+                <div class="comment-section">
+                    <textarea id="commentInput-${video.id}" placeholder="একটি মন্তব্য লিখুন..."></textarea>
+                    <button onclick="addComment(${video.id})">মন্তব্য করুন</button>
+                    <div class="comments-list" id="commentsList-${video.id}">
+                        ${video.comments.length > 0 ? video.comments.map(comment => `<div class="comment"><strong>আপনি:</strong> ${comment}</div>`).join('') : '<p>কোনো মন্তব্য নেই।</p>'}
+                    </div>
+                </div>
+            `;
+            videosFeed.appendChild(videoItem);
+        });
+    }
+
+    function likeVideo(videoId) {
+        const video = videos.find(v => v.id === videoId);
+        if (video) {
+            video.likes++;
+            renderVideos();
+        }
+    }
+
+    function shareVideo(videoId) {
+        const video = videos.find(v => v.id === videoId);
+        if (video) {
+            video.shares++;
+            renderVideos();
+            // In a real app, you would implement actual sharing functionality
+            alert(`"${video.title}" ভিডিওটি শেয়ার করার জন্য প্রস্তুত!`);
+        }
+    }
+
+    function addComment(videoId) {
+        const commentInput = document.getElementById(`commentInput-${videoId}`);
+        const commentText = commentInput.value.trim();
+
+        if (commentText) {
+            const video = videos.find(v => v.id === videoId);
+            if (video) {
+                video.comments.push(commentText);
+                commentInput.value = ''; // Clear the input
+                renderVideos(); // Re-render to show new comment
+            }
+        } else {
+            alert('অনুগ্রহ করে একটি মন্তব্য লিখুন।');
+        }
+    }
+
+    // Initial render in case of pre-existing data (not applicable in this client-side example)
+    renderVideos();
+</script>
+
 
     <script>
         document.getElementById('uploadForm').addEventListener('submit', function(e) {
