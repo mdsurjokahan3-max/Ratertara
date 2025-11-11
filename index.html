@@ -1,400 +1,161 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="bn">
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rater Tara App ১৮+</title>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rater Tara 🚷</title>
-    <style>
-<div id="videoListContainer">
-    <h2>প্রকাশিত ভিডিও 🎬</h2>
-    <div id="videosFeed">
-        <!-- Uploaded videos will be displayed here -->
-        <p style="text-align: center; color: #666;">কোনো ভিডিও আপলোড করা হয়নি।</p>
-    </div>
-</div>
+  <!-- User SDK -->
+  <script src='//libtl.com/sdk.js' data-zone='10095516' data-sdk='show_10095516'></script>
 
-<script>
-    let videos = []; // Array to store uploaded video data
-
-    document.getElementById('uploadForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // ফর্ম সাবমিট হওয়া বন্ধ করুন
-
-        const title = document.getElementById('videoTitle').value;
-        const description = document.getElementById('videoDescription').value;
-        const videoFile = document.getElementById('videoFile').files[0];
-        const messageDiv = document.getElementById('message');
-
-        if (!videoFile) {
-            messageDiv.style.color = 'red';
-            messageDiv.textContent = 'অনুগ্রহ করে একটি ভিডিও ফাইল নির্বাচন করুন।';
-            return;
-        }
-
-        // In a real application, you would upload the file to a server
-        // and get a URL for the video. For this example, we'll create a blob URL.
-        const videoURL = URL.createObjectURL(videoFile);
-
-        const newVideo = {
-            id: Date.now(), // Unique ID for the video
-            title: title,
-            description: description,
-            url: videoURL,
-            likes: 0,
-            comments: [],
-            shares: 0
-        };
-
-        videos.push(newVideo);
-        renderVideos(); // Re-render the video list
-
-        messageDiv.style.color = 'blue';
-        messageDiv.textContent = 'ভিডিও আপলোড প্রক্রিয়া চলছে... (এটি শুধুমাত্র একটি ডামি)।';
-        setTimeout(() => {
-            messageDiv.style.color = 'green';
-            messageDiv.textContent = 'ভিডিও সফলভাবে আপলোডের জন্য প্রস্তুত হয়েছে!';
-            document.getElementById('uploadForm').reset();
-        }, 2000);
-    });
-
-    function renderVideos() {
-        const videosFeed = document.getElementById('videosFeed');
-        videosFeed.innerHTML = ''; // Clear previous videos
-
-        if (videos.length === 0) {
-            videosFeed.innerHTML = '<p style="text-align: center; color: #666;">কোনো ভিডিও আপলোড করা হয়নি।</p>';
-            return;
-        }
-
-        videos.forEach(video => {
-            const videoItem = document.createElement('div');
-            videoItem.className = 'video-item';
-            videoItem.innerHTML = `
-                <h3>${video.title}</h3>
-                <p>${video.description}</p>
-                <video controls src="${video.url}"></video>
-                <div class="video-actions">
-                    <button onclick="likeVideo(${video.id})">লাইক 👍</button>
-                    <span>${video.likes}</span>
-                    <button onclick="shareVideo(${video.id})">শেয়ার ↗️</button>
-                    <span>${video.shares}</span>
-                </div>
-                <div class="comment-section">
-                    <textarea id="commentInput-${video.id}" placeholder="একটি মন্তব্য লিখুন..."></textarea>
-                    <button onclick="addComment(${video.id})">মন্তব্য করুন</button>
-                    <div class="comments-list" id="commentsList-${video.id}">
-                        ${video.comments.length > 0 ? video.comments.map(comment => `<div class="comment"><strong>আপনি:</strong> ${comment}</div>`).join('') : '<p>কোনো মন্তব্য নেই।</p>'}
-                    </div>
-                </div>
-            `;
-            videosFeed.appendChild(videoItem);
-        });
+  <style>
+    :root{
+      --bg:#071226;
+      --card:#0b1220;
+      --accent:#06b6d4;
+      --text:#e6eef6;
+      --muted:#9aa8b6;
     }
-
-    function likeVideo(videoId) {
-        const video = videos.find(v => v.id === videoId);
-        if (video) {
-            video.likes++;
-            renderVideos();
-        }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,"Poppins",sans-serif;
+      background:linear-gradient(180deg,#061023,#071328);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
     }
-
-    function shareVideo(videoId) {
-        const video = videos.find(v => v.id === videoId);
-        if (video) {
-            video.shares++;
-            renderVideos();
-            // In a real app, you would implement actual sharing functionality
-            alert(`"${video.title}" ভিডিওটি শেয়ার করার জন্য প্রস্তুত!`);
-        }
+    .card{
+      width:100%;
+      max-width:420px;
+      background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.04));
+      border-radius:14px;
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow:0 10px 30px rgba(2,6,23,0.6);
+      text-align:center;
     }
-
-    function addComment(videoId) {
-        const commentInput = document.getElementById(`commentInput-${videoId}`);
-        const commentText = commentInput.value.trim();
-
-        if (commentText) {
-            const video = videos.find(v => v.id === videoId);
-            if (video) {
-                video.comments.push(commentText);
-                commentInput.value = ''; // Clear the input
-                renderVideos(); // Re-render to show new comment
-            }
-        } else {
-            alert('অনুগ্রহ করে একটি মন্তব্য লিখুন।');
-        }
+    .avatar{
+      width:100px;height:100px;
+      border-radius:50%;
+      overflow:hidden;
+      margin:0 auto 10px;
+      border:2px solid rgba(255,255,255,0.1);
     }
-
-    // Initial render in case of pre-existing data (not applicable in this client-side example)
-    renderVideos();
-</script>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            color: #333;
-        }
-        .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-        input[type="text"],
-        input[type="file"],
-        textarea {
-            width: calc(100% - 22px);
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        input[type="file"] {
-            padding: 6px;
-        }
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 18px;
-            width: 100%;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #message {
-            margin-top: 20px;
-            text-align: center;
-            font-weight: bold;
-        }
-    </style>
+    .avatar img{
+      width:100%;height:100%;object-fit:cover;
+    }
+    h1{margin:0;font-size:20px}
+    p{margin:5px 0 15px;color:var(--muted)}
+    .buttons{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+    .btn{
+      padding:12px 14px;
+      border-radius:10px;
+      font-weight:700;
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,0.06);
+      background:transparent;
+      color:var(--text);
+      transition:transform .12s;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{
+      background:linear-gradient(90deg,var(--accent),#7c3aed);
+      color:#021827;
+      border:0;
+    }
+    .note{margin-top:12px;color:var(--muted);font-size:13px}
+    .small{font-size:12px;color:var(--muted);margin-top:10px}
+    /* Modal */
+    .modal-bg{
+      position:fixed;inset:0;
+      background:rgba(0,0,0,0.7);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:99;
+    }
+    .modal{
+      background:var(--card);
+      padding:20px;
+      border-radius:12px;
+      max-width:360px;
+      text-align:center;
+      box-shadow:0 8px 20px rgba(0,0,0,0.4);
+      border:1px solid rgba(255,255,255,0.05);
+    }
+    .modal h2{margin:0 0 10px}
+    .modal p{margin:0 0 16px;color:var(--muted)}
+    .modal .btn{width:48%;margin:0 1%;}
+    .flex{display:flex;justify-content:center}
+  </style>
 </head>
+
+<script type='text/javascript' src='//pl28030591.effectivegatecpm.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js'></script>
+
 <body>
-    <div class="container">
-        <h1>Rater Tara 🚷</h1>
-        <form id="uploadForm">
-            <div class="form-group">
-                <label for="videoTitle">ভিডিওর শিরোনাম:</label>
-                <input type="text" id="videoTitle" name="videoTitle" required>
-            </div>
-            <div class="form-group">
-                <label for="videoDescription">বর্ণনা:</label>
-                <textarea id="videoDescription" name="videoDescription"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="videoFile">ভিডিও ফাইল:</label>
-                <input type="file" id="videoFile" name="videoFile" accept="video/*" required>
-            </div>
-            <button type="submit">আপলোড করুন</button>
-        </form>
-        <div id="message"></div>
+  <!-- Age gate modal -->
+  <div class="modal-bg" id="ageModal">
+    <div class="modal">
+      <h2>বয়স যাচাই (১৮+)</h2>
+      <p>আপনার পূর্ণ প্রাপ্ত বয়স হলে চালিয়ে যান</p>
+      <div class="flex">
+        <button class="btn" onclick="denyAge()">না</button>
+        <button class="btn primary" onclick="confirmAge()">হ্যাঁ</button>
+      </div>
     </div>
-<div id="videoListContainer">
-    <h2>প্রকাশিত ভিডিও 🎬</h2>
-    <div id="videosFeed">
-        <!-- Uploaded videos will be displayed here -->
-        <p style="text-align: center; color: #666;">কোনো ভিডিও আপলোড করা হয়নি।</p>
+  </div>
+
+  <!-- Main content -->
+  <div class="card" id="app" style="display:none;">
+    <div class="avatar">
+      <!-- প্রোফাইল ছবি -->
+      <img src="profile.jpg" alt="Profile" onerror="this.src='https://blogger.googleusercontent.com/img/a/AVvXsEgQOW7N1ad-pqM_imxcqMOUEcXieIc9GvlXpoWwzGzlk7sOOxcU-CYYBJ9ys2vr_5saajq3kNgOlS8bOVsvCY3Os9s_0Dvi09VNBL17mXGU0zbGi378oxQ9lMnhfl77x4ceI6Os_N4vsa1G123xp0bucANyuto2r1mnOF19oyTVM2b7b3USOtoZCYPB1lw=s640'">
     </div>
-</div>
+    <h1>Rater Tara</h1>
+    <p>🔒 
+এই অ্যাপটি শুধুমাত্র ১৮ বছর বা তার বেশি বয়সের ব্যবহারকারীদের জন্য।
+</p>
 
-<script>
-    let videos = []; // Array to store uploaded video data
+    <div class="buttons">
+      <a class="btn primary" href="https://t.me/Ratertarachannel" target="_blank">Telegram</a>
+      <a class="btn primary" href="https://www.effectivegatecpm.com/jgscsx4n9v?key=50e26efcd748221d720bf313feeaab8b" target="_blank">Small (18)</a>
+<a class="btn" href="https://www.xnxx.tv/" target="_blank">xxx.com</a>
+      <a class="btn" href="https://www.xhamster.com" target="_blank">xhamster.com</a>
 
-    document.getElementById('uploadForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // ফর্ম সাবমিট হওয়া বন্ধ করুন
+    </div>
 
-        const title = document.getElementById('videoTitle').value;
-        const description = document.getElementById('videoDescription').value;
-        const videoFile = document.getElementById('videoFile').files[0];
-        const messageDiv = document.getElementById('message');
+    <div class="false">🚷</div>
+    <div class="small">Telegram for mini Android v12.1.1 (6211) store bundled rater tara .com</div>
+  </div>
 
-        if (!videoFile) {
-            messageDiv.style.color = 'red';
-            messageDiv.textContent = 'অনুগ্রহ করে একটি ভিডিও ফাইল নির্বাচন করুন।';
-            return;
-        }
+  <script>
+    // Age confirmation logic
+    const modal = document.getElementById('ageModal');
+    const app = document.getElementById('app');
 
-        // In a real application, you would upload the file to a server
-        // and get a URL for the video. For this example, we'll create a blob URL.
-        const videoURL = URL.createObjectURL(videoFile);
-
-        const newVideo = {
-            id: Date.now(), // Unique ID for the video
-            title: title,
-            description: description,
-            url: videoURL,
-            likes: 0,
-            comments: [],
-            shares: 0
-        };
-
-        videos.push(newVideo);
-        renderVideos(); // Re-render the video list
-
-        messageDiv.style.color = 'blue';
-        messageDiv.textContent = 'ভিডিও আপলোড প্রক্রিয়া চলছে... (এটি শুধুমাত্র একটি ডামি)।';
-        setTimeout(() => {
-            messageDiv.style.color = 'green';
-            messageDiv.textContent = 'ভিডিও সফলভাবে আপলোডের জন্য প্রস্তুত হয়েছে!';
-            document.getElementById('uploadForm').reset();
-        }, 2000);
-    });
-
-    function renderVideos() {
-        const videosFeed = document.getElementById('videosFeed');
-        videosFeed.innerHTML = ''; // Clear previous videos
-
-        if (videos.length === 0) {
-            videosFeed.innerHTML = '<p style="text-align: center; color: #666;">কোনো ভিডিও আপলোড করা হয়নি।</p>';
-            return;
-        }
-
-        videos.forEach(video => {
-            const videoItem = document.createElement('div');
-            videoItem.className = 'video-item';
-            videoItem.innerHTML = `
-                <h3>${video.title}</h3>
-                <p>${video.description}</p>
-                <video controls src="${video.url}"></video>
-                <div class="video-actions">
-                    <button onclick="likeVideo(${video.id})">লাইক 👍</button>
-                    <span>${video.likes}</span>
-                    <button onclick="shareVideo(${video.id})">শেয়ার ↗️</button>
-                    <span>${video.shares}</span>
-                </div>
-                <div class="comment-section">
-                    <textarea id="commentInput-${video.id}" placeholder="একটি মন্তব্য লিখুন..."></textarea>
-                    <button onclick="addComment(${video.id})">মন্তব্য করুন</button>
-                    <div class="comments-list" id="commentsList-${video.id}">
-                        ${video.comments.length > 0 ? video.comments.map(comment => `<div class="comment"><strong>আপনি:</strong> ${comment}</div>`).join('') : '<p>কোনো মন্তব্য নেই।</p>'}
-                    </div>
-                </div>
-            `;
-            videosFeed.appendChild(videoItem);
-        });
+    function confirmAge(){
+      sessionStorage.setItem('isAdult', '1');
+      modal.style.display = 'none';
+      app.style.display = 'block';
     }
 
-    function likeVideo(videoId) {
-        const video = videos.find(v => v.id === videoId);
-        if (video) {
-            video.likes++;
-            renderVideos();
-        }
+    function denyAge(){
+      alert("দুঃখিত, আপনি এই অ্যাপ ব্যবহার করতে পারবেন না।");
+      window.location.href = "about:blank";
     }
 
-    function shareVideo(videoId) {
-        const video = videos.find(v => v.id === videoId);
-        if (video) {
-            video.shares++;
-            renderVideos();
-            // In a real app, you would implement actual sharing functionality
-            alert(`"${video.title}" ভিডিওটি শেয়ার করার জন্য প্রস্তুত!`);
-        }
-    }
-
-    function addComment(videoId) {
-        const commentInput = document.getElementById(`commentInput-${videoId}`);
-        const commentText = commentInput.value.trim();
-
-        if (commentText) {
-            const video = videos.find(v => v.id === videoId);
-            if (video) {
-                video.comments.push(commentText);
-                commentInput.value = ''; // Clear the input
-                renderVideos(); // Re-render to show new comment
-            }
-        } else {
-            alert('অনুগ্রহ করে একটি মন্তব্য লিখুন।');
-        }
-    }
-
-    // Initial render in case of pre-existing data (not applicable in this client-side example)
-    renderVideos();
-</script>
-
-
-    <script>
-        document.getElementById('uploadForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // ফর্ম সাবমিট হওয়া বন্ধ করুন
-
-            const title = document.getElementById('videoTitle').value;
-            const description = document.getElementById('videoDescription').value;
-            const videoFile = document.getElementById('videoFile').files[0];
-            const messageDiv = document.getElementById('message');
-
-            if (!videoFile) {
-                messageDiv.style.color = 'red';
-                messageDiv.textContent = 'অনুগ্রহ করে একটি ভিডিও ফাইল নির্বাচন করুন।';
-                return;
-            }
-
-            // এখানে আপনি ভিডিও ফাইলটি সার্ভারে আপলোড করার জন্য AJAX ব্যবহার করবেন।
-            // এই উদাহরণে, আমরা কেবল একটি ডামি বার্তা দেখাচ্ছি।
-            
-            // বাস্তব অ্যাপ্লিকেশনে, আপনি FormData ব্যবহার করে ফাইলটি PHP স্ক্রিপ্টে পাঠাবেন:
-            // const formData = new FormData();
-            // formData.append('videoTitle', title);
-            // formData.append('videoDescription', description);
-            // formData.append('videoFile', videoFile);
-
-            // fetch('upload.php', {
-            //     method: 'POST',
-            //     body: formData
-            // })
-            // .then(response => response.json())
-            // .then(data => {
-            //     if (data.success) {
-            //         messageDiv.style.color = 'green';
-            //         messageDiv.textContent = 'ভিডিও সফলভাবে আপলোড হয়েছে!';
-            //         document.getElementById('uploadForm').reset();
-            //     } else {
-            //         messageDiv.style.color = 'red';
-            //         messageDiv.textContent = 'আপলোডে ত্রুটি: ' + data.error;
-            //     }
-            // })
-            // .catch(error => {
-            //     console.error('Error:', error);
-            //     messageDiv.style.color = 'red';
-            //     messageDiv.textContent = 'নেটওয়ার্ক ত্রুটি বা সার্ভারে সমস্যা।';
-            // });
-
-            // ডামি বার্তা
-            messageDiv.style.color = 'blue';
-            messageDiv.textContent = 'ভিডিও আপলোড প্রক্রিয়া চলছে... (এটি শুধুমাত্র একটি ডামি)।';
-            setTimeout(() => {
-                messageDiv.style.color = 'green';
-                messageDiv.textContent = 'ভিডিও সফলভাবে আপলোডের জন্য প্রস্তুত হয়েছে!';
-                document.getElementById('uploadForm').reset();
-            }, 2000);
-        });
-    </script>
+    // Check previous session
+    window.onload = function(){
+      if(sessionStorage.getItem('isAdult') === '1'){
+        modal.style.display = 'none';
+        app.style.display = 'block';
+      }
+    };
+  </script>
+<script type='text/javascript' src='//pl28030600.effectivegatecpm.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js'></script>
 </body>
 </html>
