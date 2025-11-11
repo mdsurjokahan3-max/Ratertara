@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rater Tara Admin Dashboard</title>
+  <style>
+    :root {
+      --bg: #1f2937; /* Darker background */
+      --card: #374151; /* Card background */
+      --accent: #3b82f6; /* Blue accent */
+      --text: #f9fafb; /* Light text */
+      --muted: #9ca3af; /* Muted text */
+      --danger: #ef4444; /* Red for errors */
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 20px;
+    }
+    .card {
+      background-color: var(--card);
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: var(--text);
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    input[type="text"],
+    input[type="password"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #4b5563;
+      border-radius: 6px;
+      background-color: #4b5563;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      background-color: var(--accent);
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #2563eb;
+    }
+    .error-message {
+      color: var(--danger);
+      text-align: center;
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    /* Dashboard Styles */
+    #dashboard {
+      max-width: 900px;
+      width: 100%;
+      margin: 20px auto;
+      padding: 0;
+      display: none; /* Initially hidden */
+    }
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #4b5563;
+      margin-bottom: 20px;
+    }
+    .dashboard-header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    #logoutBtn {
+      width: auto;
+      padding: 8px 15px;
+      background-color: var(--danger);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .stat-card {
+      background-color: var(--card);
+      padding: 20px;
+      border-radius: 8px;
+      text-align: left;
+      border-left: 5px solid var(--accent);
+    }
+    .stat-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .stat-card h3 {
+      margin: 5px 0 0;
+      font-size: 24px;
+      color: var(--text);
+    }
+
+    /* Customization Panel */
+    .custom-panel h3 {
+      border-bottom: 1px solid #4b5563;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        margin-bottom: 8px;
+    }
+    #saveChangesBtn {
+        margin-top: 10px;
+        background-color: #10b981; /* Green Save Button */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="loginPanel">
+    <div class="card">
+      <h2>🔑 এডমিন লগইন</h2>
+      <div id="loginError" class="error-message" style="display: none;"></div>
+      <form id="loginForm">
+        <div class="form-group">
+            <label for="username">ইউজারনেম:</label>
+            <input type="text" id="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">পাসওয়ার্ড:</label>
+            <input type="password" id="password" required>
+        </div>
+        <button type="submit">লগইন করুন</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="dashboard">
+    <div class="dashboard-header">
+      <h1>⭐ Rater Tara ড্যাশবোর্ড</h1>
+      <button id="logoutBtn">লগআউট</button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <p>মোট ব্যবহারকারী</p>
+        <h3>4,521</h3>
+      </div>
+      <div class="stat-card">
+        <p>আজকের ক্লিক</p>
+        <h3>890</h3>
+      </div>
+      <div class="stat-card">
+        <p>টেলিগ্রাম সদস্য</p>
+        <h3>1,250</h3>
+      </div>
+    </div>
+
+    <div class="card custom-panel">
+      <h3>কাস্টমাইজেশন (আপনার আসল অ্যাপের লিংক)</h3>
+      <div class="form-group">
+        <label for="telegramLink">Telegram লিংক:</label>
+        <input type="text" id="telegramLink" value="https://t.me/Ratertarachannel">
+      </div>
+      <div class="form-group">
+        <label for="smallLink">Small (18) লিংক:</label>
+        <input type="text" id="smallLink" value="https://www.effectivegatecpm.com/jgscsx4n9v?key=50e26efcd748221d720bf313feeaab8b">
+      </div>
+      <div class="form-group">
+        <label for="avatarURL">প্রোফাইল ছবি URL:</label>
+        <input type="text" id="avatarURL" value="https://blogger.googleusercontent.com/img/a/AVvXsEgQOW7N1ad-pqM_imxcqMOUEcXieIc9GvlXpoWwzGzlk7sOOxcU-CYYBJ9ys2vr_5saajq3kNgOlS8bOVsvCY3Os9s_0Dvi09VNBL17mXGU0zbGi378oxQ9lMnhfl77x4ceI6Os_N4vsa1G123xp0bucANyuto2r1mnOF19oyTVM2b7b3USOtoZCYPB1lw=s640">
+      </div>
+      <div class="form-group">
+        <label for="noticeText">নোটিশ টেক্সট:</label>
+        <textarea id="noticeText">এই অ্যাপটি শুধুমাত্র ১৮ বছর বা তার বেশি বয়সের ব্যবহারকারীদের জন্য।</textarea>
+      </div>
+      
+      <button id="saveChangesBtn">পরিবর্তন সেভ করুন (ডেমো)</button>
+      <p style="font-size: 12px; color: var(--danger); text-align: center; margin-top: 15px;">**এই প্যানেল শুধুমাত্র ডেমো, আসল পরিবর্তন করতে সার্ভার-সাইড কোডিং প্রয়োজন।**</p>
+    </div>
+
+  </div>
+
+
+  <script>
+    // Admin Credentials
+    const ADMIN_USERNAME = "sumandalia";
+    const ADMIN_PASSWORD = "Password1234@";
+
+    // DOM Elements
+    const loginForm = document.getElementById('loginForm');
+    const loginPanel = document.getElementById('loginPanel');
+    const dashboard = document.getElementById('dashboard');
+    const loginError = document.getElementById('loginError');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const saveChangesBtn = document.getElementById('saveChangesBtn');
+
+    // --- Authentication Logic ---
+
+    function checkAuthentication() {
+      // Check if the user is authenticated in sessionStorage
+      if (sessionStorage.getItem('isAuthenticated') === 'true') {
+        showDashboard();
+      } else {
+        showLogin();
+      }
+    }
+
+    function showDashboard() {
+      loginPanel.style.display = 'none';
+      dashboard.style.display = 'block';
+    }
+
+    function showLogin() {
+      loginPanel.style.display = 'flex';
+      dashboard.style.display = 'none';
+      loginError.style.display = 'none';
+    }
+
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const usernameInput = document.getElementById('username').value;
+      const passwordInput = document.getElementById('password').value;
+
+      if (usernameInput === ADMIN_USERNAME && passwordInput === ADMIN_PASSWORD) {
+        // Successful Login
+        sessionStorage.setItem('isAuthenticated', 'true');
+        showDashboard();
+      } else {
+        // Failed Login
+        loginError.textContent = "ভুল ইউজারনেম বা পাসওয়ার্ড।";
+        loginError.style.display = 'block';
+      }
+    });
+
+    logoutBtn.addEventListener('click', function() {
+      sessionStorage.removeItem('isAuthenticated');
+      alert("সফলভাবে লগআউট করা হয়েছে।");
+      showLogin();
+    });
+
+    // --- Dashboard Interaction Logic (Demo) ---
+
+    saveChangesBtn.addEventListener('click', function() {
+        // In a real application, an AJAX request would be sent here to update the server/database.
+        const telegramLink = document.getElementById('telegramLink').value;
+        const smallLink = document.getElementById('smallLink').value;
+        const avatarURL = document.getElementById('avatarURL').value;
+        const noticeText = document.getElementById('noticeText').value;
+
+        // Display a demo success message
+        alert(`পরিবর্তন সেভ করা হয়েছে (ডেমো):
+        Telegram: ${telegramLink}
+        Small Link: ${smallLink}
+        Avatar: ${avatarURL}
+        Notice: ${noticeText.substring(0, 30)}...`);
+    });
+
+    // Initial check on page load
+    window.onload = checkAuthentication;
+  </script>
+</body>
+</html>
