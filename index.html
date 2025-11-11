@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rater Tara App </title>
+
+  <!-- User SDK -->
+  <script src='//libtl.com/sdk.js' data-zone='10095516' data-sdk='show_10095516'></script>
+
+  <style>
+    :root{
+      --bg:#071226;
+      --card:#0b1220;
+      --accent:#06b6d4;
+      --text:#e6eef6;
+      --muted:#9aa8b6;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,"Poppins",sans-serif;
+      background:linear-gradient(180deg,#061023,#071328);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+    .card{
+      width:100%;
+      max-width:420px;
+      background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.04));
+      border-radius:14px;
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow:0 10px 30px rgba(2,6,23,0.6);
+      text-align:center;
+    }
+    .avatar{
+      width:100px;height:100px;
+      border-radius:50%;
+      overflow:hidden;
+      margin:0 auto 10px;
+      border:2px solid rgba(255,255,255,0.1);
+    }
+    .avatar img{
+      width:100%;height:100%;object-fit:cover;
+    }
+    h1{margin:0;font-size:20px}
+    p{margin:5px 0 15px;color:var(--muted)}
+    .buttons{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+    .btn{
+      padding:12px 14px;
+      border-radius:10px;
+      font-weight:700;
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,0.06);
+      background:transparent;
+      color:var(--text);
+      transition:transform .12s;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{
+      background:linear-gradient(90deg,var(--accent),#7c3aed);
+      color:#021827;
+      border:0;
+    }
+    .note{margin-top:12px;color:var(--muted);font-size:13px}
+    .small{font-size:12px;color:var(--muted);margin-top:10px}
+    /* Modal */
+    .modal-bg{
+      position:fixed;inset:0;
+      background:rgba(0,0,0,0.7);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:99;
+    }
+    .modal{
+      background:var(--card);
+      padding:20px;
+      border-radius:12px;
+      max-width:360px;
+      text-align:center;
+      box-shadow:0 8px 20px rgba(0,0,0,0.4);
+      border:1px solid rgba(255,255,255,0.05);
+    }
+    .modal h2{margin:0 0 10px}
+    .modal p{margin:0 0 16px;color:var(--muted)}
+    .modal .btn{width:48%;margin:0 1%;}
+    .flex{display:flex;justify-content:center}
+  </style>
+</head>
+
+<script type='text/javascript' src='//pl28030591.effectivegatecpm.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js'></script>
+
+<body>
+  <!-- Age gate modal -->
+  <div class="modal-bg" id="ageModal">
+    <div class="modal">
+      <h2>বয়স যাচাই (১৮+)</h2>
+      <p>আপনার পূর্ণ প্রাপ্ত বয়স হলে চালিয়ে যান</p>
+      <div class="flex">
+        <button class="btn" onclick="denyAge()">না</button>
+        <button class="btn primary" onclick="confirmAge()">হ্যাঁ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="card" id="app" style="display:none;">
+    <div class="avatar">
+      <!-- প্রোফাইল ছবি -->
+      <img src="profile.jpg" alt="Profile" onerror="this.src='https://blogger.googleusercontent.com/img/a/AVvXsEgQOW7N1ad-pqM_imxcqMOUEcXieIc9GvlXpoWwzGzlk7sOOxcU-CYYBJ9ys2vr_5saajq3kNgOlS8bOVsvCY3Os9s_0Dvi09VNBL17mXGU0zbGi378oxQ9lMnhfl77x4ceI6Os_N4vsa1G123xp0bucANyuto2r1mnOF19oyTVM2b7b3USOtoZCYPB1lw=s640'">
+    </div>
+    <h1>Rater Tara</h1>
+    <p>🔒 
+এই অ্যাপটি শুধুমাত্র ১৮ বছর বা তার বেশি বয়সের ব্যবহারকারীদের জন্য।
+</p>
+
+    <div class="buttons">
+      <a class="btn primary" href="https://t.me/Ratertarachannel" target="_blank">Telegram</a>
+      <a class="btn primary" href="https://www.effectivegatecpm.com/jgscsx4n9v?key=50e26efcd748221d720bf313feeaab8b" target="_blank">Small (18)</a>
+<a class="btn" href="https://www.xnxx.tv/" target="_blank">xxx.com</a>
+      <a class="btn" href="https://www.xhamster.com" target="_blank">xhamster.com</a>
+
+    </div>
+
+    <div class="false">🚷</div>
+    <div class="small">Telegram for mini Android v12.1.1 (6211) store bundled rater tara .com</div>
+  </div>
+
+  <script>
+    // Age confirmation logic
+    const modal = document.getElementById('ageModal');
+    const app = document.getElementById('app');
+
+    function confirmAge(){
+      sessionStorage.setItem('isAdult', '1');
+      modal.style.display = 'none';
+      app.style.display = 'block';
+    }
+
+    function denyAge(){
+      alert("দুঃখিত, আপনি এই অ্যাপ ব্যবহার করতে পারবেন না।");
+      window.location.href = "about:blank";
+    }
+
+    // Check previous session
+    window.onload = function(){
+      if(sessionStorage.getItem('isAdult') === '1'){
+        modal.style.display = 'none';
+        app.style.display = 'block';
+      }
+    };
+  </script>
+</body>
+</html>
