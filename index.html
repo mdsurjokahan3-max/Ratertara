@@ -1,12 +1,20 @@
 <!doctype html>
 <html lang="bn">
 <head>
+
+<script type='text/javascript' src='//pl28030591.effectivegatecpm.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js'></script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rater Tara App </title>
+  <title>Rater Tara 🚷</title>
 
   <!-- User SDK -->
-  <script src='//libtl.com/sdk.js' data-zone='10095516' data-sdk='show_10095516'></script>
+  <!-- <script src='//libtl.com/sdk.js' data-zone='10095516' data-sdk='show_10095516'></script> --> <!-- Firebase ব্যবহারের জন্য এটি সরিয়ে দেওয়া হলো বা বিকল্পভাবে ব্যবহার করা যাবে -->
+
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <!-- Firebase Firestore (for database) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
   <style>
     :root{
@@ -94,14 +102,15 @@
   </style>
 </head>
 
-<script type='text/javascript' src='//pl28030591.effectivegatecpm.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js'></script>
+<!-- <script type='text/javascript' src='//pl28030591.effectivegatecpm.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js'></script> --> <!-- Firebase ব্যবহারের জন্য এটি সরিয়ে দেওয়া হলো বা বিকল্পভাবে ব্যবহার করা যাবে -->
 
 <body>
   <!-- Age gate modal -->
   <div class="modal-bg" id="ageModal">
     <div class="modal">
-      <h2>বয়স যাচাই (১৮+)</h2>
-      <p>আপনার পূর্ণ প্রাপ্ত বয়স হলে চালিয়ে যান</p>
+ <h2>🚷</h2>
+      <h2>আপনার বয়স যাচাই করুন</h2>
+      <p>(আপনার পূর্ণ প্রাপ্ত ১৮+ বয়স হলে চালিয়ে যান)</p>
       <div class="flex">
         <button class="btn" onclick="denyAge()">না</button>
         <button class="btn primary" onclick="confirmAge()">হ্যাঁ</button>
@@ -112,20 +121,18 @@
   <!-- Main content -->
   <div class="card" id="app" style="display:none;">
     <div class="avatar">
-      <!-- প্রোফাইল ছবি -->
-      <img src="profile.jpg" alt="Profile" onerror="this.src='https://blogger.googleusercontent.com/img/a/AVvXsEgQOW7N1ad-pqM_imxcqMOUEcXieIc9GvlXpoWwzGzlk7sOOxcU-CYYBJ9ys2vr_5saajq3kNgOlS8bOVsvCY3Os9s_0Dvi09VNBL17mXGU0zbGi378oxQ9lMnhfl77x4ceI6Os_N4vsa1G123xp0bucANyuto2r1mnOF19oyTVM2b7b3USOtoZCYPB1lw=s640'">
+      <!-- প্রোফাইল ছবি Firebase থেকে লোড হবে -->
+      <img id="profileAvatar" src="https://blogger.googleusercontent.com/img/a/AVvXsEgaYs1TwYquuLa3FFgo477j5ifFMl1FiumRD9MWxOj3teSYUrjM8HWAMpMT4L6ZrCIZDoSCTvNQRo1utFt8I5jqsIcy2Rxae_MjwymnJygA-_WCYmR0gTSEsLhoBaV_TFst96_7yuVWH34It2yieDGfye4ppVLNF-_0jJUgquwY0ogf5DD1ttHtTo-eLLY=s204" alt="Profile">
     </div>
     <h1>Rater Tara</h1>
-    <p>🔒 
-এই অ্যাপটি শুধুমাত্র ১৮ বছর বা তার বেশি বয়সের ব্যবহারকারীদের জন্য।
-</p>
+    <p id="noticeTextElement">🔒 এই অ্যাপটি শুধুমাত্র ১৮ বছর বা তার বেশি বয়সের ব্যবহারকারীদের জন্য।</p>
 
     <div class="buttons">
-      <a class="btn primary" href="https://t.me/Ratertarachannel" target="_blank">Telegram</a>
-      <a class="btn primary" href="https://www.effectivegatecpm.com/jgscsx4n9v?key=50e26efcd748221d720bf313feeaab8b" target="_blank">Small (18)</a>
-<a class="btn" href="https://www.xnxx.tv/" target="_blank">xxx.com</a>
-      <a class="btn" href="https://www.xhamster.com" target="_blank">xhamster.com</a>
-
+      <a class="btn primary" id="channelLink" href="https://t.me/Ratertarachannel" target="_blank">Channel</a>
+      <a class="btn primary" id="groupLink" href="https://t.me/Ratertarachat" target="_blank">Group</a>
+      <a class="btn primary" id="videoLink" href="https://www.xnxx.tv/" target="_blank">Video</a>
+      <a class="btn primary" id="smallLink" href="https://www.effectivegatecpm.com/jgscsx4n9v?key=50e26efcd748221d720bf313feeaab8b" target="_blank">Small (18)</a>
+      <a class="btn primary" id="contactLink" href="https://t.me/Ratertaraapp_bot" target="_blank">Contact</a>
     </div>
 
     <div class="false">🚷</div>
@@ -133,6 +140,22 @@
   </div>
 
   <script>
+    // Firebase Configuration (আপনার Firebase প্রোজেক্টের তথ্য এখানে দিন)
+    const firebaseConfig = {
+  apiKey: "AIzaSyA3cjMmXOW3pXq6UZUZA479c7KyP5TPu6o",
+  authDomain: "rater-tara-chat.firebaseapp.com",
+  projectId: "rater-tara-chat",
+  storageBucket: "rater-tara-chat.firebasestorage.app",
+  messagingSenderId: "8374797873",
+  appId: "1:8374797873:web:d0e503bdb16ceeb6cfb710",
+  measurementId: "G-NLK4FSQVX4"
+};
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const appSettingsRef = db.collection('appSettings').doc('currentSettings');
+
     // Age confirmation logic
     const modal = document.getElementById('ageModal');
     const app = document.getElementById('app');
@@ -145,11 +168,34 @@
 
     function denyAge(){
       alert("দুঃখিত, আপনি এই অ্যাপ ব্যবহার করতে পারবেন না।");
-      window.location.href = "about:blank";
+      window.location.href = "about:blank"; // অথবা অন্য কোনো নিরাপদ পৃষ্ঠায় রিডাইরেক্ট করুন
     }
 
-    // Check previous session
+    // Function to load settings from Firebase
+    async function loadAppSettings() {
+      try {
+        const doc = await appSettingsRef.get();
+        if (doc.exists) {
+          const data = doc.data();
+          document.getElementById('profileAvatar').src = data.avatarURL || 'https://blogger.googleusercontent.com/img/a/AVvXsEgaYs1TwYquuLa3FFgo477j5ifFMl1FiumRD9MWxOj3teSYUrjM8HWAMpMT4L6ZrCIZDoSCTvNQRo1utFt8I5jqsIcy2Rxae_MjwymnJygA-_WCYmR0gTSEsLhoBaV_TFst96_7yuVWH34It2yieDGfye4ppVLNF-_0jJUgquwY0ogf5DD1ttHtTo-eLLY=s204';
+          document.getElementById('noticeTextElement').textContent = data.noticeText || '🔒 এই অ্যাপটি শুধুমাত্র ১৮ বছর বা তার বেশি বয়সের ব্যবহারকারীদের জন্য।';
+          document.getElementById('channelLink').href = data.telegramLink || 'https://t.me/Ratertarachannel';
+          document.getElementById('groupLink').href = data.groupLink || 'https://t.me/Ratertarachat'; // গ্রুপ লিংক অ্যাড করা হয়েছে
+          document.getElementById('videoLink').href = data.videoLink || 'https://www.xnxx.tv/'; // ভিডিও লিংক অ্যাড করা হয়েছে
+          document.getElementById('smallLink').href = data.smallLink || 'https://www.effectivegatecpm.com/jgscsx4n9v?key=50e26efcd748221d720bf313feeaab8b';
+          document.getElementById('contactLink').href = data.contactLink || 'https://t.me/Ratertaraapp_bot'; // কন্টাক্ট লিংক অ্যাড করা হয়েছে
+
+        } else {
+          console.log("No such document! Using default settings.");
+        }
+      } catch (error) {
+        console.error("Error getting document:", error);
+      }
+    }
+
+    // Check previous session and load settings
     window.onload = function(){
+      loadAppSettings(); // Firebase থেকে সেটিংস লোড করুন
       if(sessionStorage.getItem('isAdult') === '1'){
         modal.style.display = 'none';
         app.style.display = 'block';
