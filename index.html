@@ -1,206 +1,226 @@
-<!doctype html>
-<html lang="bn">
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>𝐑𝐚𝐭𝐞𝐫★</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<script type='text/javascript' src='//pl28030591.effectivegatecpm.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js'></script>
+<!-- Confetti Library -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rater Tara 🚷</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(270deg, #ff416c, #ff4b2b, #36d1dc, #5b86e5);
+    background-size: 800% 800%;
+    animation: bgMove 20s infinite;
+    padding-top: 40px;
+}
+@keyframes bgMove { 
+    0%{background-position:0 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0 50%;}
+}
 
-  <!-- User SDK -->
-  <!-- <script src='//libtl.com/sdk.js' data-zone='10095516' data-sdk='show_10095516'></script> --> <!-- Firebase ব্যবহারের জন্য এটি সরিয়ে দেওয়া হলো বা বিকল্পভাবে ব্যবহার করা যাবে -->
+.profile-card {
+    background: rgba(255,255,255,0.95);
+    width: 90%; max-width: 400px;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+    text-align: center;
+    padding: 35px 20px;
+}
+.profile-card img {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    border: 4px solid #ff6f61;
+}
 
-  <!-- Firebase App (the core Firebase SDK) -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <!-- Firebase Firestore (for database) -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+.btn {
+    display: block;
+    width: 230px;
+    padding: 17px;
+    margin: 12px auto;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.4s;
+}
 
-  <style>
-    :root{
-      --bg:#071226;
-      --card:#0b1220;
-      --accent:#06b6d4;
-      --text:#e6eef6;
-      --muted:#9aa8b6;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Inter,"Poppins",sans-serif;
-      background:linear-gradient(180deg,#061023,#071328);
-      color:var(--text);
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-    }
-    .card{
-      width:100%;
-      max-width:420px;
-      background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.04));
-      border-radius:14px;
-      padding:18px;
-      border:1px solid rgba(255,255,255,0.03);
-      box-shadow:0 10px 30px rgba(2,6,23,0.6);
-      text-align:center;
-    }
-    .avatar{
-      width:100px;height:100px;
-      border-radius:50%;
-      overflow:hidden;
-      margin:0 auto 10px;
-      border:2px solid rgba(255,255,255,0.1);
-    }
-    .avatar img{
-      width:100%;height:100%;object-fit:cover;
-    }
-    h1{margin:0;font-size:20px}
-    p{margin:5px 0 15px;color:var(--muted)}
-    .buttons{display:flex;flex-direction:column;gap:12px;margin-top:10px}
-    .btn{
-      padding:12px 14px;
-      border-radius:10px;
-      font-weight:700;
-      text-decoration:none;
-      border:1px solid rgba(255,255,255,0.06);
-      background:transparent;
-      color:var(--text);
-      transition:transform .12s;
-    }
-    .btn:active{transform:translateY(1px)}
-    .btn.primary{
-      background:linear-gradient(90deg,var(--accent),#7c3aed);
-      color:#021827;
-      border:0;
-    }
-    .note{margin-top:12px;color:var(--muted);font-size:13px}
-    .small{font-size:12px;color:var(--muted);margin-top:10px}
-    /* Modal */
-    .modal-bg{
-      position:fixed;inset:0;
-      background:rgba(0,0,0,0.7);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      z-index:99;
-    }
-    .modal{
-      background:var(--card);
-      padding:20px;
-      border-radius:12px;
-      max-width:360px;
-      text-align:center;
-      box-shadow:0 8px 20px rgba(0,0,0,0.4);
-      border:1px solid rgba(255,255,255,0.05);
-    }
-    .modal h2{margin:0 0 10px}
-    .modal p{margin:0 0 16px;color:var(--muted)}
-    .modal .btn{width:48%;margin:0 1%;}
-    .flex{display:flex;justify-content:center}
-  </style>
+/* Pulse Animation */
+.pulse {
+    animation: pulseAnim 1.3s infinite;
+}
+@keyframes pulseAnim {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+.btn-primary { background: linear-gradient(45deg, #ff416c, #ff4b2b); }
+.btn-secondary { background: linear-gradient(45deg, #36d1dc, #5b86e5); }
+
+/* Locked */
+.locked {
+    opacity: 0.4;
+    pointer-events: none;
+    animation: shake 0.4s infinite;
+}
+@keyframes shake { 
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-2px);}
+    50%{transform:translateX(2px);}
+}
+
+/* Unlock Glow */
+.unlock-glow {
+    animation: glow 1.4s ease-out;
+}
+@keyframes glow {
+    0%{box-shadow:0 0 0 rgba(0,255,0,0);}
+    50%{box-shadow:0 0 30px rgba(0,255,0,0.9);}
+    100%{box-shadow:0 0 0 rgba(0,255,0,0);}
+}
+
+/* Progress */
+.progress-box {
+    width: 230px; height: 12px;
+    background: rgba(255,255,255,0.4);
+    margin-top: 14px; border-radius: 20px;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%; width: 0%;
+    background: #00ff9d;
+    transition: width 0.3s;
+    border-radius: 20px;
+}
+.progress-text {
+    color: white; margin-top: 5px;
+    font-size: 15px; font-weight: bold;
+}
+
+/* Unlock Popup */
+.popup {
+    position: fixed;
+    top: 30%;
+    background: white;
+    padding: 20px 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    font-size: 20px;
+    display: none;
+    animation: pop 0.5s ease-out;
+}
+@keyframes pop {
+    0%{transform:scale(0.5);opacity:0;}
+    100%{transform:scale(1);opacity:1;}
+}
+</style>
 </head>
 
-<!-- <script type='text/javascript' src='//pl28030591.effectivegatecpm.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js'></script> --> <!-- Firebase ব্যবহারের জন্য এটি সরিয়ে দেওয়া হলো বা বিকল্পভাবে ব্যবহার করা যাবে -->
-
 <body>
-  <!-- Age gate modal -->
-  <div class="modal-bg" id="ageModal">
-    <div class="modal">
- <h2>🚷</h2>
-      <h2>আপনার বয়স যাচাই করুন</h2>
-      <p>(আপনার পূর্ণ প্রাপ্ত ১৮+ বয়স হলে চালিয়ে যান)</p>
-      <div class="flex">
-        <button class="btn" onclick="denyAge()">না</button>
-        <button class="btn primary" onclick="confirmAge()">হ্যাঁ</button>
-      </div>
-    </div>
-  </div>
 
-  <!-- Main content -->
-  <div class="card" id="app" style="display:none;">
-    <div class="avatar">
-      <!-- প্রোফাইল ছবি Firebase থেকে লোড হবে -->
-      <img id="profileAvatar" src="https://blogger.googleusercontent.com/img/a/AVvXsEgaYs1TwYquuLa3FFgo477j5ifFMl1FiumRD9MWxOj3teSYUrjM8HWAMpMT4L6ZrCIZDoSCTvNQRo1utFt8I5jqsIcy2Rxae_MjwymnJygA-_WCYmR0gTSEsLhoBaV_TFst96_7yuVWH34It2yieDGfye4ppVLNF-_0jJUgquwY0ogf5DD1ttHtTo-eLLY=s204" alt="Profile">
-    </div>
-    <h1>Rater Tara</h1>
-    <p id="noticeTextElement">🔒 এই অ্যাপটি শুধুমাত্র ১৮ বছর বা তার বেশি বয়সের ব্যবহারকারীদের জন্য।</p>
+<div class="profile-card">
+    <img id="profilePic">
+    <h2 id="profileName"></h2>
+    <p id="username"></p>
+    <p>Welcome to the 🧋🂱 𝐑𝐀𝐓𝐄𝐑 𝐓𝐀𝐑𝐀<br>👉 শেয়ার করুন এবং ১ সেকেন্ডে Unlock নিন!</p>
+</div>
 
-    <div class="buttons">
-      <a class="btn primary" id="channelLink" href="https://t.me/Ratertarachannel" target="_blank">Channel</a>
-      <a class="btn primary" id="groupLink" href="https://t.me/Ratertarachat" target="_blank">Group</a>
-      <a class="btn primary" id="videoLink" href="https://www.xnxx.tv/" target="_blank">Video</a>
-      <a class="btn primary" id="smallLink" href="https://www.effectivegatecpm.com/jgscsx4n9v?key=50e26efcd748221d720bf313feeaab8b" target="_blank">Small (18)</a>
-      <a class="btn primary" id="contactLink" href="https://t.me/Ratertaraapp_bot" target="_blank">Contact</a>
-    </div>
+<button class="btn btn-primary pulse" id="btnRater">ratertara.com</button>
+<button class="btn btn-secondary" id="btnVideo">video.com</button>
 
-    <div class="false">🚷</div>
-    <div class="small">Telegram for mini Android v12.1.1 (6211) store bundled rater tara .com</div>
-  </div>
+<div class="progress-box">
+    <div class="progress-fill" id="progressFill"></div>
+</div>
+<div class="progress-text" id="progressText">0/5</div>
 
-  <script>
-    // Firebase Configuration (আপনার Firebase প্রোজেক্টের তথ্য এখানে দিন)
-    const firebaseConfig = {
-  apiKey: "AIzaSyA3cjMmXOW3pXq6UZUZA479c7KyP5TPu6o",
-  authDomain: "rater-tara-chat.firebaseapp.com",
-  projectId: "rater-tara-chat",
-  storageBucket: "rater-tara-chat.firebasestorage.app",
-  messagingSenderId: "8374797873",
-  appId: "1:8374797873:web:d0e503bdb16ceeb6cfb710",
-  measurementId: "G-NLK4FSQVX4"
+<div class="popup" id="unlockPopup">✨ Video Unlocked! Enjoy 🚀</div>
+
+<audio id="unlockSound">
+  <source src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const tg = window.Telegram.WebApp;
+
+const config = {
+    profileName: "𝐑𝐚𝐭𝐞𝐫★",
+    username: "@ratertara_bot",
+    profilePic: "https://blogger.googleusercontent.com/img/a/AVvXsEiHs7jxhHgQhWk9ETQg1SouCcPMC_zP8NxCZVXzUgCzvuQntzBLnkLrAKPWKNfGZko-cwkL6TyB0OeiN8CvxigjpFsrpSs3BoQki8fa7MztE3YfSaJgzQV8DRb-lh0VHzbSLIlEQiMkQ6CI79k3-KYywUTOzPJgm4stE-Z7U4Fj7W08ZAKDnjx6GrQd31I=s395",
+
+    btn1: { text:"ratertara.com", link:"https://t.me/share/url?url=https://t.me/ratertara_bot&text=🚀" },
+    btn2: { text:"video.com", link:"https://t.me/+x7CPJm_Otcs2MmQ1" },
+
+    required: 5
 };
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const appSettingsRef = db.collection('appSettings').doc('currentSettings');
+document.getElementById("profileName").innerText = config.profileName;
+document.getElementById("username").innerText = config.username;
+document.getElementById("profilePic").src = config.profilePic;
 
-    // Age confirmation logic
-    const modal = document.getElementById('ageModal');
-    const app = document.getElementById('app');
+let count = localStorage.getItem("shareCount") ? Number(localStorage.getItem("shareCount")) : 0;
 
-    function confirmAge(){
-      sessionStorage.setItem('isAdult', '1');
-      modal.style.display = 'none';
-      app.style.display = 'block';
+const videoBtn = document.getElementById("btnVideo");
+const progressFill = document.getElementById("progressFill");
+const progressText = document.getElementById("progressText");
+const unlockPopup = document.getElementById("unlockPopup");
+const unlockSound = document.getElementById("unlockSound");
+
+function updateUI() {
+    progressFill.style.width = (count / config.required) * 100 + "%";
+    progressText.innerText = count + "/" + config.required;
+
+    if (count < config.required) {
+        videoBtn.classList.add("locked");
+        videoBtn.innerText = "🔒 Locked (" + count + "/5)";
+    } else {
+        videoBtn.classList.remove("locked");
+        videoBtn.innerText = config.btn2.text;
     }
+}
+updateUI();
 
-    function denyAge(){
-      alert("দুঃখিত, আপনি এই অ্যাপ ব্যবহার করতে পারবেন না।");
-      window.location.href = "about:blank"; // অথবা অন্য কোনো নিরাপদ পৃষ্ঠায় রিডাইরেক্ট করুন
+function unlockNow() {
+    videoBtn.classList.remove("locked");
+    videoBtn.classList.add("unlock-glow");
+    unlockSound.play();
+
+    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+
+    unlockPopup.style.display = "block";
+    setTimeout(() => { unlockPopup.style.display = "none"; }, 1800);
+}
+
+document.getElementById("btnRater").addEventListener("click", () => {
+    window.open(config.btn1.link, "_blank");
+
+    count++;
+    localStorage.setItem("shareCount", count);
+    updateUI();
+
+    if (count >= config.required) unlockNow();
+});
+
+videoBtn.addEventListener("click", () => {
+    if (count >= config.required) {
+        window.open(config.btn2.link, "_blank");
     }
+});
 
-    // Function to load settings from Firebase
-    async function loadAppSettings() {
-      try {
-        const doc = await appSettingsRef.get();
-        if (doc.exists) {
-          const data = doc.data();
-          document.getElementById('profileAvatar').src = data.avatarURL || 'https://blogger.googleusercontent.com/img/a/AVvXsEgaYs1TwYquuLa3FFgo477j5ifFMl1FiumRD9MWxOj3teSYUrjM8HWAMpMT4L6ZrCIZDoSCTvNQRo1utFt8I5jqsIcy2Rxae_MjwymnJygA-_WCYmR0gTSEsLhoBaV_TFst96_7yuVWH34It2yieDGfye4ppVLNF-_0jJUgquwY0ogf5DD1ttHtTo-eLLY=s204';
-          document.getElementById('noticeTextElement').textContent = data.noticeText || '🔒 এই অ্যাপটি শুধুমাত্র ১৮ বছর বা তার বেশি বয়সের ব্যবহারকারীদের জন্য।';
-          document.getElementById('channelLink').href = data.telegramLink || 'https://t.me/Ratertarachannel';
-          document.getElementById('groupLink').href = data.groupLink || 'https://t.me/Ratertarachat'; // গ্রুপ লিংক অ্যাড করা হয়েছে
-          document.getElementById('videoLink').href = data.videoLink || 'https://www.xnxx.tv/'; // ভিডিও লিংক অ্যাড করা হয়েছে
-          document.getElementById('smallLink').href = data.smallLink || 'https://www.effectivegatecpm.com/jgscsx4n9v?key=50e26efcd748221d720bf313feeaab8b';
-          document.getElementById('contactLink').href = data.contactLink || 'https://t.me/Ratertaraapp_bot'; // কন্টাক্ট লিংক অ্যাড করা হয়েছে
+tg.expand();
+</script>
 
-        } else {
-          console.log("No such document! Using default settings.");
-        }
-      } catch (error) {
-        console.error("Error getting document:", error);
-      }
-    }
-
-    // Check previous session and load settings
-    window.onload = function(){
-      loadAppSettings(); // Firebase থেকে সেটিংস লোড করুন
-      if(sessionStorage.getItem('isAdult') === '1'){
-        modal.style.display = 'none';
-        app.style.display = 'block';
-      }
-    };
-  </script>
 </body>
 </html>
