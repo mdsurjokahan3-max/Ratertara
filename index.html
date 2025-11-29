@@ -3,258 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Earn App</title>
-    
-    <!-- Telegram Web App SDK -->
+    <title>Pro Earn App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-    <!-- Monetag Direct Ad Script (তোমার দেওয়া কোড) -->
+    <!-- Monetag Script -->
     <script src='//libtl.com/sdk.js' data-zone='10250809' data-sdk='show_10250809'></script>
-
+    <!-- আইকনের জন্য FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        /* বেসিক স্টাইল এবং রিসেট */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
+        :root { --primary: #00d2ff; --secondary: #3a7bd5; --bg: #121212; --card: #1e1e1e; }
+        body { background-color: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; padding-bottom: 80px; }
+        
+        /* Header & Profile */
+        .profile-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; }
+        .user-info { display: flex; align-items: center; gap: 10px; }
+        .avatar { width: 45px; height: 45px; background: linear-gradient(45deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; }
+        .details h4 { margin: 0; font-size: 16px; }
+        .details span { font-size: 12px; color: #aaa; }
+        
+        /* Dashboard Cards */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .stat-card { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #333; }
+        .stat-value { font-size: 20px; font-weight: bold; color: var(--primary); margin-top: 5px; }
+        .stat-label { font-size: 12px; color: #888; }
 
-        body {
-            background-color: #121212; /* ডার্ক ব্যাকগ্রাউন্ড */
-            color: #ffffff;
-            padding: 20px;
-            padding-bottom: 80px; /* নিচের নেভিগেশনের জন্য জায়গা */
-        }
+        /* Main Action Button */
+        .earn-btn { background: linear-gradient(90deg, #11998e, #38ef7d); width: 100%; padding: 18px; border: none; border-radius: 12px; color: white; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(56, 239, 125, 0.3); }
+        .earn-btn:active { transform: scale(0.98); }
 
-        /* হেডার */
-        .header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .avatar {
-            width: 40px;
-            height: 40px;
-            background-color: #2ecc71;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        .welcome-text h4 {
-            font-size: 14px;
-            color: #888;
-        }
-        .welcome-text h3 {
-            font-size: 16px;
-        }
+        /* Menu List */
+        .menu-list { background: var(--card); border-radius: 15px; overflow: hidden; }
+        .menu-item { display: flex; align-items: center; padding: 15px 20px; border-bottom: 1px solid #333; cursor: pointer; transition: 0.2s; }
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item:active { background: #2a2a2a; }
+        .icon-box { width: 35px; height: 35px; background: #2a2a2a; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px; color: var(--primary); }
+        .menu-text { flex-grow: 1; font-size: 14px; }
+        .arrow { color: #555; }
 
-        /* ব্যালেন্স কার্ড */
-        .balance-card {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-            margin-bottom: 25px;
-        }
-        .balance-title {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        .balance-amount {
-            font-size: 36px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .points {
-            font-size: 14px;
-            background: rgba(0,0,0,0.2);
-            padding: 5px 10px;
-            border-radius: 20px;
-            display: inline-block;
-        }
+        /* Referral Section */
+        .ref-box { background: #222; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px dashed #555; text-align: center; }
+        .ref-link { color: var(--primary); font-size: 12px; word-break: break-all; margin: 10px 0; background: #000; padding: 8px; border-radius: 5px; }
+        .copy-btn { background: #333; color: #fff; border: none; padding: 5px 15px; border-radius: 5px; font-size: 12px; }
 
-        /* সেকশন টাইটেল */
-        .section-title {
-            border-left: 3px solid #2ecc71;
-            padding-left: 10px;
-            margin-bottom: 15px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        /* কুইক অ্যাকশন বাটন */
-        .action-card {
-            background-color: #1e1e1e;
-            padding: 15px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .action-card:active {
-            background-color: #333;
-        }
-        .action-icon {
-            font-size: 24px;
-            margin-right: 15px;
-            color: #2ecc71;
-        }
-        .action-details h4 {
-            font-size: 15px;
-            margin-bottom: 3px;
-        }
-        .action-details p {
-            font-size: 11px;
-            color: #888;
-        }
-        .arrow {
-            color: #555;
-        }
-
-        /* নিচের নেভিগেশন বার */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #1e1e1e;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid #333;
-        }
-        .nav-item {
-            text-align: center;
-            color: #888;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .nav-item.active {
-            color: #2ecc71;
-        }
-        .nav-icon {
-            font-size: 20px;
-            margin-bottom: 2px;
-            display: block;
-        }
+        /* Withdraw Modal (Simple) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; z-index: 100; }
+        .modal-content { background: #1e1e1e; padding: 25px; border-radius: 15px; width: 80%; text-align: center; }
+        .input-field { width: 100%; padding: 10px; margin: 10px 0; background: #333; border: none; color: white; border-radius: 5px; }
     </style>
 </head>
 <body>
 
-    <!-- হেডার -->
-    <div class="header">
-        <div class="avatar" id="user-avatar">U</div>
-        <div class="welcome-text">
-            <h4 id="username">Loading...</h4>
-            <h3>Welcome Back!</h3>
-        </div>
-    </div>
-
-    <!-- ব্যালেন্স এরিয়া -->
-    <div class="balance-card">
-        <div class="balance-title">Total Balance</div>
-        <div class="balance-amount">$<span id="balance">0.00</span></div>
-        <div class="points">🟡 <span id="points">0</span> Points</div>
-    </div>
-
-    <!-- কুইক অ্যাকশনস -->
-    <div class="section-title">Quick Actions</div>
-
-    <!-- টাস্ক বাটন (Monetag Ad ট্রিগার) -->
-    <div class="action-card" onclick="showAd()">
-        <div style="display: flex; align-items: center;">
-            <div class="action-icon">📋</div>
-            <div class="action-details">
-                <h4>View Tasks</h4>
-                <p>Watch ads and complete tasks to earn points.</p>
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="user-info">
+            <div class="avatar" id="avatar">U</div>
+            <div class="details">
+                <h4 id="username">Guest</h4>
+                <span>ID: <span id="userid">...</span></span>
             </div>
         </div>
-        <div class="arrow">›</div>
+        <div style="background: #2a2a2a; padding: 5px 10px; border-radius: 20px; font-size: 12px;">
+            💎 Pro Member
+        </div>
     </div>
 
-    <!-- উইথড্র বাটন -->
-    <div class="action-card" onclick="alert('Withdraw feature coming soon!')">
-        <div style="display: flex; align-items: center;">
-            <div class="action-icon">💳</div>
-            <div class="action-details">
-                <h4>Withdraw Funds</h4>
-                <p>Request to withdraw your available balance.</p>
-            </div>
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">Wallet Balance</div>
+            <div class="stat-value">$<span id="balance">0.00</span></div>
         </div>
-        <div class="arrow">›</div>
+        <div class="stat-card">
+            <div class="stat-label">Total Referrals</div>
+            <div class="stat-value" id="ref-count">0</div>
+        </div>
     </div>
 
-    <!-- বটম নেভিগেশন -->
-    <div class="bottom-nav">
-        <div class="nav-item active">
-            <span class="nav-icon">🏠</span>
-            Home
+    <!-- Main Task -->
+    <button class="earn-btn" onclick="showAd()">
+        <i class="fas fa-play-circle"></i> Watch Ad & Earn
+    </button>
+
+    <!-- Menu -->
+    <div class="menu-list">
+        <div class="menu-item" onclick="openWithdraw()">
+            <div class="icon-box"><i class="fas fa-wallet"></i></div>
+            <div class="menu-text">Withdraw Money</div>
+            <div class="arrow">></div>
         </div>
-        <div class="nav-item">
-            <span class="nav-icon">📝</span>
-            Tasks
+        <div class="menu-item" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/YOUR_CHANNEL_LINK')">
+            <div class="icon-box"><i class="fab fa-telegram"></i></div>
+            <div class="menu-text">Join Our Channel</div>
+            <div class="arrow">></div>
         </div>
-        <div class="nav-item">
-            <span class="nav-icon">🏆</span>
-            Leaders
+        <div class="menu-item" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/YOUR_GROUP_LINK')">
+            <div class="icon-box"><i class="fas fa-users"></i></div>
+            <div class="menu-text">Join Community Group</div>
+            <div class="arrow">></div>
         </div>
-        <div class="nav-item">
-            <span class="nav-icon">👤</span>
-            Profile
+    </div>
+
+    <!-- Referral Section -->
+    <div class="ref-box">
+        <h4>📢 Invite Friends & Earn $0.10</h4>
+        <div class="ref-link" id="ref-link">Loading...</div>
+        <button class="copy-btn" onclick="copyRef()">Copy Link</button>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div class="modal" id="withdrawModal">
+        <div class="modal-content">
+            <h3>Withdraw Funds</h3>
+            <p>Min Withdraw: $5.00</p>
+            <input type="number" id="w-amount" class="input-field" placeholder="Amount ($)">
+            <input type="text" id="w-number" class="input-field" placeholder="Bkash/Nagad Number">
+            <br>
+            <button class="earn-btn" onclick="submitWithdraw()" style="margin-bottom: 10px;">Submit</button>
+            <button class="copy-btn" onclick="closeWithdraw()" style="background: red;">Cancel</button>
         </div>
     </div>
 
     <script>
-        // Telegram Web App ইনিশিয়ালাইজেশন
         const tg = window.Telegram.WebApp;
-        tg.expand(); // অ্যাপটি পুরো স্ক্রিন জুড়ে দেখাবে
+        tg.expand();
 
-        // ইউজার ডাটা সেট করা
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            document.getElementById('username').innerText = tg.initDataUnsafe.user.first_name;
-            document.getElementById('user-avatar').innerText = tg.initDataUnsafe.user.first_name.charAt(0);
-        } else {
-            document.getElementById('username').innerText = "Guest User";
+        // URL থেকে ডাটা নেওয়া (Python Bot পাঠাবে)
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentBalance = urlParams.get('bal') || '0.00';
+        const totalRefs = urlParams.get('refs') || '0';
+        
+        // UI আপডেট
+        const user = tg.initDataUnsafe.user;
+        if (user) {
+            document.getElementById('username').innerText = user.first_name;
+            document.getElementById('userid').innerText = user.id;
+            document.getElementById('avatar').innerText = user.first_name.charAt(0);
+            
+            // রেফার লিংক তৈরি
+            const botUsername = "@Bangladeshi_Income_bot"; // এটি পরে চেঞ্জ করবে না হলে কাজ করবে না
+            document.getElementById('ref-link').innerText = `https://t.me/${botUsername}?start=${user.id}`;
         }
 
-        // ডামি ব্যালেন্স লজিক
-        let currentBalance = 0.00;
-        let currentPoints = 0;
+        document.getElementById('balance').innerText = currentBalance;
+        document.getElementById('ref-count').innerText = totalRefs;
 
+        // ফাংশনস
         function showAd() {
-            // Monetag সাধারণত পেজ লোড বা ক্লিকের মাধ্যমে অটোমেটিক কাজ করে যদি স্ক্রিপ্ট সঠিক থাকে।
-            // কিন্তু ইউজারকে বুঝানোর জন্য আমরা এখানে একটি প্রসেসিং দেখাব।
-            
             if (typeof show_10250809 === 'function') {
-                 show_10250809().then(() => {
-                    // অ্যাড দেখার পর রিওয়ার্ড
-                    addReward();
-                 });
+                show_10250809().then(() => {
+                    tg.sendData(JSON.stringify({type: "ad_watched"}));
+                    tg.close();
+                });
             } else {
-                // যদি SDK ফাংশন না পাওয়া যায় (টেস্টিং পারপাস)
-                console.log("Monetag Ad Triggered");
-                // এখানে ম্যানুয়ালি রিওয়ার্ড যোগ করছি সিমুলেশনের জন্য
-                alert("Ad is loading... (Ensure domain is allowed in Monetag)");
-                addReward();
+                alert("Simulating Ad...");
+                tg.sendData(JSON.stringify({type: "ad_watched"}));
+                tg.close();
             }
         }
 
-        function addReward() {
-            // ব্যালেন্স আপডেট
-            currentPoints += 10;
-            currentBalance += 0.05;
+        function copyRef() {
+            const text = document.getElementById('ref-link').innerText;
+            navigator.clipboard.writeText(text);
+            alert("Referral Link Copied!");
+        }
+
+        // Withdraw Logic
+        function openWithdraw() { document.getElementById('withdrawModal').style.display = 'flex'; }
+        function closeWithdraw() { document.getElementById('withdrawModal').style.display = 'none'; }
+        
+        function submitWithdraw() {
+            const amount = document.getElementById('w-amount').value;
+            const number = document.getElementById('w-number').value;
             
-            // UI আপডেট
-            document.getElementById('points').innerText = currentPoints;
-            document.getElementById('balance').innerText = currentBalance.toFixed(2);
+            if(amount < 5) { alert("Minimum withdraw $5"); return; }
+            if(!number) { alert("Enter Number"); return; }
+
+            const data = {
+                type: "withdraw",
+                amount: amount,
+                number: number
+            };
+            tg.sendData(JSON.stringify(data));
+            tg.close();
         }
     </script>
 </body>
