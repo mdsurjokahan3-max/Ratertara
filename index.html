@@ -1,226 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>𝐑𝐚𝐭𝐞𝐫★</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tap to Earn</title>
+    
+    <!-- Telegram Script -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<!-- Confetti Library -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Monetag SDK -->
+    <script src='//libtl.com/sdk.js' data-zone='10250809' data-sdk='show_10250809'></script>
 
-<style>
-body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(270deg, #ff416c, #ff4b2b, #36d1dc, #5b86e5);
-    background-size: 800% 800%;
-    animation: bgMove 20s infinite;
-    padding-top: 40px;
-}
-@keyframes bgMove { 
-    0%{background-position:0 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0 50%;}
-}
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent; /* মোবাইলে ট্যাপ কালার রিমুভ */
+        }
 
-.profile-card {
-    background: rgba(255,255,255,0.95);
-    width: 90%; max-width: 400px;
-    border-radius: 25px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-    text-align: center;
-    padding: 35px 20px;
-}
-.profile-card img {
-    width: 140px; height: 140px;
-    border-radius: 50%;
-    border: 4px solid #ff6f61;
-}
+        .header {
+            position: absolute;
+            top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
 
-.btn {
-    display: block;
-    width: 230px;
-    padding: 17px;
-    margin: 12px auto;
-    text-align: center;
-    font-size: 18px;
-    border-radius: 20px;
-    color: #fff;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: 0.4s;
-}
+        .balance {
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #f3ba2f;
+        }
 
-/* Pulse Animation */
-.pulse {
-    animation: pulseAnim 1.3s infinite;
-}
-@keyframes pulseAnim {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-    100% { transform: scale(1); }
-}
+        /* Tap Coin Design */
+        .coin-btn {
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, #ffd700, #b8860b);
+            border-radius: 50%;
+            border: 5px solid #fff;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            cursor: pointer;
+            transition: transform 0.05s ease;
+            user-select: none;
+        }
 
-.btn-primary { background: linear-gradient(45deg, #ff416c, #ff4b2b); }
-.btn-secondary { background: linear-gradient(45deg, #36d1dc, #5b86e5); }
+        .coin-btn:active {
+            transform: scale(0.95);
+        }
 
-/* Locked */
-.locked {
-    opacity: 0.4;
-    pointer-events: none;
-    animation: shake 0.4s infinite;
-}
-@keyframes shake { 
-    0%,100%{transform:translateX(0);}
-    25%{transform:translateX(-2px);}
-    50%{transform:translateX(2px);}
-}
+        .ads-btn {
+            margin-top: 50px;
+            padding: 12px 25px;
+            background: #2481cc;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
 
-/* Unlock Glow */
-.unlock-glow {
-    animation: glow 1.4s ease-out;
-}
-@keyframes glow {
-    0%{box-shadow:0 0 0 rgba(0,255,0,0);}
-    50%{box-shadow:0 0 30px rgba(0,255,0,0.9);}
-    100%{box-shadow:0 0 0 rgba(0,255,0,0);}
-}
+        /* +1 Animation */
+        .pop-text {
+            position: absolute;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            pointer-events: none;
+            animation: floatUp 0.8s ease-out forwards;
+        }
 
-/* Progress */
-.progress-box {
-    width: 230px; height: 12px;
-    background: rgba(255,255,255,0.4);
-    margin-top: 14px; border-radius: 20px;
-    overflow: hidden;
-}
-.progress-fill {
-    height: 100%; width: 0%;
-    background: #00ff9d;
-    transition: width 0.3s;
-    border-radius: 20px;
-}
-.progress-text {
-    color: white; margin-top: 5px;
-    font-size: 15px; font-weight: bold;
-}
-
-/* Unlock Popup */
-.popup {
-    position: fixed;
-    top: 30%;
-    background: white;
-    padding: 20px 25px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    font-size: 20px;
-    display: none;
-    animation: pop 0.5s ease-out;
-}
-@keyframes pop {
-    0%{transform:scale(0.5);opacity:0;}
-    100%{transform:scale(1);opacity:1;}
-}
-</style>
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-60px); }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="profile-card">
-    <img id="profilePic">
-    <h2 id="profileName"></h2>
-    <p id="username"></p>
-    <p>Welcome to the 🧋🂱 𝐑𝐀𝐓𝐄𝐑 𝐓𝐀𝐑𝐀<br>👉 শেয়ার করুন এবং ১ সেকেন্ডে Unlock নিন!</p>
-</div>
+    <div class="header">Tap & Earn</div>
+    <div class="balance" id="balance">0</div>
 
-<button class="btn btn-primary pulse" id="btnRater">𝐔𝐧𝐥𝐨𝐜𝐤</button>
-<button class="btn btn-secondary" id="btnVideo">𝐕𝐢𝐝𝐞𝐨</button>
+    <!-- ট্যাপ বাটন -->
+    <div class="coin-btn" id="coin">🤑</div>
 
-<div class="progress-box">
-    <div class="progress-fill" id="progressFill"></div>
-</div>
-<div class="progress-text" id="progressText">0/5</div>
+    <!-- অ্যাড দেখার বাটন -->
+    <button class="ads-btn" onclick="showAd()">Boost / Watch Ad</button>
 
-<div class="popup" id="unlockPopup">✨ Video Unlocked! Enjoy 🚀</div>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand(); 
 
-<audio id="unlockSound">
-  <source src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" type="audio/mpeg">
-</audio>
+        let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
+        document.getElementById('balance').innerText = score;
 
-<script>
-const tg = window.Telegram.WebApp;
+        const coin = document.getElementById('coin');
 
-const config = {
-    profileName: "𝐑𝐚𝐭𝐞𝐫★",
-    username: "@ratertara_bot",
-    profilePic: "https://blogger.googleusercontent.com/img/a/AVvXsEiHs7jxhHgQhWk9ETQg1SouCcPMC_zP8NxCZVXzUgCzvuQntzBLnkLrAKPWKNfGZko-cwkL6TyB0OeiN8CvxigjpFsrpSs3BoQki8fa7MztE3YfSaJgzQV8DRb-lh0VHzbSLIlEQiMkQ6CI79k3-KYywUTOzPJgm4stE-Z7U4Fj7W08ZAKDnjx6GrQd31I=s395",
+        // ট্যাপ করলে যা হবে
+        coin.addEventListener('click', (e) => {
+            // ১. স্কোর বাড়বে
+            score++;
+            document.getElementById('balance').innerText = score;
+            localStorage.setItem('score', score);
 
-    btn1: { text:"𝐔𝐧𝐥𝐨𝐜𝐤", link:"https://t.me/share/url?url=https://t.me/ratertara_bot&text=🚀" },
-    btn2: { text:"𝐕𝐢𝐝𝐞𝐨", link:"https://t.me/+x7CPJm_Otcs2MmQ1" },
+            // ২. ভাইব্রেশন হবে (Haptic Feedback)
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
 
-    required: 5
-};
+            // ৩. এনিমেশন দেখাবে
+            showAnimation(e);
 
-document.getElementById("profileName").innerText = config.profileName;
-document.getElementById("username").innerText = config.username;
-document.getElementById("profilePic").src = config.profilePic;
+            // ৪. অটোমেটিক অ্যাড (প্রতি ৫০ ক্লিকে একবার)
+            if(score % 50 === 0) {
+                showAd();
+            }
+        });
 
-let count = localStorage.getItem("shareCount") ? Number(localStorage.getItem("shareCount")) : 0;
+        // +1 এনিমেশন ফাংশন
+        function showAnimation(e) {
+            const el = document.createElement('div');
+            el.className = 'pop-text';
+            el.innerText = '+1';
+            
+            // টাচ পজিশন নেওয়া
+            let x = e.clientX || e.touches[0].clientX;
+            let y = e.clientY || e.touches[0].clientY;
 
-const videoBtn = document.getElementById("btnVideo");
-const progressFill = document.getElementById("progressFill");
-const progressText = document.getElementById("progressText");
-const unlockPopup = document.getElementById("unlockPopup");
-const unlockSound = document.getElementById("unlockSound");
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            document.body.appendChild(el);
 
-function updateUI() {
-    progressFill.style.width = (count / config.required) * 100 + "%";
-    progressText.innerText = count + "/" + config.required;
+            setTimeout(() => el.remove(), 800);
+        }
 
-    if (count < config.required) {
-        videoBtn.classList.add("locked");
-        videoBtn.innerText = "🔒 Locked (" + count + "/5)";
-    } else {
-        videoBtn.classList.remove("locked");
-        videoBtn.innerText = config.btn2.text;
-    }
-}
-updateUI();
-
-function unlockNow() {
-    videoBtn.classList.remove("locked");
-    videoBtn.classList.add("unlock-glow");
-    unlockSound.play();
-
-    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-
-    unlockPopup.style.display = "block";
-    setTimeout(() => { unlockPopup.style.display = "none"; }, 1800);
-}
-
-document.getElementById("btnRater").addEventListener("click", () => {
-    window.open(config.btn1.link, "_blank");
-
-    count++;
-    localStorage.setItem("shareCount", count);
-    updateUI();
-
-    if (count >= config.required) unlockNow();
-});
-
-videoBtn.addEventListener("click", () => {
-    if (count >= config.required) {
-        window.open(config.btn2.link, "_blank");
-    }
-});
-
-tg.expand();
-</script>
-
+        // Monetag অ্যাড দেখানোর ফাংশন
+        function showAd() {
+            // আপনার SDK আইডি: show_10250809
+            if (typeof show_10250809 === 'function') {
+                show_10250809().then(() => {
+                    // অ্যাড দেখা শেষ হলে বোনাস
+                    score += 100;
+                    document.getElementById('balance').innerText = score;
+                    localStorage.setItem('score', score);
+                    tg.showPopup({title: 'Success', message: 'You earned 100 bonus coins!'});
+                });
+            } else {
+                tg.showAlert('Ad is loading... try again in a few seconds.');
+            }
+        }
+    </script>
 </body>
 </html>
