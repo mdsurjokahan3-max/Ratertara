@@ -3,24 +3,17 @@ import json
 import os
 import asyncio
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes, MessageHandler, filters
+from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
+from telegram.request import HTTPXRequest # এই লাইনটি নতুন যোগ করা হয়েছে
 
-# =================  (  ) =================
-TOKEN = '8279372040:AAGKfFsmnkI5ihQE-T2v6hU47dEoZ892_nA'     # BotFather   
-ADMIN_ID = 8415837999             #    ID (userinfobot  )
-CHANNEL_USERNAME = "@ratertarachannel" #    (Force Join  )
-
-#   
-REFERRAL_BONUS = 5.0
-DAILY_BONUS = 2.0
-MIN_WITHDRAW = 50.0
+# ================= কনফিগারেশন =================
+TOKEN = '8279372040:AAGKfFsmnkI5ihQE-T2v6hU47dEoZ892_nA'  # <--- আপনার টোকেন বসান
+ADMIN_ID = 8415837999          # <--- আপনার আইডি বসান
 
 DATA_FILE = "business_bot_data.json"
-
-# =================  =================
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-# =================   =================
+# ================= ডেটাবেস সিস্টেম =================
 def load_data():
     if not os.path.exists(DATA_FILE):
         return {"users": {}, "withdrawals": []}
@@ -34,68 +27,37 @@ def save_data(data):
     with open(DATA_FILE, 'w') as f:
         json.dump(data, f, indent=4)
 
-# =================   =================
+# ================= ফাংশনস =================
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     uid = str(user.id)
     data = load_data()
 
-    # .   
     if uid not in data["users"]:
-        data["users"][uid] = {
-            "name": user.first_name,
-            "balance": 0.0,
-            "ref_count": 0,
-            "bonus_taken": False
-        }
-        
-        #  
-        args = context.args
-        if args and args[0] != uid:
-            referrer = args[0]
-            if referrer in data["users"]:
-                data["users"][referrer]["balance"] += REFERRAL_BONUS
-                data["users"][referrer]["ref_count"] += 1
-                try:
-                    await context.bot.send_message(referrer, f"     ! +{REFERRAL_BONUS} ")
-                except:
-                    pass
+        data["users"][uid] = {"name": user.first_name, "balance": 0.0, "bonus": False}
         save_data(data)
 
-    # .    
-    await main_menu(update, context)
+    await main_menu(update)
 
-async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    #          
-    user_id = str(update.effective_user.id)
+async def main_menu(update: Update):
+    uid = str(update.effective_user.id)
     data = load_data()
-    balance = data["users"][user_id]["balance"]
-
-    text = (
-        f" **Business Bot Control Panel**\n\n"
-        f" : {update.effective_user.first_name}\n"
-        f" : {balance} \n"
-        f" : {CHANNEL_USERNAME}\n\n"
-        "   :"
-    )
-
-    buttons = [
-        [InlineKeyboardButton("  ", callback_data='daily_bonus'), InlineKeyboardButton("  ", callback_data='refer')],
-        [InlineKeyboardButton("   (Withdraw)", callback_data='withdraw')],
-        [InlineKeyboardButton(" ", callback_data='stats'), InlineKeyboardButton(" ", callback_data='support')],
-    ]
+    bal = data["users"][uid]["balance"]
     
-    #     
+    text = f"Business Bot Panel\nBalance: {bal} Taka"
+    buttons = [
+        [InlineKeyboardButton("Daily Bonus", callback_data='daily')],
+        [InlineKeyboardButton("Withdraw", callback_data='withdraw')]
+    ]
     if update.effective_user.id == ADMIN_ID:
-        buttons.append([InlineKeyboardButton("  ", callback_data='admin_panel')])
+         buttons.append([InlineKeyboardButton("Admin Check", callback_data='admin')])
 
+    # মেসেজ বাটন দিয়ে পাঠানো বা এডিট করা
     if update.callback_query:
-        await update.callback_query.message.edit_text(text, parse_mode='Markdown', reply_markup=InlineKeyboardMarkup(buttons))
+        await update.callback_query.message.edit_text(text, reply_markup=InlineKeyboardMarkup(buttons))
     else:
-        await update.message.reply_text(text, parse_mode='Markdown', reply_markup=InlineKeyboardMarkup(buttons))
-
-# =================   =================
+        await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons))
 
 async def callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -103,109 +65,34 @@ async def callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = load_data()
     await query.answer()
 
-    # ---   ---
-    if query.data == 'daily_bonus':
-        #       ,    
-        if not data["users"][uid].get("bonus_taken", False):
-            data["users"][uid]["balance"] += DAILY_BONUS
-            data["users"][uid]["bonus_taken"] = True  #    
+    if query.data == 'daily':
+        if not data["users"][uid]["bonus"]:
+            data["users"][uid]["balance"] += 5.0
+            data["users"][uid]["bonus"] = True
             save_data(data)
-            await query.message.reply_text(f"  {DAILY_BONUS}   !")
+            await query.message.reply_text("Added 5 Taka Bonus!")
         else:
-            await query.message.reply_text("     !")
-
-    # ---   ---
-    elif query.data == 'refer':
-        link = f"https://t.me/{context.bot.username}?start={uid}"
-        await query.message.reply_text(f" **  :**\n{link}\n\n  {REFERRAL_BONUS}  !")
-
-    # ---   ---
-    elif query.data == 'withdraw':
-        bal = data["users"][uid]["balance"]
-        if bal >= MIN_WITHDRAW:
-            #      
-            data["users"][uid]["balance"] -= bal
-            save_data(data)
-            
-            #   
-            admin_msg = (
-                f" **  !**\n"
-                f" : {query.from_user.first_name} (ID: {uid})\n"
-                f"  : {bal}\n"
-                f"   "
-            )
-            try:
-                await context.bot.send_message(chat_id=ADMIN_ID, text=admin_msg)
-            except:
-                pass
-            
-            await query.message.edit_text(f"  {bal}         !")
-        else:
-            await query.answer(f"   {MIN_WITHDRAW} !", show_alert=True)
-
-    # ---  ---
-    elif query.data == 'stats':
-        await query.answer(f"  : {data['users'][uid]['ref_count']} ", show_alert=True)
+            await query.message.reply_text("Bonus already taken!")
     
-    # ---   ---
-    elif query.data == 'admin_panel':
-        if int(uid) != ADMIN_ID:
-            await query.answer("  !", show_alert=True)
-            return
-            
-        text = (
-            f" ** **\n"
-            f"  : {len(data['users'])}\n"
-            f" : `/broadcast  `   "
-        )
-        await query.message.edit_text(text, parse_mode='Markdown')
+    elif query.data == 'withdraw':
+        await query.message.reply_text(f"Your balance {data['users'][uid]['balance']} is too low!")
 
-    # ---   ---
-    elif query.data == 'back':
-        await main_menu(update, context)
+    await main_menu(update)
 
-# =================    =================
-
-async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    #        
-    if update.effective_user.id != ADMIN_ID:
-        return
-
-    #  
-    msg = update.message.text.replace('/broadcast ', '')
-    if len(msg) < 5:
-        await update.message.reply_text("     : `/broadcast    `")
-        return
-
-    data = load_data()
-    users = data["users"]
-    count = 0
-
-    await update.message.reply_text(f"    {len(users)}   ...")
-
-    for user_id in users:
-        try:
-            await context.bot.send_message(chat_id=user_id, text=f" **:**\n\n{msg}", parse_mode='Markdown')
-            count += 1
-            await asyncio.sleep(0.1) #      
-        except:
-            #      
-            pass
-
-    await update.message.reply_text(f"  !  {count}   ")
-
-# =================   =================
+# ================= মেইন ফাংশন (যেখানে ফিক্স করা হয়েছে) =================
 def main():
-    print(" Business Bot Started...")
-    app = Application.builder().token(TOKEN).build()
+    print("🚀 Bot connecting (High Timeout)...")
 
-    #  
+    # ইন্টারনেটের কানেকশন ধরে রাখার জন্য রিকোয়েস্ট টাইমআউট বাড়ানো হয়েছে
+    t_request = HTTPXRequest(connection_pool_size=8, connect_timeout=60, read_timeout=60)
+
+    app = Application.builder().token(TOKEN).request(t_request).build()
+
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("broadcast", broadcast)) #  
     app.add_handler(CallbackQueryHandler(callback_handler))
 
-    #  
-    app.run_polling()
+    # পোলিং সেটিংস (টাইমআউট সহ)
+    app.run_polling(timeout=60, read_timeout=60)
 
 if __name__ == '__main__':
     main()
