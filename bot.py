@@ -1,198 +1,129 @@
-Welcome to Termux
+import sqlite3
+import json
+import logging
+from telegram import Update, WebAppInfo, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, MessageHandler, filters
 
-Docs:       https://doc.termux.com
-Community:  https://community.termux.com
+#    
+BOT_TOKEN = "8455091827:AAFCJ3MUxL766deHe5iTiOsTKcKp9dlofvs"
+WEB_APP_URL = "https://ratertara.vercel.app/" # GitHub  (s )
+CHANNEL_LINK = "https://t.me/+g7XFPRuwH85iZTI9" #   
+ADMIN_ID = 8415837999 #   ID (BotFather  /myid   , userinfobot  )
 
-Working with packages:
- - Search:  pkg search <query>
- - Install: pkg install <package>
- - Upgrade: pkg upgrade
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-Report issues at https://bugs.termux.com
-~ $ pkg install python
-date: /data/data/com.termux/cache/apt/pkgcache.bin: No such file or directory
-Get:1 https://termux.net stable InRelease [1089 B]
-Get:2 https://termux.net stable/main aarch64 Packages [247 kB]
-Fetched 248 kB in 1s (350 kB/s)
-16 packages can be upgraded. Run 'apt list --upgradable' to see them.
-Installing:
-  python
+# ---   ---
+def init_db():
+    conn = sqlite3.connect('pro_users.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS users 
+                 (user_id INTEGER PRIMARY KEY, balance REAL, referrals INTEGER, referrer_id INTEGER)''')
+    conn.commit()
+    conn.close()
 
-Installing dependencies:
-  clang
-  gdbm
-  glib
-  libandroid-glob
-  libandroid-posix-semaphore
-  libcompiler-rt
-  libcrypt
-  libexpat
-  libffi
-  libicu
-  libllvm
-  libsqlite
-  libxml2
-  lld
-  llvm
-  make
-  ncurses-ui-libs
-  ndk-sysroot
-  pkg-config
-  python-ensurepip-wheels
-  python-pip
-  zstd
+def get_user_data(user_id):
+    conn = sqlite3.connect('pro_users.db')
+    c = conn.cursor()
+    c.execute("SELECT balance, referrals FROM users WHERE user_id=?", (user_id,))
+    result = c.fetchone()
+    conn.close()
+    return result if result else (0.0, 0)
 
-Summary:
-  Upgrading: 0, Installing: 23, Removing: 0, Not Upgrading: 16
-  Download size: 110 MB
-  Space needed: 673 MB
+def register_user(user_id, referrer_id=None):
+    conn = sqlite3.connect('pro_users.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE user_id=?", (user_id,))
+    if not c.fetchone():
+        #  
+        c.execute("INSERT INTO users (user_id, balance, referrals, referrer_id) VALUES (?, ?, ?, ?)", (user_id, 0.0, 0, referrer_id))
+        
+        #    ( )
+        if referrer_id:
+            c.execute("UPDATE users SET balance = balance + 0.10, referrals = referrals + 1 WHERE user_id=?", (referrer_id,))
+            conn.commit()
+            return True #   
+    conn.commit()
+    conn.close()
+    return False
 
-Continue? [Y/n] Y
-Get:1 https://termux.net stable/main aarch64 libcompiler-rt aarch64 21.1.6 [2893 kB]
-Get:2 https://termux.net stable/main aarch64 libffi aarch64 3.4.7-1 [30.7 kB]
-Get:3 https://termux.net stable/main aarch64 libandroid-glob aarch64 0.7 [892 B]
-Get:4 https://termux.net stable/main aarch64 libicu aarch64 78.1 [10.2 MB]
-Get:5 https://termux.net stable/main aarch64 libxml2 aarch64 2.15.1-1 [440 kB]
-Get:6 https://termux.net stable/main aarch64 zstd aarch64 1.5.7-1 [360 kB]
-Get:7 https://termux.net stable/main aarch64 libllvm aarch64 21.1.6 [30.4 MB]
-Get:8 https://termux.net stable/main aarch64 lld aarch64 21.1.6 [2796 kB]
-Get:9 https://termux.net stable/main aarch64 llvm aarch64 21.1.6 [14.8 MB]
-Get:10 https://termux.net stable/main aarch64 ndk-sysroot aarch64 28c-1 [1764 kB]
-Get:11 https://termux.net stable/main aarch64 clang aarch64 21.1.6 [30.0 MB]
-Get:12 https://termux.net stable/main aarch64 gdbm aarch64 1.26-1 [150 kB]
-Get:13 https://termux.net stable/main aarch64 libandroid-posix-semaphore aarch64 0.1-4 [4084 B]
-Get:14 https://termux.net stable/main aarch64 libcrypt aarch64 0.2-6 [8868 B]
-Get:15 https://termux.net stable/main aarch64 libexpat aarch64 2.7.3 [90.6 kB]
-Get:16 https://termux.net stable/main aarch64 libsqlite aarch64 3.51.0 [708 kB]
-Get:17 https://termux.net stable/main aarch64 ncurses-ui-libs aarch64 6.5.20240831-3 [33.0 kB]
-Get:18 https://termux.net stable/main aarch64 python aarch64 3.12.12 [8742 kB]
-Get:19 https://termux.net stable/main aarch64 glib aarch64 2.86.2 [2549 kB]
-Get:20 https://termux.net stable/main aarch64 make aarch64 4.4.1-1 [240 kB]
-Get:21 https://termux.net stable/main aarch64 pkg-config aarch64 0.29.2-3 [32.8 kB]
-Get:22 https://termux.net stable/main aarch64 python-ensurepip-wheels all 3.12.12 [1802 kB]
-Get:23 https://termux.net stable/main aarch64 python-pip all 25.3 [2385 kB]
-Fetched 110 MB in 3min 3s (605 kB/s)
-Selecting previously unselected package libcompiler-rt.
-(Reading database ... 4029 files and directories currently installed.)
-Preparing to unpack .../00-libcompiler-rt_21.1.6_aarch64.deb ...
-Unpacking libcompiler-rt (21.1.6) ...
-Selecting previously unselected package libffi.
-Preparing to unpack .../01-libffi_3.4.7-1_aarch64.deb ...
-Unpacking libffi (3.4.7-1) ...
-Selecting previously unselected package libandroid-glob.
-Preparing to unpack .../02-libandroid-glob_0.7_aarch64.deb ...
-Unpacking libandroid-glob (0.7) ...
-Selecting previously unselected package libicu.
-Preparing to unpack .../03-libicu_78.1_aarch64.deb ...
-Unpacking libicu (78.1) ...
-Selecting previously unselected package libxml2.
-Preparing to unpack .../04-libxml2_2.15.1-1_aarch64.deb ...
-Unpacking libxml2 (2.15.1-1) ...
-Selecting previously unselected package zstd.
-Preparing to unpack .../05-zstd_1.5.7-1_aarch64.deb ...
-Unpacking zstd (1.5.7-1) ...
-Selecting previously unselected package libllvm.
-Preparing to unpack .../06-libllvm_21.1.6_aarch64.deb ...
-Unpacking libllvm (21.1.6) ...
-Selecting previously unselected package lld.
-Preparing to unpack .../07-lld_21.1.6_aarch64.deb ...
-Unpacking lld (21.1.6) ...
-Selecting previously unselected package llvm.
-Preparing to unpack .../08-llvm_21.1.6_aarch64.deb ...
-Unpacking llvm (21.1.6) ...
-Selecting previously unselected package ndk-sysroot.
-Preparing to unpack .../09-ndk-sysroot_28c-1_aarch64.deb ...
-Unpacking ndk-sysroot (28c-1) ...
-Selecting previously unselected package clang.
-Preparing to unpack .../10-clang_21.1.6_aarch64.deb ...
-Unpacking clang (21.1.6) ...
-Selecting previously unselected package gdbm.
-Preparing to unpack .../11-gdbm_1.26-1_aarch64.deb ...
-Unpacking gdbm (1.26-1) ...
-Selecting previously unselected package libandroid-posix-semaphore.
-Preparing to unpack .../12-libandroid-posix-semaphore_0.1-4_aarch64.deb ...
-Unpacking libandroid-posix-semaphore (0.1-4) ...
-Selecting previously unselected package libcrypt.
-Preparing to unpack .../13-libcrypt_0.2-6_aarch64.deb ...
-Unpacking libcrypt (0.2-6) ...
-Selecting previously unselected package libexpat.
-Preparing to unpack .../14-libexpat_2.7.3_aarch64.deb ...
-Unpacking libexpat (2.7.3) ...
-Selecting previously unselected package libsqlite.
-Preparing to unpack .../15-libsqlite_3.51.0_aarch64.deb ...
-Unpacking libsqlite (3.51.0) ...
-Selecting previously unselected package ncurses-ui-libs.
-Preparing to unpack .../16-ncurses-ui-libs_6.5.20240831-3_aarch64.deb ...
-Unpacking ncurses-ui-libs (6.5.20240831-3) ...
-Selecting previously unselected package python.
-Preparing to unpack .../17-python_3.12.12_aarch64.deb ...
-Unpacking python (3.12.12) ...
-Selecting previously unselected package glib.
-Preparing to unpack .../18-glib_2.86.2_aarch64.deb ...
-Unpacking glib (2.86.2) ...
-Selecting previously unselected package make.
-Preparing to unpack .../19-make_4.4.1-1_aarch64.deb ...
-Unpacking make (4.4.1-1) ...
-Selecting previously unselected package pkg-config.
-Preparing to unpack .../20-pkg-config_0.29.2-3_aarch64.deb ...
-Unpacking pkg-config (0.29.2-3) ...
-Selecting previously unselected package python-ensurepip-wheels.
-Preparing to unpack .../21-python-ensurepip-wheels_3.12.12_all.deb ...
-Unpacking python-ensurepip-wheels (3.12.12) ...
-Selecting previously unselected package python-pip.
-Preparing to unpack .../22-python-pip_25.3_all.deb ...
-Unpacking python-pip (25.3) ...
-Setting up libandroid-glob (0.7) ...
-Setting up gdbm (1.26-1) ...
-Setting up ndk-sysroot (28c-1) ...
-Setting up libexpat (2.7.3) ...
-Setting up libandroid-posix-semaphore (0.1-4) ...
-Setting up libicu (78.1) ...
-Setting up libsqlite (3.51.0) ...
-Setting up libffi (3.4.7-1) ...
-Setting up libcrypt (0.2-6) ...
-Setting up ncurses-ui-libs (6.5.20240831-3) ...
-Setting up make (4.4.1-1) ...
-Setting up libcompiler-rt (21.1.6) ...
-Setting up python (3.12.12) ...
-Setting up libxml2 (2.15.1-1) ...
-Setting up zstd (1.5.7-1) ...
-Setting up python-ensurepip-wheels (3.12.12) ...
-Setting up libllvm (21.1.6) ...
-Setting up glib (2.86.2) ...
-No schema files found: doing nothing.
-Setting up lld (21.1.6) ...
-Setting up pkg-config (0.29.2-3) ...
-Setting up llvm (21.1.6) ...
-Setting up clang (21.1.6) ...
-Setting up python-pip (25.3) ...
-pip setup...
-Writing to /data/data/com.termux/files/usr/etc/pip.conf
-~ $ pip install python-telegram-bot
-Collecting python-telegram-bot
-  Downloading python_telegram_bot-22.5-py3-none-any.whl.metadata (17 kB)
-Collecting httpx<0.29,>=0.27 (from python-telegram-bot)
-  Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
-Collecting anyio (from httpx<0.29,>=0.27->python-telegram-bot)
-  Downloading anyio-4.12.0-py3-none-any.whl.metadata (4.3 kB)
-Collecting certifi (from httpx<0.29,>=0.27->python-telegram-bot)
-  Downloading certifi-2025.11.12-py3-none-any.whl.metadata (2.5 kB)
-Collecting httpcore==1.* (from httpx<0.29,>=0.27->python-telegram-bot)
-  Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
-Collecting idna (from httpx<0.29,>=0.27->python-telegram-bot)
-  Downloading idna-3.11-py3-none-any.whl.metadata (8.4 kB)
-Collecting h11>=0.16 (from httpcore==1.*->httpx<0.29,>=0.27->python-telegram-bot)
-  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
-Collecting typing_extensions>=4.5 (from anyio->httpx<0.29,>=0.27->python-telegram-bot)
-  Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
-Downloading python_telegram_bot-22.5-py3-none-any.whl (730 kB)
-   ━━━━━━━━━━━━━━━━━ 731.0/731.0 kB 245.6 kB/s  0:00:02
-Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
-Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
-Downloading h11-0.16.0-py3-none-any.whl (37 kB)
-Downloading anyio-4.12.0-py3-none-any.whl (113 kB)
-Downloading idna-3.11-py3-none-any.whl (71 kB)
-Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
-Downloading certifi-2025.11.12-py3-none-any.whl (159 kB)
-Installing collected packages: typing_extensions, idna, h11, certifi, httpcore, anyio, httpx, python-telegram-bot
-Successfully installed anyio-4.12.0 certifi-2025.11.12 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.11 python-telegram-bot-22.5 typing_extensions-4.15.0
+def update_balance(user_id, amount):
+    conn = sqlite3.connect('pro_users.db')
+    c = conn.cursor()
+    c.execute("UPDATE users SET balance = balance + ? WHERE user_id=?", (amount, user_id))
+    conn.commit()
+    conn.close()
+
+# ---   ---
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+    args = context.args #    (ex: /start 12345)
+    referrer_id = None
+    
+    if args and args[0].isdigit():
+        possible_referrer = int(args[0])
+        if possible_referrer != user.id:
+            referrer_id = possible_referrer
+
+    #  
+    is_referred = register_user(user.id, referrer_id)
+    
+    #   
+    if is_referred and referrer_id:
+        try:
+            await context.bot.send_message(chat_id=referrer_id, text=f" New Referral! {user.first_name} joined. You earned $0.10")
+        except:
+            pass
+
+    #      
+    bal, refs = get_user_data(user.id)
+    # URL        HTML   
+    final_url = f"{WEB_APP_URL}?bal={bal:.2f}&refs={refs}"
+
+    keyboard = [
+        [InlineKeyboardButton(" Open Dashboard", web_app=WebAppInfo(url=final_url))],
+        [InlineKeyboardButton(" Join Channel", url=CHANNEL_LINK)]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    await update.message.reply_text(
+        f" Welcome {user.first_name} to Pro Earn Bot!\n\n"
+        f" Your Balance: ${bal:.2f}\n"
+        f" Referrals: {refs}\n\n"
+        "Click below to start earning real money! ",
+        reply_markup=reply_markup
+    )
+
+async def web_app_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    data = json.loads(update.effective_message.web_app_data.data)
+    user = update.effective_user
+    
+    if data['type'] == 'ad_watched':
+        update_balance(user.id, 0.05) #   $0.05
+        bal, _ = get_user_data(user.id)
+        await update.message.reply_text(f" Ad Watched! +$0.05 Added.\n Current Balance: ${bal:.2f}")
+    
+    elif data['type'] == 'withdraw':
+        amount = float(data['amount'])
+        number = data['number']
+        bal, _ = get_user_data(user.id)
+        
+        if bal >= amount:
+            update_balance(user.id, -amount) #   
+            await update.message.reply_text(f" Withdrawal Request Submitted!\nAmount: ${amount}\nNumber: {number}\n\nAdmin will pay you soon.")
+            
+            #  
+            if ADMIN_ID:
+                await context.bot.send_message(chat_id=ADMIN_ID, text=f" NEW WITHDRAWAL!\nUser: {user.first_name} (ID: {user.id})\nAmount: ${amount}\nNumber: {number}")
+        else:
+            await update.message.reply_text(" Insufficient Balance!")
+
+if __name__ == '__main__':
+    init_db()
+    print("Connecting...")
+    app = ApplicationBuilder().token(BOT_TOKEN).read_timeout(60).write_timeout(60).connect_timeout(60).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, web_app_data))
+    
+    print("Pro Bot Running...")
+    app.run_polling()
