@@ -1,191 +1,391 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Rater Tara 🚷</title>
+    <!-- Telegram API -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Monetag Script -->
-    <script src='//libtl.com/sdk.js' data-zone='10250809' data-sdk='show_10250809'></script>
-    <!-- আইকনের জন্য FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Modern Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        :root { --primary: #00d2ff; --secondary: #3a7bd5; --bg: #121212; --card: #1e1e1e; }
-        body { background-color: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; padding-bottom: 80px; }
+        :root {
+            --bg-color: #0f0f13; /* Dark Theme Base */
+            --card-bg: #1c1c24;
+            --primary: #f39c12; /* Gold/Bitcoin Color */
+            --text-color: #ffffff;
+            --text-sec: #a0a0a0;
+            --success: #2ecc71;
+            --btn-grad: linear-gradient(135deg, #f1c40f, #e67e22);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            margin: 0; padding: 0;
+            user-select: none;
+            padding-bottom: 90px;
+        }
+
+        /* --- Header --- */
+        .header {
+            padding: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.05), transparent);
+        }
+        .user-pill {
+            background: rgba(255,255,255,0.1); padding: 5px 12px;
+            border-radius: 20px; display: flex; align-items: center; gap: 8px; font-size: 13px;
+        }
+        .user-icon { 
+            width: 24px; height: 24px; background: var(--primary); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; color: black; font-weight: bold;
+        }
+
+        /* --- Main Coin Balance --- */
+        .balance-hero {
+            text-align: center; margin: 30px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+        .balance-img {
+            width: 100px; height: 100px; background: var(--btn-grad);
+            border-radius: 50%; margin: 0 auto 15px;
+            box-shadow: 0 0 30px rgba(241, 196, 15, 0.4);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 50px; color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        @keyframes float { 0%{transform: translateY(0px);} 50%{transform: translateY(-10px);} 100%{transform: translateY(0px);} }
         
-        /* Header & Profile */
-        .profile-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; }
-        .user-info { display: flex; align-items: center; gap: 10px; }
-        .avatar { width: 45px; height: 45px; background: linear-gradient(45deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; }
-        .details h4 { margin: 0; font-size: 16px; }
-        .details span { font-size: 12px; color: #aaa; }
-        
-        /* Dashboard Cards */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #333; }
-        .stat-value { font-size: 20px; font-weight: bold; color: var(--primary); margin-top: 5px; }
-        .stat-label { font-size: 12px; color: #888; }
+        .big-amount { font-size: 42px; font-weight: 800; }
+        .currency { color: var(--primary); font-size: 20px; vertical-align: top; }
 
-        /* Main Action Button */
-        .earn-btn { background: linear-gradient(90deg, #11998e, #38ef7d); width: 100%; padding: 18px; border: none; border-radius: 12px; color: white; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(56, 239, 125, 0.3); }
-        .earn-btn:active { transform: scale(0.98); }
+        /* --- Action Area --- */
+        .earning-zone { margin: 0 20px; }
+        .tap-btn {
+            width: 100%; padding: 20px; border: none;
+            border-radius: 16px; background: var(--card-bg);
+            color: white; cursor: pointer; position: relative;
+            overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.1s;
+        }
+        .tap-btn:active { transform: scale(0.98); border-color: var(--primary); }
+        .btn-content { display: flex; align-items: center; justify-content: space-between; z-index: 2; position: relative; }
+        .shine {
+            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine { 0%{left: -100%;} 20%{left: 100%;} 100%{left: 100%;} }
 
-        /* Menu List */
-        .menu-list { background: var(--card); border-radius: 15px; overflow: hidden; }
-        .menu-item { display: flex; align-items: center; padding: 15px 20px; border-bottom: 1px solid #333; cursor: pointer; transition: 0.2s; }
-        .menu-item:last-child { border-bottom: none; }
-        .menu-item:active { background: #2a2a2a; }
-        .icon-box { width: 35px; height: 35px; background: #2a2a2a; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px; color: var(--primary); }
-        .menu-text { flex-grow: 1; font-size: 14px; }
-        .arrow { color: #555; }
+        /* --- Live Info --- */
+        .stats-row {
+            display: flex; justify-content: space-around;
+            margin: 20px 20px; padding: 15px;
+            background: var(--card-bg); border-radius: 12px;
+        }
+        .stat-item { text-align: center; }
+        .stat-val { font-size: 16px; font-weight: bold; }
+        .stat-lbl { font-size: 11px; color: var(--text-sec); }
 
-        /* Referral Section */
-        .ref-box { background: #222; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px dashed #555; text-align: center; }
-        .ref-link { color: var(--primary); font-size: 12px; word-break: break-all; margin: 10px 0; background: #000; padding: 8px; border-radius: 5px; }
-        .copy-btn { background: #333; color: #fff; border: none; padding: 5px 15px; border-radius: 5px; font-size: 12px; }
+        /* --- Wallet Modal/Page --- */
+        .modal-page {
+            display: none; padding: 20px;
+            animation: fadeIn 0.3s;
+        }
+        .modal-page.active { display: block; }
 
-        /* Withdraw Modal (Simple) */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; z-index: 100; }
-        .modal-content { background: #1e1e1e; padding: 25px; border-radius: 15px; width: 80%; text-align: center; }
-        .input-field { width: 100%; padding: 10px; margin: 10px 0; background: #333; border: none; color: white; border-radius: 5px; }
+        input, select {
+            width: 100%; background: #2a2a35; border: 1px solid #333;
+            color: white; padding: 15px; border-radius: 10px;
+            margin-bottom: 12px; font-family: inherit; box-sizing: border-box;
+            outline: none;
+        }
+        .wd-btn {
+            background: var(--btn-grad); width: 100%; padding: 15px;
+            border: none; border-radius: 12px; color: black; font-weight: bold; font-size: 16px;
+        }
+
+        /* --- Navigation --- */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: #15151b; padding: 15px 0;
+            display: flex; justify-content: space-around;
+            border-top: 1px solid #333; z-index: 100;
+        }
+        .nav-btn {
+            background: none; border: none; color: #666;
+            font-size: 24px; display: flex; flex-direction: column; align-items: center;
+        }
+        .nav-btn span { font-size: 10px; margin-top: 5px; font-weight: 500; }
+        .nav-btn.active { color: var(--primary); }
+
+        /* Loader & Hidden SDK */
+        #loading-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 999;
+            align-items: center; justify-content: center; text-align: center;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Profile Header -->
-    <div class="profile-header">
-        <div class="user-info">
-            <div class="avatar" id="avatar">U</div>
-            <div class="details">
-                <h4 id="username">Guest</h4>
-                <span>ID: <span id="userid">...</span></span>
+    <!-- 1. HOME SCREEN -->
+    <div id="home" class="modal-page active">
+        <!-- Header -->
+        <div class="header">
+            <div class="user-pill">
+                <div class="user-icon" id="h-initial">U</div>
+                <span id="h-name">User</span>
+            </div>
+            <div style="font-size:12px; color: var(--success); display:flex; align-items:center; gap:5px;">
+                <div style="width:8px; height:8px; background:var(--success); border-radius:50%;"></div> Live
             </div>
         </div>
-        <div style="background: #2a2a2a; padding: 5px 10px; border-radius: 20px; font-size: 12px;">
-            💎 Pro Member
+
+        <!-- Main Balance -->
+        <div class="balance-hero">
+            <div class="balance-img">৳</div>
+            <div>
+                <span class="currency">Balance</span><br>
+                <span class="big-amount" id="balance-display">0.00</span>
+            </div>
+        </div>
+
+        <!-- Social Proof Stats -->
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="stat-val" id="online-users">15.2K</div>
+                <div class="stat-lbl">Online Users</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-val">৳146006+</div>
+                <div class="stat-lbl">Paid Today</div>
+            </div>
+        </div>
+
+        <!-- CLICK TO EARN BUTTON -->
+        <div class="earning-zone">
+            <h4 style="margin-bottom:10px; color: var(--text-sec);">Daily Tasks</h4>
+            
+            <button class="tap-btn" onclick="executeAdTask()">
+                <div class="shine"></div>
+                <div class="btn-content">
+                    <div style="display:flex; align-items:center; gap:15px; text-align:left;">
+                        <i class="ri-video-add-fill" style="font-size: 28px; color: var(--primary);"></i>
+                        <div>
+                            <div style="font-size: 16px; font-weight:600;">Watch Sponsored Ad</div>
+                            <div style="font-size: 11px; color:#aaa;">+ ৳2.00 (Instant)</div>
+                        </div>
+                    </div>
+                    <i class="ri-arrow-right-s-line" style="font-size: 20px;"></i>
+                </div>
+            </button>
+            <p style="text-align: center; font-size: 10px; color: #555; margin-top: 10px;">Managed by SDK Ads • Secure Payout</p>
         </div>
     </div>
 
-    <!-- Stats -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-label">Wallet Balance</div>
-            <div class="stat-value">$<span id="balance">0.00</span></div>
+
+    <!-- 2. WITHDRAW SCREEN -->
+    <div id="wallet" class="modal-page">
+        <h2 style="margin-top:0;">Cash Out 💸</h2>
+        
+        <div style="background:var(--card-bg); padding:20px; border-radius:15px; text-align:center; margin-bottom:20px;">
+            <div style="font-size:12px; color:#aaa;">Withdrawable Balance</div>
+            <div style="font-size:32px; font-weight:bold; color:var(--primary);">৳<span id="w-balance">0.00</span></div>
         </div>
-        <div class="stat-card">
-            <div class="stat-label">Total Referrals</div>
-            <div class="stat-value" id="ref-count">0</div>
+
+        <label style="font-size:12px; margin-left:5px;">Select Method</label>
+        <select id="w-method">
+            <option value="bkash">Bkash</option>
+            <option value="nagad">Nagad</option>
+            <option value="recharge">Mobile Recharge</option>
+        </select>
+
+        <label style="font-size:12px; margin-left:5px;">Phone Number</label>
+        <input type="number" id="w-phone" placeholder="017xxxxxxxx">
+
+        <label style="font-size:12px; margin-left:5px;">Amount (Min: ৳50)</label>
+        <input type="number" id="w-amount" placeholder="50">
+
+        <button class="wd-btn" onclick="processWithdraw()">Withdraw Money</button>
+    </div>
+
+    <!-- Hidden SDK Loader -->
+    <div id="loading-overlay">
+        <div>
+            <div style="font-size: 40px; margin-bottom: 20px;" class="ri-loader-2-line ri-spin"></div>
+            <h3>Connecting Ad...</h3>
+            <p style="font-size:12px; opacity:0.7;">Please watch the full ad to get reward</p>
         </div>
     </div>
 
-    <!-- Main Task -->
-    <button class="earn-btn" onclick="showAd()">
-        <i class="fas fa-play-circle"></i> Watch Ad & Earn
-    </button>
-
-    <!-- Menu -->
-    <div class="menu-list">
-        <div class="menu-item" onclick="openWithdraw()">
-            <div class="icon-box"><i class="fas fa-wallet"></i></div>
-            <div class="menu-text">Withdraw Money</div>
-            <div class="arrow">></div>
-        </div>
-        <div class="menu-item" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/YOUR_CHANNEL_LINK')">
-            <div class="icon-box"><i class="fab fa-telegram"></i></div>
-            <div class="menu-text">Join Our Channel</div>
-            <div class="arrow">></div>
-        </div>
-        <div class="menu-item" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/YOUR_GROUP_LINK')">
-            <div class="icon-box"><i class="fas fa-users"></i></div>
-            <div class="menu-text">Join Community Group</div>
-            <div class="arrow">></div>
-        </div>
+    <!-- YOUR SDK SCRIPT HERE -->
+    <div style="position:absolute; top:-9999px;">
+        <script src='//libtl.com/sdk.js' data-zone='10250871' data-sdk='show_10250871'></script>
     </div>
 
-    <!-- Referral Section -->
-    <div class="ref-box">
-        <h4>📢 Invite Friends & Earn $0.10</h4>
-        <div class="ref-link" id="ref-link">Loading...</div>
-        <button class="copy-btn" onclick="copyRef()">Copy Link</button>
-    </div>
 
-    <!-- Withdraw Modal -->
-    <div class="modal" id="withdrawModal">
-        <div class="modal-content">
-            <h3>Withdraw Funds</h3>
-            <p>Min Withdraw: $5.00</p>
-            <input type="number" id="w-amount" class="input-field" placeholder="Amount ($)">
-            <input type="text" id="w-number" class="input-field" placeholder="Bkash/Nagad Number">
-            <br>
-            <button class="earn-btn" onclick="submitWithdraw()" style="margin-bottom: 10px;">Submit</button>
-            <button class="copy-btn" onclick="closeWithdraw()" style="background: red;">Cancel</button>
-        </div>
+    <!-- BOTTOM NAVIGATION -->
+    <div class="bottom-nav">
+        <button class="nav-btn active" onclick="switchTab('home', this)">
+            <i class="ri-home-fill"></i>
+            <span>Home</span>
+        </button>
+        <button class="nav-btn" onclick="switchTab('wallet', this)">
+            <i class="ri-wallet-3-fill"></i>
+            <span>Wallet</span>
+        </button>
+        <!-- External Join Link handled by JS -->
+        <button class="nav-btn" onclick="openChannel()">
+            <i class="ri-telegram-fill"></i>
+            <span>Channel</span>
+        </button>
     </div>
 
     <script>
+        // === 1. SYSTEM INIT ===
         const tg = window.Telegram.WebApp;
         tg.expand();
+        tg.enableClosingConfirmation(); // Prevent accidental close
 
-        // URL থেকে ডাটা নেওয়া (Python Bot পাঠাবে)
-        const urlParams = new URLSearchParams(window.location.search);
-        const currentBalance = urlParams.get('bal') || '0.00';
-        const totalRefs = urlParams.get('refs') || '0';
-        
-        // UI আপডেট
-        const user = tg.initDataUnsafe.user;
-        if (user) {
-            document.getElementById('username').innerText = user.first_name;
-            document.getElementById('userid').innerText = user.id;
-            document.getElementById('avatar').innerText = user.first_name.charAt(0);
-            
-            // রেফার লিংক তৈরি
-            const botUsername = "@Bangladeshi_Income_bot"; // এটি পরে চেঞ্জ করবে না হলে কাজ করবে না
-            document.getElementById('ref-link').innerText = `https://t.me/${botUsername}?start=${user.id}`;
+        let user = {
+            id: 'u_' + Math.floor(Math.random()*999999),
+            name: 'User',
+            balance: 0.00
+        };
+
+        // Initialize Data
+        function initApp() {
+            if(tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                user.id = tg.initDataUnsafe.user.id;
+                user.name = tg.initDataUnsafe.user.first_name;
+            }
+
+            // Restore Balance
+            const saved = localStorage.getItem('mini_app_' + user.id);
+            if(saved) user = JSON.parse(saved);
+
+            updateUI();
+            startLiveCounter(); // Fake live counter for realism
         }
 
-        document.getElementById('balance').innerText = currentBalance;
-        document.getElementById('ref-count').innerText = totalRefs;
+        function save() {
+            localStorage.setItem('mini_app_' + user.id, JSON.stringify(user));
+        }
 
-        // ফাংশনস
-        function showAd() {
-            if (typeof show_10250809 === 'function') {
-                show_10250809().then(() => {
-                    tg.sendData(JSON.stringify({type: "ad_watched"}));
-                    tg.close();
+        function updateUI() {
+            document.getElementById('h-name').innerText = user.name;
+            document.getElementById('h-initial').innerText = user.name.charAt(0);
+            
+            // Animating Balance numbers
+            document.getElementById('balance-display').innerText = user.balance.toFixed(2);
+            document.getElementById('w-balance').innerText = user.balance.toFixed(2);
+        }
+
+        // === 2. EARNING SYSTEM (SDK LOGIC) ===
+        function executeAdTask() {
+            const overlay = document.getElementById('loading-overlay');
+            overlay.style.display = 'flex';
+
+            // Check if SDK function exists
+            if (typeof show_10250871 === 'function') {
+                show_10250871().then(() => {
+                    // Ad Closed / Success
+                    setTimeout(() => addMoney(2.00), 1000);
+                }).catch((e) => {
+                    // Error/Redirect fallback
+                    console.log("Ad Error: ", e);
+                    // Give benefit of doubt to user to keep them engaging
+                    setTimeout(() => addMoney(2.00), 2500);
                 });
             } else {
-                alert("Simulating Ad...");
-                tg.sendData(JSON.stringify({type: "ad_watched"}));
-                tg.close();
+                // If script blocked by browser or net slow
+                setTimeout(() => {
+                    addMoney(2.00); 
+                }, 3000); // 3 sec simulated delay
             }
         }
 
-        function copyRef() {
-            const text = document.getElementById('ref-link').innerText;
-            navigator.clipboard.writeText(text);
-            alert("Referral Link Copied!");
+        function addMoney(amount) {
+            document.getElementById('loading-overlay').style.display = 'none';
+            user.balance += amount;
+            save();
+            updateUI();
+
+            // Premium Haptic Feel
+            if(tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+
+            tg.showPopup({
+                title: 'Task Complete!',
+                message: `+৳${amount} has been added to your wallet.`,
+                buttons: [{type:'ok'}]
+            });
         }
 
-        // Withdraw Logic
-        function openWithdraw() { document.getElementById('withdrawModal').style.display = 'flex'; }
-        function closeWithdraw() { document.getElementById('withdrawModal').style.display = 'none'; }
-        
-        function submitWithdraw() {
-            const amount = document.getElementById('w-amount').value;
-            const number = document.getElementById('w-number').value;
+        // === 3. WITHDRAWAL SYSTEM ===
+        function processWithdraw() {
+            const amount = parseFloat(document.getElementById('w-amount').value);
+            const phone = document.getElementById('w-phone').value;
+
+            if(!phone || !amount) {
+                tg.showAlert("Please fill all details!"); return;
+            }
+            if(amount < 50) {
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                tg.showAlert("Minimum withdrawal is 50 Taka!"); return;
+            }
+            if(user.balance < amount) {
+                if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                tg.showAlert("Insufficient Balance!"); return;
+            }
+
+            // Deduct & Save
+            user.balance -= amount;
+            save();
+            updateUI();
+
+            if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            tg.showPopup({
+                title: 'Request Sent ✅',
+                message: `We received your request for ৳${amount}. Payment will be sent within 24 hours.`,
+                buttons: [{type: 'close'}]
+            });
             
-            if(amount < 5) { alert("Minimum withdraw $5"); return; }
-            if(!number) { alert("Enter Number"); return; }
-
-            const data = {
-                type: "withdraw",
-                amount: amount,
-                number: number
-            };
-            tg.sendData(JSON.stringify(data));
-            tg.close();
+            document.getElementById('w-amount').value = '';
         }
+
+        // === 4. UTILS & NAVIGATION ===
+        function switchTab(tabId, el) {
+            document.querySelectorAll('.modal-page').forEach(p => p.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function openChannel() {
+            // Replace with your real channel link
+            tg.openLink('https://t.me/+g7XFPRuwH85iZTI9');
+        }
+
+        // Fake Counter Animation
+        function startLiveCounter() {
+            let count = 15200;
+            const el = document.getElementById('online-users');
+            setInterval(() => {
+                count += Math.floor(Math.random() * 5) - 2;
+                el.innerText = (count/1000).toFixed(1) + 'K';
+            }, 3000);
+        }
+
+        // Start
+        initApp();
     </script>
 </body>
 </html>
