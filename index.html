@@ -2,92 +2,458 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    
-    <!-- ইনকাম স্ক্রিপ্ট (SDK) -->
-    <script src='//libtl.com/sdk.js' data-zone='10250871' data-sdk='show_10250871'></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Earn Cash App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* পেজ ডিজাইন এমনভাবে করা হয়েছে যেন মনে হয় এটি একটি অফিসিয়াল ক্লাউড পেজ */
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            text-align: center; 
-            padding: 0; margin: 0; 
-            background-color: #ffffff; 
-            display: flex; justify-content: center; align-items: center; 
-            height: 100vh;
-            user-select: none; /* টেক্সট সিলেক্ট করা যাবে না */
-            -webkit-user-select: none;
+        :root {
+            --primary: #00E3CC;
+            --secondary: #6C63FF;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+            --input-bg: #334155;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
         }
-        .loader-container { text-align: center; }
-        
-        /* সিম্পল লোডিং এনিমেশন যাতে ইউজার মনে করে ফাইল লোড হচ্ছে */
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px auto;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        h3 { color: #555; font-weight: normal; margin-top: 20px; }
-        p { color: #888; font-size: 14px; }
 
-        /* বাটন ডিজাইন */
-        .invisible-btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            display: flex; flex-direction: column;
+            overflow: hidden; user-select: none;
+        }
+
+        /* --- স্ক্রল এরিয়া --- */
+        #main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        /* পেজ সেকশন */
+        .page-section { display: none; padding: 20px; animation: fadeIn 0.3s ease; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
+
+        /* --- হেডার --- */
+        .header {
+            padding: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(30, 41, 59, 0.9);
+            border-bottom: 1px solid #334155;
+            position: sticky; top: 0; z-index: 10;
+        }
+        .user-info h2 { margin: 0; font-size: 12px; color: #94a3b8; font-family: monospace; }
+        .user-info h1 { margin: 0; font-size: 20px; color: var(--primary); }
+        .profile-pic {
+            width: 45px; height: 45px; background: var(--secondary); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 20px; color: white;
+        }
+
+        /* --- ব্যালেন্স কার্ড --- */
+        .balance-card {
+            padding: 25px; background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            border-radius: 20px; text-align: center; margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+        .balance-amount { font-size: 42px; font-weight: 700; margin: 10px 0; }
+        
+        /* --- ওয়ালেট ফর্ম --- */
+        .wallet-form { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid #334155; }
+        .form-label { font-size: 14px; color: #94a3b8; margin-bottom: 8px; display: block; }
+        .form-input, .form-select {
+            width: 100%; padding: 12px; background: var(--input-bg);
+            border: 1px solid #475569; border-radius: 10px;
+            color: white; font-size: 16px; margin-bottom: 20px;
+            box-sizing: border-box; outline: none;
+        }
+        .withdraw-btn {
+            width: 100%; background: var(--primary); color: #000;
+            padding: 15px; border: none; border-radius: 12px;
+            font-weight: bold; font-size: 16px; cursor: pointer;
+        }
+        .withdraw-btn:disabled { background: #555; cursor: not-allowed; }
+
+        /* --- Settings Profile Styles --- */
+        .settings-profile {
+            text-align: center; margin-bottom: 30px;
+            background: var(--card); padding: 30px; border-radius: 20px;
+        }
+        .big-avatar {
+            width: 80px; height: 80px; background: var(--secondary);
+            border-radius: 50%; margin: 0 auto 15px auto;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 35px; color: white; border: 3px solid var(--primary);
+        }
+        .profile-name { font-size: 22px; font-weight: bold; margin-bottom: 5px; }
+        .profile-id { font-family: monospace; color: #94a3b8; background: rgba(0,0,0,0.3); padding: 5px 10px; border-radius: 10px; display: inline-block;}
+
+        /* --- History Styles --- */
+        .history-list { display: flex; flex-direction: column; gap: 10px; }
+        .history-item {
+            background: var(--card); padding: 15px; border-radius: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-left: 4px solid var(--warning); /* Default Pending Color */
+        }
+        .h-left { display: flex; flex-direction: column; }
+        .h-method { font-weight: 600; font-size: 14px; }
+        .h-date { font-size: 10px; color: #94a3b8; margin-top: 3px; }
+        .h-right { text-align: right; }
+        .h-amount { font-weight: bold; color: var(--primary); }
+        .h-status { font-size: 10px; color: var(--warning); font-weight: bold; text-transform: uppercase; }
+
+        .empty-history { text-align: center; color: #64748b; margin-top: 20px; font-size: 14px; }
+
+        /* --- টাস্ক কার্ড --- */
+        .task-card {
+            background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 15px;
+            display: flex; align-items: center; justify-content: space-between; border: 1px solid #334155;
+        }
+        .task-icon {
+            width: 40px; height: 40px; background: rgba(0, 227, 204, 0.1); color: var(--primary);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px;
+        }
+        .task-details { flex: 1; margin-left: 15px; }
+        .play-btn {
+            background: var(--primary); color: #000; border: none;
+            padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer;
+        }
+
+        /* --- বটম নেভিগেশন --- */
+        .bottom-nav {
+            background: var(--card); height: 70px; display: flex;
+            justify-content: space-around; align-items: center; border-top: 1px solid #334155;
+            flex-shrink: 0;
+        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #64748b; font-size: 12px; cursor: pointer; }
+        .nav-item i { font-size: 22px; margin-bottom: 5px; }
+        .nav-item.active { color: var(--primary); }
+
+        .toast {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: #22c55e; color: white; padding: 10px 20px;
+            border-radius: 20px; font-size: 14px; display: none; z-index: 1000;
         }
     </style>
-
-    <script>
-        // ১. রাইট ক্লিক বন্ধ করার কোড (Right Click Disable)
-        document.addEventListener('contextmenu', event => event.preventDefault());
-
-        // ২. কিবোর্ড শর্টকাট (F12, Ctrl+U, Ctrl+S) বন্ধ করার কোড
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123) { return false; } // F12
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
-            if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { return false; } // Ctrl+S
-        }
-    </script>
 </head>
 <body>
 
-    <div class="loader-container">
-        <div class="spinner"></div>
-        <h3>Checking file security...</h3>
-        <p>Please click below to continue</p>
-        
-        <!-- এই বাটনে ক্লিক করলেই ডাউনলোড হবে এবং অ্যাড কাজ করবে -->
-        <button class="invisible-btn" onclick="goToFile()">Continue</button>
+    <div class="toast" id="toast"><i class="fa-solid fa-check-circle"></i> Points Added!</div>
+
+    <div class="header">
+        <div class="user-info">
+            <h2 id="user-id">ID: ...</h2>
+            <h1 id="user-name">Loading...</h1>
+        </div>
+        <div class="profile-pic"><i class="fa-solid fa-user"></i></div>
     </div>
 
-    <script>
-        function goToFile() {
-            var btn = document.querySelector(".invisible-btn");
-            btn.innerHTML = "Opening..."; 
-            
-            // মাত্র ০.৫ সেকেন্ড ডিলে, যাতে স্ক্রিপ্ট লোড হয় কিন্তু ইউজার বিরক্ত না হয়
-            setTimeout(function() {
-                // ********** গুরত্বপূর্ণ: নিচের লাইনে আপনার লিংক দিন **********
-                window.location.href = "https://t.me/ratertara_bot?start=boost"; 
-            }, 500); 
-        }
-    </script>
+    <!-- মেইন কন্টেন্ট -->
+    <div id="main-content">
+        
+        <!-- ১. HOME PAGE (Only Links) -->
+        <div id="home" class="page-section active">
+            <div class="balance-card">
+                <div style="font-size: 14px; opacity: 0.9;">Available Points</div>
+                <div class="balance-amount"><span id="display-points">0</span></div>
+                <div style="background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; display: inline-block;">
+                    ≈ <span id="display-taka">0.00</span> BDT
+                </div>
+            </div>
 
+            <div style="font-size: 18px; margin-bottom: 15px; font-weight: bold;">
+                <i class="fa-brands fa-telegram" style="color: #0088cc;"></i> Community
+            </div>
+
+            <!-- Telegram Channel Link -->
+            <div class="task-card">
+                <div class="task-icon" style="background: rgba(0, 136, 204, 0.1); color: #0088cc;">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <div class="task-details">
+                    <div style="font-weight: 600;">Join Our Channel</div>
+                    <div style="font-size: 12px; color: #94a3b8;">Stay Updated</div>
+                </div>
+                <button class="play-btn" onclick="openTelegramLink('https://t.me/YOUR_CHANNEL_LINK')">Join</button>
+            </div>
+
+            <!-- Telegram Group Link -->
+            <div class="task-card">
+                <div class="task-icon" style="background: rgba(0, 136, 204, 0.1); color: #0088cc;">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="task-details">
+                    <div style="font-weight: 600;">Join Our Group</div>
+                    <div style="font-size: 12px; color: #94a3b8;">Community Chat</div>
+                </div>
+                <button class="play-btn" onclick="openTelegramLink('https://t.me/YOUR_GROUP_LINK')">Join</button>
+            </div>
+        </div>
+
+        <!-- ২. TASKS PAGE (Ads) -->
+        <div id="tasks" class="page-section">
+            <div style="font-size: 18px; margin-bottom: 15px; font-weight: bold;">
+                <i class="fa-solid fa-fire" style="color: orange;"></i> Earn Points
+            </div>
+
+            <div class="task-card">
+                <div class="task-icon"><i class="fa-solid fa-play"></i></div>
+                <div class="task-details">
+                    <div style="font-weight: 600;">Premium Ad</div>
+                    <div style="font-size: 12px; color: #94a3b8;">+50 Points</div>
+                </div>
+                <button class="play-btn" onclick="watchAd(50)">Start</button>
+            </div>
+
+            <div class="task-card">
+                <div class="task-icon" style="color: #6C63FF; background: rgba(108, 99, 255, 0.1);"><i class="fa-solid fa-video"></i></div>
+                <div class="task-details">
+                    <div style="font-weight: 600;">Video Task</div>
+                    <div style="font-size: 12px; color: #94a3b8;">+25 Points</div>
+                </div>
+                <button class="play-btn" onclick="watchAd(25)">Watch</button>
+            </div>
+        </div>
+
+        <!-- ৩. WALLET PAGE -->
+        <div id="wallet" class="page-section">
+            <div style="font-size: 22px; font-weight: bold; margin-bottom: 20px;">Withdraw Money</div>
+            
+            <div class="balance-card" style="padding: 15px; margin-bottom: 30px;">
+                <div style="font-size: 12px;">Withdrawable Balance</div>
+                <div style="font-size: 32px; font-weight: bold;">৳ <span id="wallet-taka">0.00</span></div>
+                <div style="font-size: 12px; color: #ddd;">(Min Withdraw: 100 Tk)</div>
+            </div>
+
+            <div class="wallet-form">
+                <label class="form-label">Select Payment Method</label>
+                <select class="form-select" id="method">
+                    <option value="Bkash">Bkash</option>
+                    <option value="Nagad">Nagad</option>
+                    <option value="Rocket">Rocket</option>
+                </select>
+
+                <label class="form-label">Account Number</label>
+                <input type="number" class="form-input" id="account-num" placeholder="017xxxxxxxx">
+
+                <label class="form-label">Amount (BDT)</label>
+                <input type="number" class="form-input" id="withdraw-amount" placeholder="Minimum 100" readonly>
+
+                <button class="withdraw-btn" id="btn-withdraw" onclick="submitWithdraw()">Withdraw Request</button>
+            </div>
+        </div>
+
+        <!-- ৪. SETTINGS PAGE (New Profile & History) -->
+        <div id="settings" class="page-section">
+            <div style="font-size: 22px; font-weight: bold; margin-bottom: 20px;">Settings</div>
+
+            <!-- Profile Info -->
+            <div class="settings-profile">
+                <div class="big-avatar"><i class="fa-solid fa-user"></i></div>
+                <div class="profile-name" id="settings-name">Guest</div>
+                <div class="profile-id" id="settings-id">ID: 000000</div>
+            </div>
+
+            <!-- Withdraw History -->
+            <div style="font-size: 18px; margin-bottom: 15px; font-weight: bold;">
+                <i class="fa-solid fa-clock-rotate-left"></i> Withdrawal History
+            </div>
+            
+            <div id="history-container" class="history-list">
+                <!-- History Items will be added here by JS -->
+                <div class="empty-history">No history found.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('home', this)">
+            <i class="fa-solid fa-house"></i>Home
+        </div>
+        <div class="nav-item" onclick="switchTab('tasks', this)">
+            <i class="fa-solid fa-list-check"></i>Tasks
+        </div>
+        <div class="nav-item" onclick="switchTab('wallet', this)">
+            <i class="fa-solid fa-wallet"></i>Wallet
+        </div>
+        <div class="nav-item" onclick="switchTab('settings', this)">
+            <i class="fa-solid fa-gear"></i>Settings
+        </div>
+    </div>
+
+    <!-- Monetag SDK -->
+    <script src='//libtl.com/sdk.js' data-zone='10265360' data-sdk='show_10265360'></script>
+
+    <script>
+        const ADMIN_USERNAME = "YourTelegramUsername"; 
+
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        // ইউজার ডাটা সেট করা
+        let user = { name: "Guest", id: "000000" };
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            user.name = tg.initDataUnsafe.user.first_name;
+            user.id = tg.initDataUnsafe.user.id;
+        }
+        
+        // Header আপডেট
+        document.getElementById('user-name').innerText = user.name;
+        document.getElementById('user-id').innerText = "ID: " + user.id;
+        
+        // Settings Page আপডেট
+        document.getElementById('settings-name').innerText = user.name;
+        document.getElementById('settings-id').innerText = "ID: " + user.id;
+
+        // লোকাল স্টোরেজ থেকে পয়েন্ট এবং হিস্টোরি লোড করা
+        let points = parseInt(localStorage.getItem('userPoints')) || 0;
+        let history = JSON.parse(localStorage.getItem('withdrawHistory')) || [];
+
+        // হিস্টোরি রেন্ডার করা (শুরুতেই)
+        renderHistory();
+        updateBalance();
+
+        // ব্যালেন্স আপডেট
+        function updateBalance() {
+            let taka = (points / 10).toFixed(2);
+            document.getElementById('display-points').innerText = points;
+            document.getElementById('display-taka').innerText = taka;
+            document.getElementById('wallet-taka').innerText = taka;
+            document.getElementById('withdraw-amount').value = Math.floor(taka);
+            
+            // সেভ পয়েন্ট
+            localStorage.setItem('userPoints', points);
+
+            const btn = document.getElementById('btn-withdraw');
+            if(points >= 1000) {
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                btn.innerText = "Confirm Withdraw";
+            } else {
+                btn.disabled = true;
+                btn.style.opacity = "0.5";
+                btn.innerText = "Need 1000 Points";
+            }
+        }
+
+        // ট্যাব সুইচ
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            if(element) element.classList.add('active');
+            if(tabId === 'wallet') updateBalance();
+        }
+
+        // লিংক ওপেন
+        function openTelegramLink(url) {
+            window.open(url, '_blank');
+        }
+
+        // অ্যাড দেখা
+        function watchAd(reward) {
+            if (typeof show_10265360 === 'function') {
+                show_10265360().then(() => {
+                    points += reward;
+                    updateBalance();
+                    showToast();
+                }).catch(e => {
+                    alert("Ad not loaded. Please try again.");
+                });
+            } else {
+                alert("Ad System Loading...");
+            }
+        }
+
+        function showToast() {
+            const t = document.getElementById('toast');
+            t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 2000);
+        }
+
+        // --- Withdraw Logic & History Update ---
+        function submitWithdraw() {
+            const method = document.getElementById('method').value;
+            const number = document.getElementById('account-num').value;
+            const amount = Math.floor(points / 10);
+
+            if (!number || number.length < 10) {
+                alert("Please enter a valid account number.");
+                return;
+            }
+            if (points < 1000) {
+                alert("Minimum 1000 points required!");
+                return;
+            }
+
+            // টেলিগ্রাম মেসেজ লিংক
+            const message = `Payment Request:%0A👤 User: ${user.name}%0A🆔 ID: ${user.id}%0A💰 Amount: ${amount} BDT%0A🏦 Method: ${method}%0A📱 Number: ${number}`;
+            const url = `https://t.me/${ADMIN_USERNAME}?text=${message}`;
+            
+            if(confirm(`Send withdrawal request for ${amount} Tk?`)) {
+                // ১. এডমিনকে মেসেজ পাঠানো
+                window.open(url, '_blank');
+                
+                // ২. হিস্টোরি তৈরি করা
+                const newTx = {
+                    date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+                    amount: amount,
+                    method: method,
+                    status: 'Pending'
+                };
+                
+                // ৩. অ্যারেতে পুশ এবং সেভ
+                history.unshift(newTx); // নতুনটা সবার উপরে থাকবে
+                localStorage.setItem('withdrawHistory', JSON.stringify(history));
+                
+                // ৪. ব্যালেন্স কাটা
+                points = 0; 
+                updateBalance();
+                document.getElementById('account-num').value = "";
+                
+                // ৫. হিস্টোরি রিফ্রেশ
+                renderHistory();
+            }
+        }
+
+        // --- History Render Function ---
+        function renderHistory() {
+            const container = document.getElementById('history-container');
+            
+            if(history.length === 0) {
+                container.innerHTML = '<div class="empty-history">No history found.</div>';
+                return;
+            }
+
+            container.innerHTML = ''; // ক্লিয়ার
+            
+            history.forEach(tx => {
+                const html = `
+                    <div class="history-item">
+                        <div class="h-left">
+                            <div class="h-method">${tx.method}</div>
+                            <div class="h-date">${tx.date}</div>
+                        </div>
+                        <div class="h-right">
+                            <div class="h-amount">৳ ${tx.amount}</div>
+                            <div class="h-status">${tx.status}</div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += html;
+            });
+        }
+        
+    </script>
 </body>
 </html>
