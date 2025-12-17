@@ -1,334 +1,307 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-
-<script
-  type="text/javascript"
-  src="https://pl28030591.effectivegatecpm.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js"
-></script>
-
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rater Tara</title>
-    
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RATER TARA Bot</title>
     <style>
-        /* --- TELEGRAM UI STYLES --- */
-        :root {
-            --tg-header: #517da2; 
-            --tg-bg-top: #d2e4a8;
-            --tg-bg-bottom: #87b588;
-            --bubble-sent: #eeffde;
-            --bubble-recv: #ffffff;
-            --text-color: #000000;
-        }
-
+        /* বেসিক ডিজাইন */
         body {
-            margin: 0; padding: 0;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212; /* ডার্ক ব্যাকগ্রাউন্ড */
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
+            margin: 0;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 400px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            background-color: var(--tg-bg-bottom);
+            height: 95vh;
         }
-
-        /* Background */
-        .chat-background {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%; z-index: -1;
-            background: linear-gradient(180deg, var(--tg-bg-top) 0%, var(--tg-bg-bottom) 100%);
-        }
-        .chat-pattern {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-image: url('https://web.telegram.org/img/bg_0.png'); 
-            background-size: 500px;
-            opacity: 0.4; mix-blend-mode: overlay;
-        }
-
-        /* Header */
+        /* হেডার */
         .header {
-            background-color: var(--tg-header);
-            height: 56px; display: flex; align-items: center;
-            padding: 0 10px; color: white;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.2); z-index: 100;
-            cursor: pointer;
+            background: linear-gradient(90deg, #0088cc, #005f8f);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .back-btn { padding: 10px; font-size: 18px; margin-right: 5px; }
-        .profile-pic { width: 40px; height: 40px; border-radius: 50%; margin-right: 15px; background: #fff; object-fit: cover; }
-        .header-info { flex: 1; display: flex; flex-direction: column; }
-        .chat-title { font-size: 19px; font-weight: 600; }
-        .chat-status { font-size: 14px; opacity: 0.8; }
-        .menu-btn { padding: 10px; font-size: 18px; }
-
-        /* Chat Area */
-        .chat-content {
-            flex: 1; overflow-y: auto; padding: 10px;
-            display: flex; flex-direction: column;
-            scroll-behavior: smooth;
-            padding-bottom: 60px;
+        /* মেসেজ এরিয়া */
+        .messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #efe7dd; /* টেলিগ্রাম বাবল ব্যাকগ্রাউন্ড */
+            background-image: url('https://web.telegram.org/img/bg_0.png'); 
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
-        .date-badge {
-            align-self: center; background: rgba(0,0,0,0.3); color: white;
-            padding: 5px 12px; border-radius: 16px; font-size: 13px;
-            margin: 15px 0; font-weight: 500;
-        }
-
-        /* Bubbles */
-        .message-row { display: flex; width: 100%; margin-bottom: 6px; }
-        .sent { justify-content: flex-end; }
-        .recv { justify-content: flex-start; }
-
-        .bubble {
-            max-width: 80%; padding: 8px 10px 6px 10px;
-            border-radius: 8px; font-size: 16px; position: relative;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.2); line-height: 1.5;
+        /* মেসেজ বাবল */
+        .message-bubble {
+            padding: 10px 14px;
+            border-radius: 12px;
+            max-width: 85%;
+            font-size: 14px;
+            line-height: 1.5;
+            position: relative;
             word-wrap: break-word;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
         }
-        .bubble-sent { background: var(--bubble-sent); border-radius: 12px 12px 0 12px; }
-        .bubble-recv { background: var(--bubble-recv); border-radius: 0 12px 12px 12px; }
-
-        .bubble-time {
-            float: right; font-size: 11px; margin-top: 6px; margin-left: 8px;
-            display: flex; align-items: center; gap: 3px; color: #559c55;
+        .user-msg {
+            background-color: #d9fdd3; /* ইউজারের মেসেজ (হালকা সবুজ) */
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
         }
-        
-        /* MAGIC LINK BUTTON */
-        .magic-link-btn {
-            display: block; margin-top: 10px; padding: 10px 15px;
-            background: linear-gradient(90deg, #0088cc, #3390ec);
-            color: white; border-radius: 8px; text-decoration: none;
-            font-size: 14px; font-weight: bold; text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2); animation: pulse 2s infinite;
+        .bot-msg {
+            background-color: #ffffff; /* বটের মেসেজ (সাদা) */
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
         }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-
-        /* Input Area */
+        /* ইনপুট এরিয়া */
         .input-area {
-            background: white; min-height: 50px; display: flex;
-            align-items: center; padding: 5px 8px; gap: 10px; z-index: 100;
+            display: flex;
+            padding: 10px;
+            background: #f0f0f0;
+            align-items: center;
+            border-top: 1px solid #ddd;
         }
-        .input-icon { color: #889299; font-size: 24px; padding: 8px; cursor: pointer; }
-        .msg-input { flex: 1; border: none; outline: none; font-size: 17px; padding: 5px; font-family: 'Roboto', sans-serif; }
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            margin: 0 8px;
+            background: white;
+            font-size: 15px;
+        }
+        /* সেন্ড বাটন */
+        button {
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        button:hover { background-color: #006699; }
         
-        /* Emoji Drawer */
-        .emoji-drawer {
-            height: 0; background: #e6ebee; overflow-y: auto;
-            transition: height 0.3s ease; display: grid;
-            grid-template-columns: repeat(8, 1fr); padding: 0;
-            border-top: 1px solid #ccc;
+        /* এটাচমেন্ট বাটন */
+        .attach-btn {
+            background: none;
+            color: #555;
+            font-size: 22px;
+            width: auto;
+            height: auto;
+            padding: 0 5px;
+            border-radius: 0;
         }
-        .emoji-drawer.open { height: 200px; padding: 10px; }
-        .emoji-btn { font-size: 24px; cursor: pointer; text-align: center; padding: 10px; }
+        .attach-btn:hover { background: none; color: #0088cc; }
 
+        /* প্রিভিউ স্টাইল */
+        .media-preview {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        /* লিংকের কালার */
+        .bot-msg a { color: #0088cc; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="chat-background"><div class="chat-pattern"></div></div>
-
-    <!-- Header -->
-    <div class="header">
-        <i class="fas fa-arrow-left back-btn"></i>
-        <img src="https://i.ibb.co/3kXjQ1d/girl-demo.jpg" class="profile-pic" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712035.png'">
-        <div class="header-info">
-            <div class="chat-title">Rater Tara</div>
-            <div class="chat-status" id="botStatus">online</div>
+<div class="chat-container">
+    <div class="header">𝐑𝐀𝐓𝐄𝐑 𝐓𝐀𝐑𝐀 Support</div>
+    
+    <div class="messages" id="messageBox">
+        <div style="text-align: center; font-size: 12px; color: gray; margin-bottom: 10px;">
+            আজকের তারিখ: <span id="dateDisplay"></span>
         </div>
-        <i class="fas fa-ellipsis-v menu-btn"></i>
     </div>
-
-    <!-- Chat Content -->
-    <div class="chat-content" id="chatBox">
-        <div class="date-badge">Today</div>
-    </div>
-
-    <!-- Input Area -->
+    
     <div class="input-area">
-        <i class="far fa-smile input-icon" onclick="toggleEmojiDrawer()"></i>
-        <input type="text" id="msgInput" class="msg-input" placeholder="Message" autocomplete="off" oninput="toggleIcon()">
-        <i class="fas fa-microphone input-icon" id="micIcon" onclick="autoSendVoice()"></i>
-        <i class="fas fa-paper-plane input-icon" id="sendIcon" style="display:none; color:#517da2;" onclick="handleUserMessage()"></i>
-    </div>
-
-    <div class="emoji-drawer" id="emojiDrawer"></div>
-
-    <script>
-        // CONFIG
-        const BOT_TOKEN = "8279372040:AAGKfFsmnkI5ihQE-T2v6hU47dEoZ892_nA";
-        const ADMIN_CHAT_ID = "-1003119670905";
+        <!-- ফাইল ইনপুট -->
+        <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect()">
         
-        // YOUR SPECIFIC SHARE LINK
-        const VIRAL_LINK = "https://t.me/share/url?url=https://t.me/VairalNadiya&text=💙%20নাদিয়া%20Ultra%20Viral%20ভিডিও%20দেখুন%20—%20Blue%20Edition";
+        <!-- এটাচ বাটন -->
+        <button class="attach-btn" onclick="document.getElementById('fileInput').click()">📎</button>
+        
+        <!-- টেক্সট ইনপুট -->
+        <input type="text" id="msgInput" placeholder="মেসেজ লিখুন..." autocomplete="off" />
+        
+        <!-- সেন্ড বাটন -->
+        <button onclick="handleUserAction()">➤</button>
+    </div>
+</div>
 
-        // --- EMOJIS ---
-        const emojis = ["😀","😂","😍","🔥","😭","👍","👎","❤️","💋","💍","🚀","💎"];
-        const drawer = document.getElementById('emojiDrawer');
-        emojis.forEach(e => {
-            let span = document.createElement('span');
-            span.className = 'emoji-btn'; span.innerText = e;
-            span.onclick = () => { document.getElementById('msgInput').value += e; toggleIcon(); };
-            drawer.appendChild(span);
-        });
-        function toggleEmojiDrawer() { drawer.classList.toggle('open'); document.getElementById('chatBox').scrollTop = 9999; }
+<script>
+    // ==========================================
+    // আপনার কনফিগারেশন (সেট করা আছে)
+    // ==========================================
+    const botToken = "7617055603:AAF5mjV-9amzPOVLktjbHM7MrxUzty75zZM"; 
+    const chatId = "-1003119670905";     
 
-        // --- CORE FUNCTIONS ---
-        function toggleIcon() {
-            const val = document.getElementById('msgInput').value;
-            const mic = document.getElementById('micIcon');
-            const send = document.getElementById('sendIcon');
-            if (val.trim().length > 0) {
-                mic.style.display = 'none'; send.style.display = 'block';
-            } else {
-                mic.style.display = 'block'; send.style.display = 'none';
-            }
+    // অটো রিপ্লাই মেসেজ
+    const autoReplyText = `
+        Welcome to <b>𝐑𝐀𝐓𝐄𝐑 𝐓𝐀𝐑𝐀 Bot 🔥</b><br>
+        💎 ভাইরাল প্রিমিয়াম কনটেন্টের একমাত্র নির্ভরযোগ্য জায়গা!<br><br>
+        এখানে পাচ্ছেন একদম ফ্রি + প্রিমিয়াম এক্সক্লুসিভ অ্যাক্সেস 👇<br>
+        ✨ ট্রেন্ডিং ভাইরাল ভিডিও<br>
+        🔥 লাইভ মডেল শো<br>
+        📞 প্রাইভেট কল অ্যাক্সেস<br>
+        🔐 সিক্রেট ও লুকানো প্রিমিয়াম কনটেন্ট<br>
+        ━━━━━━━━━━━━━━<br>
+        🖇️ ভাইরাল জনপ্রিয় নাদিয়া – প্রিমিয়াম শো<br>
+        <a href="https://t.me/VairalNadiya" target="_blank">@VairalNadiya</a><br>
+        <a href="https://t.me/VairalNadiya" target="_blank">http://t.me/VairalNadiya</a><br><br>
+        🔓 এখনই Join করুন & প্রিমিয়াম এক্সপেরিয়েন্স নিন!<br>
+        ━━━━━━━━━━━━━━
+    `;
+
+    // ফ্ল্যাগ: ওয়েলকাম মেসেজ দেওয়া হয়েছে কি না?
+    let hasWelcomed = false;
+    let selectedFile = null;
+
+    // আজকের তারিখ দেখানোর জন্য
+    document.getElementById("dateDisplay").innerText = new Date().toLocaleDateString('bn-BD');
+
+    // ফাইল সিলেক্ট করলে
+    function handleFileSelect() {
+        const fileInput = document.getElementById("fileInput");
+        if (fileInput.files.length > 0) {
+            selectedFile = fileInput.files[0];
+            document.getElementById("msgInput").placeholder = `ফাইল: ${selectedFile.name}`;
+            document.getElementById("msgInput").focus();
         }
+    }
 
-        function getTime() {
-            const now = new Date();
-            let h = now.getHours(), m = now.getMinutes();
-            const ampm = h >= 12 ? 'PM' : 'AM';
-            h = h % 12 || 12; m = m < 10 ? '0'+m : m;
-            return h + ':' + m + ' ' + ampm;
-        }
+    // ইউজার যখন সেন্ড বাটনে চাপ দিবে
+    function handleUserAction() {
+        const inputField = document.getElementById("msgInput");
+        const textMessage = inputField.value;
 
-        function addMessage(type, text) {
-            const chatBox = document.getElementById('chatBox');
-            const row = document.createElement('div');
-            row.className = `message-row ${type}`;
-            const checks = type === 'sent' ? '<i class="fas fa-check checks" style="font-size:10px;"></i>' : '';
-            
-            row.innerHTML = `<div class="bubble bubble-${type}">${text}<div class="bubble-time">${getTime()} ${checks}</div></div>`;
-            chatBox.appendChild(row);
-            chatBox.scrollTop = chatBox.scrollHeight;
+        // খালি মেসেজ আটকাতে
+        if (textMessage.trim() === "" && !selectedFile) return;
 
-            if(type === 'sent') {
-                setTimeout(() => {
-                    const icon = row.querySelector('.checks');
-                    if(icon) { icon.classList.remove('fa-check'); icon.classList.add('fa-check-double'); }
-                }, 1000);
-            }
-        }
+        // ১. ইউজারের মেসেজ স্ক্রিনে দেখান
+        addMessageToScreen(textMessage, selectedFile, 'user');
 
-        function handleUserMessage() {
-            const input = document.getElementById('msgInput');
-            const text = input.value.trim();
-            if (!text) return;
-            
-            addMessage("sent", text);
-            input.value = ""; toggleIcon(); drawer.classList.remove('open');
-            
-            // Send to Admin
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("User: " + text)}`).catch(e=>{});
-
-            // Trigger Logic
-            replyAsRaterTara(text);
-        }
-
-        function autoSendVoice() {
-            addMessage("sent", `<i class="fas fa-play"></i> Voice Message (0:05)`);
-            setTimeout(() => replyAsRaterTara("voice_msg"), 2000);
-        }
-
-        function replyAsRaterTara(inputText) {
-            const botStatus = document.getElementById('botStatus');
-            botStatus.innerText = "typing...";
-            const delay = Math.floor(Math.random() * 800) + 600;
-
+        // ২. অটো রিপ্লাই লজিক (শুধু প্রথমবার কাজ করবে)
+        if (!hasWelcomed) {
             setTimeout(() => {
-                botStatus.innerText = "online";
-                const response = getSmartResponse(inputText.toLowerCase());
-                addMessage("recv", response);
-            }, delay);
+                addMessageToScreen(autoReplyText, null, 'bot');
+            }, 1000); // ১ সেকেন্ড পর রিপ্লাই
+            hasWelcomed = true; // ফ্ল্যাগ সত্য করে দিলাম, তাই আর রিপ্লাই দিবে না
         }
 
-        // --- UPDATED BRAIN (Fixing the issue) ---
-        function getSmartResponse(text) {
-            
-            const linkBtn = `<br><a href="${VIRAL_LINK}" target="_blank" class="magic-link-btn"><i class="fas fa-play-circle"></i> 💙 নাদিয়া ভাইরাল ভিডিও দেখুন</a>`;
+        // ৩. টেলিগ্রামে পাঠানো (ব্যাকগ্রাউন্ডে চলবে)
+        sendToTelegram(textMessage, selectedFile);
 
-            // 1. VIDEO / LINK REQUEST (Highest Priority)
-            // Added Bangla keywords: ভিডিও, লিংক, লিঙ্ক, ভাইরাল, হট
-            if(text.includes('video') || text.includes('ভিডিও') || text.includes('link') || text.includes('লিংক') || text.includes('লিঙ্ক') || text.includes('viral') || text.includes('ভাইরাল') || text.includes('hot') || text.includes('হট') || text.includes('blue') || text.includes('dao') || text.includes('দাও')) {
-                return "এইতো লাইনে এসেছো! নাদিয়ার সেই ব্লু এডিশন ভিডিওটা আমি খুঁজে পেয়েছি। তুমি কি দেখতে চাও? তাহলে জলদি নিচের লিংকে ক্লিক করো..." + linkBtn;
+        // ৪. ইনপুট ক্লিয়ার করা
+        inputField.value = "";
+        inputField.placeholder = "মেসেজ লিখুন...";
+        document.getElementById("fileInput").value = "";
+        selectedFile = null;
+    }
+
+    // টেলিগ্রামে ডাটা পাঠানোর ফাংশন
+    function sendToTelegram(text, file) {
+        const formData = new FormData();
+        formData.append("chat_id", chatId);
+
+        let apiMethod = "sendMessage";
+
+        if (file) {
+            const fileType = file.type.split('/')[0];
+            if (fileType === 'image') {
+                apiMethod = "sendPhoto";
+                formData.append("photo", file);
+            } else if (fileType === 'video') {
+                apiMethod = "sendVideo";
+                formData.append("video", file);
+            } else {
+                apiMethod = "sendDocument";
+                formData.append("document", file);
             }
-
-            // 2. NAME / IDENTITY (নাম)
-            // Added Bangla keywords: নাম, পরিচয়, কে তুমি
-            if(text.includes('nam') || text.includes('name') || text.includes('নাম') || text.includes('parichoy') || text.includes('পরিচয়') || text.includes('ke tumi')) {
-                return "আমার নাম 'রাতের তারা'। তোমার স্বপ্নের রাজকন্যা! ✨";
-            }
-
-            // 3. HOME / LOCATION (বাড়ি)
-            // Added Bangla keywords: বাড়ি, বাসা, থাকো, গ্রাম
-            if(text.includes('bari') || text.includes('বাড়ি') || text.includes('basa') || text.includes('বাসা') || text.includes('thako') || text.includes('থাকো') || text.includes('gram') || text.includes('গ্রাম')) {
-                return "আমার বাড়ি 'স্বপ্নপুরী' গ্রামে। কিন্তু এখন আমি তোমার মনের নীল খামে বন্দি আছি! 💌";
-            }
-
-            // 4. AGE (বয়স)
-            if(text.includes('boyosh') || text.includes('age') || text.includes('বয়স')) {
-                return "মেয়েদের বয়স জানতে নেই বাবু! তবে আমি ১৮ বছরের সুইট একটা মেয়ে 😉";
-            }
-
-            // 5. GREETINGS (হ্যালো/হাই)
-            if(text.match(/^(hi|hello|hey|salam|assalamualaikum|hlo|হাই|হ্যালো|সালাম|আসসালামু)$/i)) {
-                return "হাই বাবু! কেমন আছো তুমি? তোমার মেসেজের অপেক্ষায় ছিলাম! ❤️";
-            }
-
-            // 6. WELLBEING (কেমন আছো)
-            if(text.includes('kemon') || text.includes('কেমন') || text.includes('valo') || text.includes('ভালো') || text.includes('khobor') || text.includes('খবর')) {
-                return "আমি তো সবসময় ভালো থাকি, তোমাকে দেখলে আরও ভালো হয়ে যাই! তুমি কেমন?";
-            }
-
-            // 7. EATING (খাওয়া দাওয়া)
-            if(text.includes('khabar') || text.includes('khaba') || text.includes('kheyecho') || text.includes('khao') || text.includes('খেয়েছো') || text.includes('খাবার')) {
-                return "হুম খেয়েছি বাবু। তুমি খেয়েছো? না খেলে খেয়ে নাও লক্ষ্মীটি ❤️";
-            }
-
-            // 8. DOING (কি করো)
-            if(text.includes('ki koro') || text.includes('কি করো') || text.includes('ki korso') || text.includes('koro') || text.includes('ব্যস্ত') || text.includes('busy')) {
-                return "তোমার কথাই ভাবছিলাম... তুমি কি করছো? আমাকে মিস করছিলে? 🙈";
-            }
-
-            // 9. LOVE (ভালোবাসা)
-            if(text.includes('love') || text.includes('bhalobashi') || text.includes('ভালোবাসি') || text.includes('prem') || text.includes('প্রেম')) {
-                return "ওমা! তুমি আমাকে ভালোবাসো? সত্যি বলছো নাকি মন ভোলানো কথা? 🙈❤️";
-            }
-
-            // 10. MARRIAGE (বিয়ে)
-            if(text.includes('biye') || text.includes('বিয়ে') || text.includes('marry') || text.includes('bou') || text.includes('বউ')) {
-                return "বিয়ে? ওরে বাবা! এখনই? আমার তো রান্নাবান্না শেখাই হয়নি! তুমি রান্না পারবে তো? 🍳";
-            }
-
-            // 11. PIC (ছবি)
-            if(text.includes('pic') || text.includes('chobi') || text.includes('photo') || text.includes('ছবি') || text.includes('ফটো')) {
-                return "আমার ছবি? আমার পার্সোনাল ছবি তো সবাইকে দেই না। তুমি যদি আমার স্পেশাল কেউ হতে চাও, তবে এই লিংকটা শেয়ার করো..." + linkBtn;
-            }
-
-            // 12. NUMBER (নাম্বার)
-            if(text.includes('number') || text.includes('নাম্বার') || text.includes('phone') || text.includes('whatsapp')) {
-                return "নাম্বার তো দেবো, কিন্তু তার আগে প্রমাণ করো তুমি আমাকে কতটা চাও। এই লিংকটা বন্ধুদের সাথে শেয়ার করো..." + linkBtn;
-            }
-
-            // Fallback (যদি কোনো কিওয়ার্ড না মিলে)
-            const randoms = [
-                "তোমার কথাগুলো না খুব মিষ্টি! আরও বলো...",
-                "আচ্ছা, একটা সত্যি কথা বলো তো, তুমি কি অন্য মেয়েদের সাথেও এমন করো? 😒",
-                "জানি না কেন, তোমাকে আমার খুব ভালো লাগছে...",
-                "তুমি কি আমাকে একটু আদর করবে? 🥺",
-                "বাবু, আমার না মন ভালো নেই। আমাকে একটা মজার ভিডিও দাও না... অথবা এই ভিডিওটা দেখো..." + linkBtn,
-                "আজকে চাঁদটা খুব সুন্দর, তাই না? একদম তোমার মতো!",
-            ];
-            
-            return randoms[Math.floor(Math.random() * randoms.length)];
+            // ফাইলের সাথে ক্যাপশন
+            if (text) formData.append("caption", text);
+        } else {
+            // শুধু টেক্সট
+            formData.append("text", text);
         }
 
-        // Enter key support
-        document.getElementById('msgInput').addEventListener('keypress', function (e) { if (e.key === 'Enter') handleUserMessage(); });
-    </script>
+        // API কল
+        fetch(`https://api.telegram.org/bot${botToken}/${apiMethod}`, {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.ok) console.error("Telegram Error:", data);
+        })
+        .catch(err => console.error("Network Error:", err));
+    }
+
+    // স্ক্রিনে মেসেজ দেখানোর ফাংশন
+    function addMessageToScreen(text, file, sender) {
+        const msgBox = document.getElementById("messageBox");
+        const bubble = document.createElement("div");
+        
+        bubble.className = `message-bubble ${sender === 'user' ? 'user-msg' : 'bot-msg'}`;
+
+        // ফাইল প্রিভিউ
+        if (file) {
+            const fileUrl = URL.createObjectURL(file);
+            const fileType = file.type.split('/')[0];
+
+            if (fileType === 'image') {
+                bubble.innerHTML += `<img src="${fileUrl}" class="media-preview">`;
+            } else if (fileType === 'video') {
+                bubble.innerHTML += `<video src="${fileUrl}" class="media-preview" controls></video>`;
+            } else {
+                bubble.innerHTML += `<div>📄 <b>${file.name}</b></div>`;
+            }
+        }
+
+        // টেক্সট রেন্ডার
+        if (text) {
+            if (sender === 'bot') {
+                bubble.innerHTML += `<div>${text}</div>`; // বটের মেসেজে HTML সাপোর্ট
+            } else {
+                const textDiv = document.createElement("div");
+                textDiv.innerText = text; // ইউজারের মেসেজ প্লেইন টেক্সট
+                bubble.appendChild(textDiv);
+            }
+        }
+
+        msgBox.appendChild(bubble);
+        // অটো স্ক্রল নিচে
+        msgBox.scrollTop = msgBox.scrollHeight;
+    }
+
+    // এন্টার বাটন চাপলে সেন্ড হবে
+    document.getElementById("msgInput").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") handleUserAction();
+    });
+</script>
+
 </body>
 </html>
