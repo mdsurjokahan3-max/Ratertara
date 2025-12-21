@@ -57,6 +57,14 @@
             text-align: center;
         }
 
+        /* বাটন গ্রিড (হোম ট্যাবের জন্য) */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
         .upload-box {
             border: 2px dashed rgba(255, 255, 255, 0.2);
             border-radius: 15px;
@@ -79,6 +87,11 @@
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             color: white; font-weight: 600; cursor: pointer;
             box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+
+        .btn-group {
+            background: linear-gradient(90deg, #222, #444);
         }
 
         .bottom-nav {
@@ -105,16 +118,28 @@
             <div class="glass-card">
                 <i class="fa-solid fa-house-chimney" style="font-size: 40px; color: var(--primary);"></i>
                 <h2>Welcome</h2>
-                <p style="color: var(--text-gray); font-size: 13px;">ভাইরাল প্রিমিয়াম কনটেন্টের নির্ভরযোগ্য প্ল্যাটফর্ম!</p>
-                <button class="btn-main" onclick="window.open('https://t.me/VairalNadiya', '_blank')">Join Channel</button>
+                <p style="color: var(--text-gray); font-size: 13px;">━━━━━━━━━━━━━━━━━━━━━</p>
+                <p style="color: var(--text-gray); font-size: 13px;">এখনই Join করুন এবংবাংলাদেশি জনপ্রিয় ভাইরাল দেখতে এক্সপেরিয়েন্স নিন!</p>
+                
+                <!-- চ্যানেল এবং গ্রুপ বাটন -->
+                <div class="btn-grid">
+                    <button class="btn-main" onclick="window.open('https://t.me/harami420x', '_blank')">
+                        <i class="fa-brands fa-telegram"></i> Channel
+                    </button>
+                    <button class="btn-main btn-group" onclick="window.open('https://t.me/ratertaragroup', '_blank')">
+                        <i class="fa-solid fa-users"></i> Group
+                    </button>
+                </div>
             </div>
             
             <div class="glass-card" style="text-align: left;">
-                <h4>ফিচারসমূহ:</h4>
+                <h4>ভাইরাল প্রিমিয়াম কনটেন্টের একমাত্র নির্ভরযোগ্য জায়গা!</h4>
                 <ul style="font-size: 12px; color: var(--text-gray); padding-left: 20px;">
-                    <li>চ্যানেলে সরাসরি HD ভিডিও আপলোড।</li>
-                    <li>গ্রুপে ভিডিও শেয়ারিং সুবিধা।</li>
-                    <li>লাইভ চ্যাট সাপোর্ট সিস্টেম।</li>
+                    <li>এখানে পাচ্ছেন একদম প্রিমিয়াম এক্সক্লুসিভ অ্যাক্সেস ⇩</li>
+                    <li>📁 ট্রেন্ডিং ভাইরাল ভিডিও</li>
+                    <li>📁 লাইভ মডেল শো</li>
+<li>📁 প্রাইভেট কল অ্যাক্সেস</li>
+<li>📁 সিক্রেট ও লুকানো প্রিমিয়াম কনটেন্ট</li>
                 </ul>
             </div>
         </div>
@@ -122,8 +147,8 @@
         <!-- CHANNEL POST TAB -->
         <div id="channel" class="section">
             <div class="glass-card">
-                <h3>ʜᴀʀᴀᴍɪ</h3>
-                <p style="font-size: 12px; color: var(--text-gray);">চ্যানেলে ভিডিও পাঠানোর জন্য ফাইল সিলেক্ট করুন</p>
+                <h3>Channel Upload</h3>
+                <p style="font-size: 12px; color: var(--text-gray);">চ্যানেলে ভিডিও আপলোড করুন</p>
                 
                 <div class="upload-box" onclick="document.getElementById('channelVideo').click()">
                     <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -139,8 +164,8 @@
         <!-- GROUP POST TAB -->
         <div id="group" class="section">
             <div class="glass-card">
-                <h3>Premium Show</h3>
-                <p style="font-size: 12px; color: var(--text-gray);">গ্রুপে ভিডিও শেয়ার করার জন্য ফাইল সিলেক্ট করুন</p>
+                <h3>Group Upload</h3>
+                <p style="font-size: 12px; color: var(--text-gray);">গ্রুপে ভিডিও আপলোড করতে  ফাইল সিলেক্ট করুন</p>
                 
                 <div class="upload-box" onclick="document.getElementById('groupVideo').click()" style="border-color: var(--secondary);">
                     <i class="fa-solid fa-film" style="color: var(--secondary);"></i>
@@ -182,9 +207,9 @@
 
     <script>
         // ==========================================
-        // ⚠️ CONFIGURATION (UPDATED IDs)
+        // CONFIGURATION
         // ==========================================
-        const BOT_TOKEN = "7617055603:AAF5mjV-9amzPOVLktjbHM7MrxUzty75zZM"; 
+        const BOT_TOKEN = "8408314861:AAGqyo5Yr5wCtGuMj2ktXqSEJS-bRBlml-8"; 
         const CHANNEL_ID = "-1002967304716"; 
         const GROUP_ID = "-1003119670905"; 
         const LIVE_CHAT_ID = "8415837999"; 
