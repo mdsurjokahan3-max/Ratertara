@@ -1,26 +1,181 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
+
+<script src="https://pl28030591.effectivegatecpm.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ratertara App</title>
+    <title>Lamiashek Mini App</title>
+    <!-- টেলিগ্রাম SDK যুক্ত করা হয়েছে -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
     <style>
-        body { font-family: sans-serif; background-color: #0e0e0e; color: white; text-align: center; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .card { background: #1a1a1a; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 85%; max-width: 400px; border: 1px solid #333; }
-        .btn { display: block; background: linear-gradient(45deg, #0088cc, #00c6ff); color: white; text-decoration: none; padding: 15px; border-radius: 50px; font-weight: bold; font-size: 18px; margin-top: 25px; box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3); }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #222222);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* অ্যাড ডিজাইন */
+        #interstitial-ad {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .ad-content {
+            background: white;
+            color: #333;
+            padding: 25px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 320px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: #888;
+        }
+        .ad-button {
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2 style="color: #24A1DE;"></h2>
-        <p>আপনার কন্টেন্টটি দেখতে নিচের বাটনে ক্লিক করুন।</p>
-        <a href="https://www.effectivegatecpm.com/nt8dt64s?key=0d7f3498e36834982c58c761f7deaa95" class="btn">Click To Start</a>
+
+    <h3>Hello, <span id="user-name">User</span>!</h3>
+    <p>Welcome to @Lamiashek</p>
+
+    <!-- অ্যাড কন্টেইনার -->
+    <div id="interstitial-ad">
+        <div class="ad-content">
+            <span class="close-btn" onclick="closeAd()">×</span>
+            <div id="ad-body">
+                <h2>Sponsor Ad</h2>
+                <p>এটি একটি ইন্টারস্টিশিয়াল অ্যাড।</p>
+                <button class="ad-button" onclick="closeAd()">Close</button>
+            </div>
+        </div>
     </div>
+
     <script>
+        // আপনার বটের তথ্য (সুরক্ষার জন্য টোকেন সাধারণত সার্ভারে রাখা হয়)
+        const BOT_TOKEN = "8565321091:AAHQVftC0pYDB4nOJ-r0sRhZV7rYzCD_gRU"; // ডেমো টোকেন
+        const BOT_USER = "@Lamiashek_bot";
+
+        // টেলিগ্রাম ওয়েব অ্যাপ ইনিশিয়ালাইজ
         const tg = window.Telegram.WebApp;
         tg.ready();
-        tg.expand(); // অ্যাপটি বড় করে ওপেন হবে
+        tg.expand(); // অ্যাপটি ফুল স্ক্রিন করবে
+
+        // ইউজারের নাম সেট করা
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            document.getElementById('user-name').innerText = tg.initDataUnsafe.user.first_name;
+        }
+
+        // --- আপনার দেওয়া লজিক এবং ফাংশন শুরু ---
+
+        function show_10400777(settings) {
+            const { frequency, capping, interval, timeout, everyPage } = settings.inAppSettings;
+            const STORAGE_KEY = 'ad_session_data_10400777';
+
+            // সেশন রিসেট লজিক (everyPage: true হলে সেশন মুছে যাবে)
+            if (everyPage === true) {
+                localStorage.removeItem(STORAGE_KEY);
+            }
+
+            let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+                count: 0,
+                lastShownTime: 0,
+                startTime: Date.now()
+            };
+
+            const cappingMs = capping * 60 * 60 * 1000; 
+            const intervalMs = interval * 1000;         
+            const timeoutMs = timeout * 1000;           
+
+            // ক্যাপিং টাইম (৬ মিনিট) শেষ হলে রিসেট
+            if (Date.now() - data.startTime > cappingMs) {
+                data.count = 0;
+                data.startTime = Date.now();
+            }
+
+            function tryShowingAd() {
+                const now = Date.now();
+                
+                if (data.count < frequency) {
+                    const timeSinceLastAd = now - data.lastShownTime;
+
+                    if (timeSinceLastAd >= intervalMs) {
+                        displayAd();
+                        data.count++;
+                        data.lastShownTime = Date.now();
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                        
+                        // পরবর্তী অ্যাডের জন্য শিডিউল
+                        if (data.count < frequency) {
+                            setTimeout(tryShowingAd, intervalMs);
+                        }
+                    } else {
+                        setTimeout(tryShowingAd, intervalMs - timeSinceLastAd);
+                    }
+                }
+            }
+
+            // শুরুতে ৫ সেকেন্ড ডিলে
+            setTimeout(tryShowingAd, timeoutMs);
+        }
+
+        // অ্যাড প্রদর্শন ও বন্ধের ফাংশন
+        function displayAd() {
+            document.getElementById('interstitial-ad').style.display = 'flex';
+            tg.HapticFeedback.notificationOccurred('success'); // টেলিগ্রাম ভাইব্রেশন
+        }
+
+        function closeAd() {
+            document.getElementById('interstitial-ad').style.display = 'none';
+        }
+
+        // আপনার দেওয়া কনফিগারেশন অনুযায়ী কল করা হলো
+        show_10400777({
+          type: 'inApp',
+          inAppSettings: {
+            frequency: 2,
+            capping: 0.1,
+            interval: 30,
+            timeout: 5,
+            everyPage: false
+          }
+        });
+
     </script>
+
+<script src="https://pl28030600.effectivegatecpm.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
+
 </body>
 </html>
