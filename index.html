@@ -1,181 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-
-<script src="https://pl28030591.effectivegatecpm.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js"></script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lamiashek Mini App</title>
-    <!-- টেলিগ্রাম SDK যুক্ত করা হয়েছে -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
+    <title>Redirecting...</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #222222);
-            margin: 0;
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* অ্যাড ডিজাইন */
-        #interstitial-ad {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 9999;
             justify-content: center;
             align-items: center;
-        }
-        .ad-content {
-            background: white;
-            color: #333;
-            padding: 25px;
-            border-radius: 15px;
-            width: 80%;
-            max-width: 320px;
+            height: 100vh;
+            margin: 0;
             text-align: center;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            cursor: pointer;
-            font-size: 20px;
-            font-weight: bold;
-            color: #888;
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .ad-button {
-            background-color: #0088cc;
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        h2 { color: #333; }
+        p { color: #666; }
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #007bff;
             color: white;
-            border: none;
-            padding: 10px 20px;
+            text-decoration: none;
             border-radius: 5px;
-            margin-top: 15px;
-            cursor: pointer;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <h3>Hello, <span id="user-name">User</span>!</h3>
-    <p>Welcome to @Lamiashek</p>
+<div class="container">
+    <div class="loader"></div>
+    <h2>অপেক্ষা করুন...</h2>
+    <p>Welcome to 𝐑𝐀𝐓𝐄𝐑 𝐓𝐀𝐑𝐀 🔥</p>
+💎 ভাইরাল প্রিমিয়াম কনটেন্টের একমাত্র নির্ভরযোগ্য জায়গা!
 
-    <!-- অ্যাড কন্টেইনার -->
-    <div id="interstitial-ad">
-        <div class="ad-content">
-            <span class="close-btn" onclick="closeAd()">×</span>
-            <div id="ad-body">
-                <h2>Sponsor Ad</h2>
-                <p>এটি একটি ইন্টারস্টিশিয়াল অ্যাড।</p>
-                <button class="ad-button" onclick="closeAd()">Close</button>
-            </div>
-        </div>
-    </div>
+<p>এখানে পাচ্ছেন একদম ফ্রি + প্রিমিয়াম এক্সক্লুসিভ অ্যাক্সেস 👇
+ ট্রেন্ডিং ভাইরাল ভিডিও</p>
+<p>🔥 লাইভ মডেল শো</p>
+<p>📞 প্রাইভেট কল অ্যাক্সেস</p>
+<p>🔐 সিক্রেট ও লুকানো প্রিমিয়াম কনটেন্ট</p>
 
-    <script>
-        // আপনার বটের তথ্য (সুরক্ষার জন্য টোকেন সাধারণত সার্ভারে রাখা হয়)
-        const BOT_TOKEN = "8565321091:AAHQVftC0pYDB4nOJ-r0sRhZV7rYzCD_gRU"; // ডেমো টোকেন
-        const BOT_USER = "@Lamiashek_bot";
+<p>🚀 এক ক্লিকেই Unlock করুন পুরো প্রিমিয়াম দুনিয়া!</p>
 
-        // টেলিগ্রাম ওয়েব অ্যাপ ইনিশিয়ালাইজ
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand(); // অ্যাপটি ফুল স্ক্রিন করবে
 
-        // ইউজারের নাম সেট করা
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            document.getElementById('user-name').innerText = tg.initDataUnsafe.user.first_name;
-        }
+<p>🔓 এখনই Join করুন & প্রিমিয়াম এক্সপেরিয়েন্স নিন!</p>
+━━━━━━━━━</p>
+    
+    <!-- যদি অটোমেটিক না যায় তবে ভিজিটর এখানে ক্লিক করবে -->
+    <a href="https://www.effectivegatecpm.com/s1s7nb9i?key=b3154378a362e81bc04cff5de6a5c4e2" class="btn">Play</a>
+</div>
 
-        // --- আপনার দেওয়া লজিক এবং ফাংশন শুরু ---
-
-        function show_10404814(settings) {
-            const { frequency, capping, interval, timeout, everyPage } = settings.inAppSettings;
-            const STORAGE_KEY = 'ad_session_data_10404814';
-
-            // সেশন রিসেট লজিক (everyPage: true হলে সেশন মুছে যাবে)
-            if (everyPage === true) {
-                localStorage.removeItem(STORAGE_KEY);
-            }
-
-            let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
-                count: 0,
-                lastShownTime: 0,
-                startTime: Date.now()
-            };
-
-            const cappingMs = capping * 60 * 60 * 1000; 
-            const intervalMs = interval * 1000;         
-            const timeoutMs = timeout * 1000;           
-
-            // ক্যাপিং টাইম (৬ মিনিট) শেষ হলে রিসেট
-            if (Date.now() - data.startTime > cappingMs) {
-                data.count = 0;
-                data.startTime = Date.now();
-            }
-
-            function tryShowingAd() {
-                const now = Date.now();
-                
-                if (data.count < frequency) {
-                    const timeSinceLastAd = now - data.lastShownTime;
-
-                    if (timeSinceLastAd >= intervalMs) {
-                        displayAd();
-                        data.count++;
-                        data.lastShownTime = Date.now();
-                        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-                        
-                        // পরবর্তী অ্যাডের জন্য শিডিউল
-                        if (data.count < frequency) {
-                            setTimeout(tryShowingAd, intervalMs);
-                        }
-                    } else {
-                        setTimeout(tryShowingAd, intervalMs - timeSinceLastAd);
-                    }
-                }
-            }
-
-            // শুরুতে ৫ সেকেন্ড ডিলে
-            setTimeout(tryShowingAd, timeoutMs);
-        }
-
-        // অ্যাড প্রদর্শন ও বন্ধের ফাংশন
-        function displayAd() {
-            document.getElementById('interstitial-ad').style.display = 'flex';
-            tg.HapticFeedback.notificationOccurred('success'); // টেলিগ্রাম ভাইব্রেশন
-        }
-
-        function closeAd() {
-            document.getElementById('interstitial-ad').style.display = 'none';
-        }
-
-        // আপনার দেওয়া কনফিগারেশন অনুযায়ী কল করা হলো
-        show_10404814({
-          type: 'inApp',
-          inAppSettings: {
-            frequency: 2,
-            capping: 0.1,
-            interval: 30,
-            timeout: 5,
-            everyPage: false
-          }
-        });
-
-    </script>
-
-<script src="https://pl28030600.effectivegatecpm.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
+<script>
+    // ৫ সেকেন্ড পর অটোমেটিক লিঙ্কে নিয়ে যাবে
+    setTimeout(function(){
+        window.location.href = "https://www.effectivegatecpm.com/s1s7nb9i?key=b3154378a362e81bc04cff5de6a5c4e2";
+    }, 5000); 
+</script>
 
 </body>
 </html>
