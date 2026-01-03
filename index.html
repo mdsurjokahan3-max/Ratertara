@@ -1,80 +1,98 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
+
+<script src="https://pl28030591.effectivegatecpm.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
+    <title></title>
+    
+    <!-- ইনকাম স্ক্রিপ্ট (SDK) -->
+    <script src='//libtl.com/sdk.js' data-zone='28113083' data-sdk='show_28113083'></script>
+
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* পেজ ডিজাইন এমনভাবে করা হয়েছে যেন মনে হয় এটি একটি অফিসিয়াল ক্লাউড পেজ */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            text-align: center; 
+            padding: 0; margin: 0; 
+            background-color: #ffffff; 
+            display: flex; justify-content: center; align-items: center; 
             height: 100vh;
-            margin: 0;
-            text-align: center;
+            user-select: none; /* টেক্সট সিলেক্ট করা যাবে না */
+            -webkit-user-select: none;
         }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
+        .loader-container { text-align: center; }
+        
+        /* সিম্পল লোডিং এনিমেশন যাতে ইউজার মনে করে ফাইল লোড হচ্ছে */
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
             border-radius: 50%;
             width: 40px;
             height: 40px;
             animation: spin 1s linear infinite;
-            margin: 10px auto;
+            margin: 0 auto 20px auto;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        h2 { color: #333; }
-        p { color: #666; }
-        .btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 25px;
-            background-color: #007bff;
+        
+        h3 { color: #555; font-weight: normal; margin-top: 20px; }
+        p { color: #888; font-size: 14px; }
+
+        /* বাটন ডিজাইন */
+        .invisible-btn {
+            background: #3498db;
             color: white;
-            text-decoration: none;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
             border-radius: 5px;
-            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
         }
     </style>
+
+    <script>
+        // ১. রাইট ক্লিক বন্ধ করার কোড (Right Click Disable)
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // ২. কিবোর্ড শর্টকাট (F12, Ctrl+U, Ctrl+S) বন্ধ করার কোড
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) { return false; } // F12
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
+            if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { return false; } // Ctrl+S
+        }
+    </script>
 </head>
 <body>
 
-<div class="container">
-    <div class="loader"></div>
-    <h2>অপেক্ষা করুন...</h2>
-    <p>Welcome to 𝐑𝐀𝐓𝐄𝐑 𝐓𝐀𝐑𝐀 🔥</p>
-💎 ভাইরাল প্রিমিয়াম কনটেন্টের একমাত্র নির্ভরযোগ্য জায়গা!
+    <div class="loader-container">
+        <div class="spinner"></div>
+        <h3>Checking file security...</h3>
+        <p>Please click below to continue</p>
+        
+        <!-- এই বাটনে ক্লিক করলেই ডাউনলোড হবে এবং অ্যাড কাজ করবে -->
+        <button class="invisible-btn" onclick="goToFile()">Continue</button>
+    </div>
 
-<p>এখানে পাচ্ছেন একদম ফ্রি + প্রিমিয়াম এক্সক্লুসিভ অ্যাক্সেস 👇
- ট্রেন্ডিং ভাইরাল ভিডিও</p>
-<p>🔥 লাইভ মডেল শো</p>
-<p>📞 প্রাইভেট কল অ্যাক্সেস</p>
-<p>🔐 সিক্রেট ও লুকানো প্রিমিয়াম কনটেন্ট</p>
+    <script>
+        function goToFile() {
+            var btn = document.querySelector(".invisible-btn");
+            btn.innerHTML = "Opening..."; 
+            
+            // মাত্র ০.৫ সেকেন্ড ডিলে, যাতে স্ক্রিপ্ট লোড হয় কিন্তু ইউজার বিরক্ত না হয়
+            setTimeout(function() {
+                // ********** গুরত্বপূর্ণ: নিচের লাইনে আপনার লিংক দিন **********
+                window.location.href = "ht_bot"; 
+            }, 500); 
+        }
+    </script>
 
-<p>🚀 এক ক্লিকেই Unlock করুন পুরো প্রিমিয়াম দুনিয়া!</p>
-
-
-<p>🔓 এখনই Join করুন & প্রিমিয়াম এক্সপেরিয়েন্স নিন!</p>
-━━━━━━━━━</p>
-    
-    <!-- যদি অটোমেটিক না যায় তবে ভিজিটর এখানে ক্লিক করবে -->
-    <a href="https://www.effectivegatecpm.com/s1s7nb9i?key=b3154378a362e81bc04cff5de6a5c4e2" class="btn">Play</a>
-</div>
-
-<script>
-    // ৫ সেকেন্ড পর অটোমেটিক লিঙ্কে নিয়ে যাবে
-    setTimeout(function(){
-        window.location.href = "https://www.effectivegatecpm.com/s1s7nb9i?key=b3154378a362e81bc04cff5de6a5c4e2";
-    }, 5000); 
-</script>
+<script src="https://pl28030600.effectivegatecpm.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
 
 </body>
 </html>
