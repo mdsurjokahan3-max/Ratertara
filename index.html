@@ -1,23 +1,304 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
+
+<script src="https://pl28030591.effectivecpmnetwork.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js"></script>
+
+
+<!-- AdMob Script -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>রিডাইরেক্ট হচ্ছে...</title>
+    <title>Ratertara Platform</title>
+    <!-- PWA Manifest Link (অ্যাপ ইনস্টল হওয়ার জন্য) -->
+    <link rel="manifest" href="manifest.json">
+    <!-- আইকন লাইব্রেরি -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bd-primary: #006a4e;
+            --exp-primary: #0a58ca;
+            --text-dark: #1a1a1a;
+            --bg-light: #f4f7f6;
+        }
 
-    <!-- ১. মেটা রিফ্রেশ পদ্ধতি (ব্রাউজার অটোমেটিক কাজ করবে) -->
-    <meta http-equiv="refresh" content="0;url=https://ratertara.page.gd">
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ddd; display: flex; justify-content: center; }
 
-    <script type="text/javascript">
-        // ২. জাভাস্ক্রিপ্ট পদ্ধতি (খুব দ্রুত কাজ করার জন্য)
-        window.location.href = "https://ratertara.page.gd";
-    </script>
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            background: #fff;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+            overflow-x: hidden;
+        }
+
+        /* পেজ ট্রানজিশন */
+        .page { display: none; animation: fadeIn 0.4s ease; }
+        .active-page { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- ১. হোম পেজ হেডার ও ডিজাইন --- */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; background: #fff; }
+        .header i { font-size: 20px; cursor: pointer; }
+        .header h2 { font-size: 18px; color: #0d5c4b; text-transform: uppercase; letter-spacing: 1px; }
+        .header img { width: 35px; height: 35px; border-radius: 50%; border: 1px solid #ddd; }
+
+        .profile-hero { text-align: center; padding: 30px 0; }
+        .p-ring { width: 140px; height: 140px; border-radius: 50%; border: 4px solid #3498db; margin: 0 auto 15px; overflow: hidden; }
+        .p-ring img { width: 100%; height: 100%; object-fit: cover; }
+
+        .btn-main-row { display: flex; gap: 10px; padding: 0 20px; margin-bottom: 20px; }
+        .btn-loc { flex: 1; padding: 14px; border: none; border-radius: 8px; color: #fff; font-weight: bold; cursor: pointer; font-size: 14px; }
+
+        .scrolling-banner { background: red; color: white; padding: 10px; margin: 10px 20px; border-radius: 5px; overflow: hidden; white-space: nowrap; font-size: 13px; font-weight: bold; }
+        .scroll-text { display: inline-block; animation: marquee 15s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* --- ২. গাইড পেজ ডিজাইন --- */
+        .guide-hero { position: relative; padding: 30px 20px; color: #fff; overflow: hidden; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
+        .guide-hero.blue { background: linear-gradient(135deg, #0a3d82 0%, #1a58ca 100%); }
+        .guide-hero.green { background: linear-gradient(135deg, #004d39 0%, #006a4e 100%); }
+
+        .hero-tag { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 50px; font-size: 12px; display: inline-block; margin-bottom: 10px; }
+        .guide-hero h1 { font-size: 24px; margin-bottom: 10px; line-height: 1.3; }
+        .guide-hero p { font-size: 13px; opacity: 0.9; max-width: 70%; }
+        .globe-bg { position: absolute; right: -40px; top: 10px; font-size: 180px; opacity: 0.2; }
+
+        .steps-title { text-align: center; margin: 25px 0; font-size: 18px; color: #333; position: relative; }
+        .steps-title::after { content: ''; display: block; width: 100px; height: 2px; background: #ddd; margin: 8px auto; }
+
+        .steps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 15px; }
+        .step-card { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 15px; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+        .s-num { position: absolute; top: -10px; left: 10px; background: #1a58ca; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; }
+        .bd-theme .s-num { background: #006a4e; }
+        .s-icon { font-size: 30px; color: #1a58ca; margin: 10px 0; text-align: center; display: block; }
+        .bd-theme .s-icon { color: #006a4e; }
+        .step-card h4 { font-size: 13px; margin-bottom: 5px; color: #333; }
+        .step-card p { font-size: 11px; color: #777; line-height: 1.4; }
+
+        .advice-box { background: #eef4ff; margin: 25px 15px; padding: 15px; border-radius: 10px; display: flex; gap: 15px; border: 1px solid #d0e0ff; }
+        .advice-box i { font-size: 24px; color: #1a58ca; margin-top: 5px; }
+        .advice-box h5 { color: #1a58ca; margin-bottom: 3px; font-size: 14px; }
+        .advice-box p { font-size: 11px; color: #555; }
+
+        .final-cta { background: #073b7d; margin: 0 15px 30px; border-radius: 15px; padding: 25px; color: white; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; }
+        .final-cta.green-dark { background: #004d39; }
+        .cta-text h3 { font-size: 17px; margin-bottom: 8px; }
+        .cta-text p { font-size: 11px; opacity: 0.8; margin-bottom: 15px; }
+        .cta-btn-box { background: #007bff; color: white; padding: 12px 18px; border-radius: 8px; font-weight: bold; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+        .bd-theme .cta-btn-box { background: #006a4e; }
+
+        /* --- ৩. লোডিং ও সাকসেস স্টাইল --- */
+        .loading-page { text-align: center; padding: 80px 20px; }
+        .earth-spin { font-size: 80px; color: #3498db; animation: spin 4s infinite linear; margin-bottom: 30px; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .p-bar { width: 80%; height: 8px; background: #eee; border-radius: 10px; margin: 20px auto; overflow: hidden; }
+        .p-fill { width: 43%; height: 100%; background: #3498db; }
+
+        /* ফুটবার */
+        .footer { padding: 30px 0; text-align: center; background: #fdfdfd; border-top: 1px solid #eee; }
+        .f-links { display: flex; justify-content: center; gap: 15px; font-size: 11px; color: #777; margin-bottom: 10px; }
+        .copyright { font-size: 10px; color: #999; }
+
+        /* টেলিগ্রাম বাটন */
+        .tg-float { position: fixed; bottom: 25px; right: 20px; width: 40px; height: 40px; background: #24A1DE; border-radius: 50%; display: none; align-items: center; justify-content: center; color: white; font-size: 28px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); animation: shake 2s infinite; z-index: 1000; }
+        @keyframes shake { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+        /* --- সাইড মেনু ড্রয়ার ডিজাইন --- */
+        .side-menu { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: #fff; z-index: 2000; transition: 0.4s; box-shadow: 5px 0 15px rgba(0,0,0,0.1); }
+        .side-menu.open { left: 0; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1999; display: none; }
+        
+        .menu-header { text-align: center; padding: 30px 20px; border-bottom: 1px solid #eee; }
+        .menu-profile-img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #3498db; object-fit: cover; margin-bottom: 10px; }
+        .menu-title { font-size: 18px; font-weight: bold; color: #333; }
+        
+        .menu-list { padding: 15px 0; }
+        .menu-item { display: flex; align-items: center; gap: 15px; padding: 15px 25px; color: #333; text-decoration: none; font-size: 15px; transition: 0.3s; cursor: pointer; border-bottom: 1px solid #f9f9f9; }
+        .menu-item i { width: 25px; font-size: 18px; color: #006a4e; }
+        .menu-item:hover { background: #f4f7f6; }
+
+        /* ভিডিও অপশনের জন্য লিংক স্টাইল */
+        .video-box-link {
+            text-decoration: none;
+            background: black;
+            height: 140px;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            align-items: flex-end;
+            padding: 10px;
+            font-size: 11px;
+            background-size: cover;
+            background-position: center;
+            transition: 0.3s;
+        }
+        .video-box-link:hover {
+            transform: scale(1.02);
+        }
+    </style>
 </head>
 <body>
-    <div style="text-align: center; margin-top: 50px; font-family: Arial, sans-serif;">
-        <p>আপনাকে টেলিগ্রাম চ্যানেলে নিয়ে যাওয়া হচ্ছে...</p>
-        <!-- ৩. যদি অটোমেটিক না যায়, তাহলে ইউজার এই লিংকে ক্লিক করতে পারবে -->
-        <p>যদি অটোমেটিক না যায়, তবে <a href="https://ratertara.page.gd" style="color: blue; text-decoration: underline;">এখানে ক্লিক করুন</a>।</p>
+<script src="https://pl29159088.profitablecpmratenetwork.com/d1/dd/dd/d1dddd464da54c7d01ddea79799ee8f2.js"></script>
+
+
+<div class="app-container">
+
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="side-menu" id="menu">
+        <div class="menu-header">
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEg9Nln7ttbYNhD3gSvf4nuIzN7KucqPUxvbuwc3V0xpogfhrt2ezNhMycC-Wb4OVZgDIuEGiFIH6-lE-Ep8ocGaP28CUBJqU-T8lAVsT5bQxIVgzcy9Xe33dyFIBpXL4aSyAEwRIJ9qY_27eMq0iP4Ro9_JUD7tXYdCYyw_eSEDyQ2XDMH--IA0MvBIezZI=s500" class="menu-profile-img">
+        
+            <div class="menu-title">Ratertara Platform</div>
+        </div>
+        <div class="menu-list">
+            <div class="menu-item" onclick="showPage('home-page'); toggleMenu();"><i class="fa fa-home"></i> হোম পেজ</div>
+            <div class="menu-item" onclick="showPage('bd-page'); toggleMenu();"><i class="fa fa-flag"></i> বাংলাদেশ গাইড</div>
+            <div class="menu-item" onclick="showPage('exp-page'); toggleMenu();"><i class="fa fa-plane"></i> প্রবাসী গাইড</div>
+            <a href="https://mcw85229381aff.com/af/z9zVqoC1/join" class="menu-item" target="_blank"><i class="fab fa-dice"></i> Casino</a>
+        </div>
     </div>
+
+    <div id="home-page" class="page active-page">
+        <div class="header">
+            <i class="fa fa-bars" onclick="toggleMenu()"></i>
+            <h2>RATERTARA PLATFORM</h2>
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEg9Nln7ttbYNhD3gSvf4nuIzN7KucqPUxvbuwc3V0xpogfhrt2ezNhMycC-Wb4OVZgDIuEGiFIH6-lE-Ep8ocGaP28CUBJqU-T8lAVsT5bQxIVgzcy9Xe33dyFIBpXL4aSyAEwRIJ9qY_27eMq0iP4Ro9_JUD7tXYdCYyw_eSEDyQ2XDMH--IA0MvBIezZI=s500">
+        </div>
+        <div class="profile-hero">
+            <div class="p-ring"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEgqP3Qk2pJVwtpq4_j7Drf2Bts3tgQoO_GxvFHEm2AOaP6FH4WOsVUqHumxHtGo0w1xpIbrox5iwkEnH2QsjFDC6trFh_sG1ZzSQ3osB7wa5zeJCGKXPPCpjicR43fZ3Pa1k9aWtOAYHGMl1pvfxtCheB4qHMwtqI4OD5n-9g5I2XXdF0SxuDcOS0TWrms=s1280"></div>
+            <p style="color: #666; font-size: 15px;">আপনার অবস্থান নির্বাচন করুন</p>
+        </div>
+        <div class="btn-main-row">
+            <button class="btn-loc" style="background:#006a4e;" onclick="showPage('bd-page')">Bangladesh 🇧🇩</button>
+            <button class="btn-loc" style="background:#0a58ca;" onclick="showPage('exp-page')">Expatriates 🌏</button>
+        </div>
+        <div class="scrolling-banner"><div class="scroll-text">🔥 ভাইরাল প্রিমিয়াম কনটেন্টের একমাত্র নির্ভরযোগ্য জায়গা! এখনই এক্সেস করুন...</div></div>
+        <div style="padding: 15px; font-weight: bold; font-size: 14px; border-top: 1px solid #eee;">📁 সেরা ভিডিওগুলো দেখুন</div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 15px 20px;">
+            <a href="https://omg10.com/4/10961818" class="video-box-link" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEioVtXVeFi3wKrsbMlZVWfUtEJdRi0GtEBMMgwEP02PLJnTHAG7Xfiu5_hK79xFLxmmUm4KstSSOm2ARkMIHf9dsTBUVU-F5mU4uS-bq95TUPyz3WbjrF9Gx0bp6qKeYnlW_QCRPqzihlzgRE2370QPzqRi0jWpgUzAldMOLbmeAvyBKE-rtnqyqEXgE70=s1280');">ভিডিও ১ দেখুন</a>
+            <a href="https://omg10.com/4/10961818" class="video-box-link" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEgnTJR-0d4AAKw8_EsbavPhZcLRvtfhcHHxIRPee3aNu1IUGVmtCl5BNS1gi7AQ2TA_28LC2vw0VYaPKlc_8wyFf--IK7Bz7Y0Q_BTC2udmMxbHIIWdyZEl54w4rHyYTIqWyVmmhUzGGLYpb9gnz3IMddbeoTT3YTizdp0MCy0pN1cJd_iL3HWguUZtgRU=s1280');">ভিডিও ২ দেখুন</a>
+            <a href="https://omg10.com/4/10961818" class="video-box-link" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEjX4rQmz7O-L5RUAkQAHV89SGIm343NewnT7oEdllhNlac2OYdq-nJz6Xtf6ca3PbAx6UxDgiI3AoJqO7Vq2f90_ZIK1ZtrFrUbOWl-6Fh-zlXB2SECLz9PIi5cZ-uI6RcatkIGYnFbavwXcrJmrX7aub5AGOHF-mBWi0PhR8psJzJYK26RYp8_IcLfO_E=s1280');">ভিডিও ৩ দেখুন</a>
+            <a href="https://omg10.com/4/10961818" class="video-box-link" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEiKUpqbYJG42bX0bGIJc1VUdyaOGZIz8SAoNHF7YKddIxbAoyYjIwsD6VDmNjO5rHe7VYQQrqaE4GBGeBVMRsTehX-WX8XHwVMVToF4177bJiMGwViboKKd38DHIj1K_O4_vmF8NzWwotwfvpEg1VHYpiHIOWX5dnsQ1een4tBxJL66PCzcBKmRpmeJZQQ=s1280');">ভিডিও ৪ দেখুন</a>
+   
+   
+        
+        </div>
+        
+     
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>  
+      
+    </div>
+
+    <!-- গাইড পেজগুলো (অপরিবর্তিত) -->
+    <div id="exp-page" class="page">
+        <div class="header"><i class="fa fa-arrow-left" onclick="showPage('home-page')"></i><h2>RATERTARA PLATFORM</h2><div style="display: flex; gap: 10px; align-items: center; font-size: 12px; border: 1px solid #ddd; padding: 4px 10px; border-radius: 50px;">🌏 প্রবাসী <img src="https://flagcdn.com/w20/un.png" width="16"></div></div>
+        <div class="guide-hero blue"><span class="hero-tag">🌏 EXPATRIATES</span><h1>প্রবাসীদের জন্য নির্দেশিকা</h1><p>বিদেশে অবস্থানরত প্রবাসী ভাইদের জন্য উত্তম ভিডিও এক্সেসের উপায়।</p><i class="fa fa-globe globe-bg"></i></div>
+        <div class="steps-title">সহজে ভিডিও দেখার ধাপসমূহ</div>
+        <div class="steps-grid"><div class="step-card"><span class="s-num">01</span><i class="fa fa-shield s-icon"></i><h4>VPN ব্যবহার</h4><p>প্রয়োজন নেই।</p></div><div class="step-card"><span class="s-num">02</span><i class="fa fa-location-dot s-icon"></i><h4>সার্ভার</h4><p>যুক্ত হোন সরাসরি।</p></div><div class="step-card"><span class="s-num">03</span><i class="fa fa-link s-icon"></i><h4>লিংক</h4><p>প্রবেশ করুন।</p></div><div class="step-card"><span class="s-num">04</span><i class="fa fa-play s-icon"></i><h4>দেখুন</h4><p>ভিডিও উপভোগ করুন।</p></div></div>
+        <button onclick="startLoading('exp')" class="cta-btn-box" style="margin:20px; border:none; width:90%; background:#0a58ca; color:white; padding:15px; border-radius:8px; font-weight:bold;">ওয়েবসাইটে প্রবেশ করুন <i class="fa fa-chevron-right"></i></button>
+    </div>
+
+    <div id="bd-page" class="page bd-theme">
+        <div class="header"><i class="fa fa-arrow-left" onclick="showPage('home-page')"></i><h2>RATERTARA PLATFORM</h2><div style="display: flex; gap: 10px; align-items: center; font-size: 12px; border: 1px solid #ddd; padding: 4px 10px; border-radius: 50px;">🇧🇩 বাংলাদেশ <img src="https://flagcdn.com/w20/bd.png" width="16"></div></div>
+        <div class="guide-hero green"><span class="hero-tag">🇧🇩 BANGLADESH</span><h1>বাংলাদেশীদের জন্য গাইড</h1><p>VPN সংযোগ অনিবার্য।</p><i class="fa fa-flag globe-bg"></i></div>
+        <div class="steps-title">ভিডিও দেখার ধাপসমূহ</div>
+        <div class="steps-grid"><div class="step-card"><span class="s-num">01</span><i class="fa fa-shield s-icon"></i><h4>ভিপিএন</h4><p>কানেক্ট করুন।</p></div><div class="step-card"><span class="s-num">02</span><i class="fa fa-location-dot s-icon"></i><h4>সার্ভার</h4><p>USA/UK দিন।</p></div><div class="step-card"><span class="s-num">03</span><i class="fa fa-rotate s-icon"></i><h4>রিলোড</h4><p>পেজটি রিলোড দিন।</p></div><div class="step-card"><span class="s-num">04</span><i class="fa fa-play s-icon"></i><h4>দেখুন</h4><p>ভিডিও উপভোগ করুন।</p></div></div>
+        <button onclick="startLoading('bd')" class="cta-btn-box" style="margin:20px; border:none; width:90%; background:#006a4e; color:white; padding:15px; border-radius:8px; font-weight:bold;">ওয়েবসাইটে প্রবেশ করুন <i class="fa fa-chevron-right"></i></button>
+    </div>
+
+    <div id="loading-page" class="page loading-page"><i class="fa fa-earth-americas earth-spin"></i><h2>ওয়েবসাইটে নিয়ে যাওয়া হচ্ছে...</h2><div class="p-bar"><div class="p-fill"></div></div><p style="font-size: 13px; color: #888;">দয়া করে অপেক্ষা করুন (৪৩%)</p></div>
+
+    <div id="success-page" class="page" style="text-align: center; padding: 60px 20px;">
+        <div style="width: 100px; height: 100px; border-radius: 50%; border: 5px solid #2ecc71; color:#2ecc71; font-size: 50px; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px;"><i class="fa fa-check"></i></div>
+        <h2>আপনি সফলভাবে সংযুক্ত হয়েছেন!</h2>
+        <p style="color: #888; margin-bottom: 40px;">এখন ভিডিও উপভোগ করতে পারেন।</p>
+        <button onclick="openWebsite()" class="btn-loc" style="background:#006a4e; width: 100%; border: none; font-size: 18px;">এখন ভিডিও দেখুন <i class="fa fa-play-circle"></i></button>
+        <button onclick="showPage('home-page')" style="background:none; border: 1px solid #ccc; width: 100%; padding: 12px; border-radius: 8px; margin-top: 15px; cursor: pointer;">হোম পেজে ফিরুন</button>
+    </div>
+
+    <div class="footer"><div class="f-links"><span>গোপনীয়তা নীতি</span> | <span>শর্তাবলী</span> | <span>যোগাযোগ</span></div><p class="copyright">© 2025 Ratertara Platform.All Rights Reserved.</p></div>
+
+    <a href="https://t.me/+JFZS8yG0GpA4OTI1" id="tg-btn" class="tg-float" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+
+</div>
+
+<!-- Firebase SDK Scripts (Compat Mode) -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics-compat.js"></script>
+
+
+<script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyChIYQQGwt5fURSgzmdMOXOUgXa2SAlmCs",
+      authDomain: "ratertara-rfgd.firebaseapp.com",
+      databaseURL: "https://ratertara-rfgd-default-rtdb.firebaseio.com",
+      projectId: "ratertara-rfgd",
+      storageBucket: "ratertara-rfgd.firebasestorage.app",
+      messagingSenderId: "624181865811",
+      appId: "1:624181865811:web:eef96569911c25828505a6",
+      measurementId: "G-CCKWSSV54P"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    // Side Menu Logic
+    function toggleMenu() {
+        const menu = document.getElementById('menu');
+        const overlay = document.getElementById('overlay');
+        menu.classList.toggle('open');
+        overlay.style.display = menu.classList.contains('open') ? 'block' : 'none';
+    }
+
+    // Page Navigation
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+        document.getElementById(pageId).classList.add('active-page');
+        
+        const tgBtn = document.getElementById('tg-btn');
+        if (pageId === 'home-page' || pageId === 'loading-page') tgBtn.style.display = 'none';
+        else tgBtn.style.display = 'flex';
+        
+        window.scrollTo(0, 0);
+    }
+
+    // Process Start
+    function startLoading(type) {
+        showPage('loading-page');
+        setTimeout(() => { showPage('success-page'); }, 3000);
+    }
+
+    // Final Website Open
+    function openWebsite() {
+        const url = "https://ratertara.rf.gd";
+        window.open(url, '_blank', 'width=1280,height=720,resizable=yes,scrollbars=yes');
+    }
+
+    // Register Service Worker for PWA (Install Button)
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js').then(reg => {
+                console.log('Firebase PWA Service Worker Registered!');
+            }).catch(err => console.log('SW Registration Failed', err));
+        });
+    }
+</script>
+
+<script src="https://pl29159088.profitablecpmratenetwork.com/d1/dd/dd/d1dddd464da54c7d01ddea79799ee8f2.js"></script>
+
 </body>
 </html>
