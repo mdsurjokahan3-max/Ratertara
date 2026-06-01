@@ -52,6 +52,7 @@
             border-radius: 10px; z-index: 2000; overflow: hidden;
         }
         
+        /* মেনুর ভেতর প্রোফাইল সেকশন */
         .menu-profile {
             display: none; padding: 15px; background: #f8f9fa;
             border-bottom: 1px solid #eee; align-items: center; gap: 10px;
@@ -69,10 +70,12 @@
         .dropdown-menu i { color: var(--primary); width: 20px; text-align: center; }
         .show { display: block; }
 
+        /* পেজ ট্রানজিশন */
         .page { display: none; padding: 20px; animation: fadeIn 0.4s ease; }
         .active-page { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+        /* হোম পেজ প্রোফাইল */
         .profile-hero { text-align: center; padding: 25px 0; }
         .p-ring { width: 140px; height: 140px; border-radius: 50%; border: 4px solid #3498db; margin: 0 auto 15px; overflow: hidden; background: #eee; }
         .p-ring img { width: 100%; height: 100%; object-fit: cover; }
@@ -82,6 +85,7 @@
         .btn-row { display: flex; gap: 10px; margin-bottom: 20px; }
         .loc-btn { flex: 1; padding: 15px; border: none; border-radius: 8px; color: #fff; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
+        /* ব্যালেন্স ও অন্যান্য */
         .balance-card { background: linear-gradient(135deg, #006a4e, #0a58ca); padding: 30px 20px; border-radius: 15px; color: #fff; position: relative; }
         .card-balance { font-size: 32px; font-weight: bold; margin-bottom: 15px; }
         .card-id { font-size: 12px; opacity: 0.9; }
@@ -92,14 +96,17 @@
         .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
         .action-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; background: var(--primary); color: #fff; font-weight: bold; cursor: pointer; }
 
+        /* মেম্বার লিস্ট */
         .member-item { display: flex; align-items: center; gap: 15px; padding: 12px; border-bottom: 1px solid #eee; background: #fff; }
         .member-photo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #eee; }
         .member-info h4 { font-size: 14px; color: #333; }
         .member-info p { font-size: 11px; color: #27ae60; font-weight: bold; }
 
+        /* ক্যাসিনো */
         .casino-card { background: #1a1a1a; color: #fff; padding: 25px; border-radius: 15px; text-align: center; }
         .casino-link { display: inline-block; margin-top: 15px; padding: 12px 25px; background: var(--gold); color: #000; font-weight: bold; text-decoration: none; border-radius: 8px; }
 
+        /* মোডাল */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; }
         .modal-content { background: #fff; width: 90%; max-width: 380px; padding: 25px; border-radius: 20px; text-align: center; }
         .file-input { margin: 15px 0; font-size: 12px; }
@@ -108,11 +115,6 @@
     </style>
 </head>
 <body>
-
-<!-- Firebase SDK Scripts -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics-compat.js"></script>
 
 <script src="https://pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
 
@@ -124,6 +126,7 @@
         <div class="menu-container">
             <i class="fa fa-ellipsis-v three-dots" onclick="toggleMenu()"></i>
             <div id="dropdown" class="dropdown-menu">
+                <!-- প্রোফাইল সেকশন (মেনুর ভেতরে) -->
                 <div id="menuProfileBox" class="menu-profile">
                     <img id="menuUserImg" src="">
                     <div>
@@ -153,15 +156,12 @@
             এটি একটি ভেরিফাইড ইউজার সার্ভিস প্ল্যাটফর্ম। আমাদের সার্ভিসগুলো উপভোগ করতে যে সকল প্রবাসী অনলাইনে প্রেম করতে ইচ্ছুক তারাই শুধু মাত্র এই এই প্ল্যাটফর্মে বিনা মূল্যে মেয়েটির মেয়েটির সকল তথ্য প্রদান করা হয় এবং সরাসরি কল ব্যবস্থা রয়েছে।
         </div>
         <div class="btn-row">
-            <!-- Bangladesh বাটন Bangladesh.html এ যাবে -->
-            <button class="loc-btn" style="background:#006a4e;" onclick="handleRedirect('Bangladesh.html')">Bangladesh 🇧🇩</button>
-            <!-- Expatriates বাটন Expatriate.html এ যাবে -->
-            <button class="loc-btn" style="background:#0a58ca;" onclick="handleRedirect('Expatriate.html')">Expatriates 🌏</button>
+            <button class="loc-btn" style="background:#006a4e;" onclick="handleRedirect('https://admin-panel-neon-chi.vercel.app')">Bangladesh 🇧🇩</button>
+            <button class="loc-btn" style="background:#0a58ca;" onclick="handleRedirect('https://rater-tara-bot-4jva.vercel.app')">Expatriates 🌏</button>
         </div>
         <div class="footer">© 2025 Ratertara Platform. All Rights Reserved.</div>
     </div>
 
-    <!-- বাকি পেজসমূহ আগের মতোই থাকবে -->
     <div id="balance-page" class="page">
         <h3>আমার ওয়ালেট</h3><br>
         <div class="balance-card">
@@ -209,21 +209,6 @@
 </div>
 
 <script>
-    // --- Firebase Configuration ---
-    const firebaseConfig = {
-      apiKey: "AIzaSyChIYQQGwt5fURSgzmdMOXOUgXa2SAlmCs",
-      authDomain: "ratertara-rfgd.firebaseapp.com",
-      databaseURL: "https://ratertara-rfgd-default-rtdb.firebaseio.com",
-      projectId: "ratertara-rfgd",
-      storageBucket: "ratertara-rfgd.firebasestorage.app",
-      messagingSenderId: "624181865811",
-      appId: "1:624181865811:web:eef96569911c25828505a6",
-      measurementId: "G-CCKWSSV54P"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-
     let balance = 0;
     let isVerified = false;
     let userUniqueId = "";
@@ -242,15 +227,10 @@
         window.scrollTo(0, 0);
     }
 
-    // বাটন ক্লিক হ্যান্ডলার
     function handleRedirect(url) {
         targetUrl = url;
-        if (!isVerified) { 
-            document.getElementById('verifyModal').style.display = 'flex'; 
-        } 
-        else { 
-            window.location.href = url; // সরাসরি একই ট্যাবে ফাইলটি ওপেন হবে
-        }
+        if (!isVerified) { document.getElementById('verifyModal').style.display = 'flex'; } 
+        else { window.open(url, '_blank'); }
     }
 
     function submitVerify() {
@@ -264,41 +244,29 @@
             isVerified = true;
             userUniqueId = "RT-" + Math.floor(100000 + Math.random() * 900000);
 
-            database.ref('members').push({
-                name: name,
-                id: userUniqueId,
-                photo: userImgData,
-                timestamp: Date.now()
-            });
+            // মেনুর ভেতর প্রোফাইল সেট করা
+            document.getElementById('menuProfileBox').style.display = 'flex';
+            document.getElementById('menuUserImg').src = userImgData;
+            document.getElementById('menuUserName').innerText = name;
+            document.getElementById('menuUserId').innerText = "Verified: " + userUniqueId;
 
-            updateLocalProfile(name, userUniqueId, userImgData);
+            // অন্যান্য আপডেট
+            document.getElementById('mainAvatar').src = userImgData;
+            document.getElementById('displayId').innerText = userUniqueId;
             document.getElementById('verifyModal').style.display = 'none';
+
+            // মেম্বার লিস্টে অ্যাড
+            const container = document.getElementById('memberContainer');
+            const item = document.createElement('div');
+            item.className = 'member-item';
+            item.innerHTML = `<img src="${userImgData}" class="member-photo"><div class="member-info"><h4>${name}</h4><p>ID: ${userUniqueId}</p></div>`;
+            container.prepend(item);
+
             alert("ভেরিফিকেশন সফল!");
-            if (targetUrl) window.location.href = targetUrl;
+            if (targetUrl) window.open(targetUrl, '_blank');
         };
         reader.readAsDataURL(photoFile);
     }
-
-    function updateLocalProfile(name, id, photo) {
-        document.getElementById('menuProfileBox').style.display = 'flex';
-        document.getElementById('menuUserImg').src = photo;
-        document.getElementById('menuUserName').innerText = name;
-        document.getElementById('menuUserId').innerText = "Verified: " + id;
-        document.getElementById('mainAvatar').src = photo;
-        document.getElementById('displayId').innerText = id;
-    }
-
-    database.ref('members').on('value', (snapshot) => {
-        const container = document.getElementById('memberContainer');
-        container.innerHTML = "";
-        snapshot.forEach((childSnapshot) => {
-            const data = childSnapshot.val();
-            const item = document.createElement('div');
-            item.className = 'member-item';
-            item.innerHTML = `<img src="${data.photo}" class="member-photo"><div class="member-info"><h4>${data.name}</h4><p>ID: ${data.id}</p></div>`;
-            container.prepend(item);
-        });
-    });
 
     function processPayment() {
         const amt = parseFloat(document.getElementById('tAmount').value);
