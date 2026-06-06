@@ -130,7 +130,7 @@
 
             <input type="tel" id="u-phone" placeholder="আপনার মোবাইল নম্বর">
             
-            <button class="btn-pub" id="submitBtn" onclick="submitToTelegram()">বিজ্ঞাপন প্রকাশ করুন</button>
+            <button class="btn-pub" id="submitBtn" onclick="submitAdDirectly()">বিজ্ঞাপন প্রকাশ করুন</button>
             <button class="btn-cancel" onclick="toggleModal(false)">বন্ধ করুন</button>
         </div>
     </div>
@@ -158,8 +158,8 @@
 
 <script>
     // --- টেলিগ্রাম কনফিগারেশন ---
-    const TELEGRAM_BOT_TOKEN = '8279372040:AAGKfFsmnkI5ihQE-T2v6hU47dEoZ892_nA'; // এখানে বোট টোকেন দিন
-    const TELEGRAM_CHAT_ID = '-1002967304716';     // এখানে চ্যাট আইডি দিন
+    const TELEGRAM_BOT_TOKEN = '8279372040:AAGKfFsmnkI5ihQE-T2v6hU47dEoZ892_nA'; 
+    const TELEGRAM_CHAT_ID = '-1002967304716';     
 
     // --- ফায়ারবেস কনফিগারেশন ---
     const firebaseConfig = {
@@ -169,7 +169,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    let allProfiles = []; // ডাটা স্টোর করার জন্য
+    let allProfiles = []; 
 
     function toggleMenu() {
         const menu = document.getElementById('menu');
@@ -211,7 +211,6 @@
         });
     }
 
-    // সার্চ ফিল্টারিং ফাংশন
     function filterProfiles() {
         const query = document.getElementById('search-input').value.toLowerCase();
         const filteredData = allProfiles.filter(p => 
@@ -221,7 +220,8 @@
         renderProfiles(filteredData);
     }
 
-    async function submitToTelegram() {
+    // সরাসরি অ্যাপে (Firebase) ডাটা সেভ করার ফাংশন
+    async function submitAdDirectly() {
         const name = document.getElementById('u-name').value;
         const age = document.getElementById('u-age').value;
         const dist = document.getElementById('u-dist').value;
@@ -230,29 +230,55 @@
         const fileInput = document.getElementById('u-file');
 
         if (!name || !age || !phone || !fileInput.files[0]) {
-            alert("সব তথ্য দিন!");
+            alert("সব তথ্য এবং ছবি দিন!");
             return;
         }
 
         const btn = document.getElementById('submitBtn');
-        btn.innerText = "পাঠানো হচ্ছে...";
+        btn.innerText = "আপলোড হচ্ছে...";
         btn.disabled = true;
 
-        const formData = new FormData();
-        formData.append('chat_id', TELEGRAM_CHAT_ID);
-        formData.append('photo', fileInput.files[0]);
-        formData.append('caption', `🔔 নতুন বিজ্ঞাপন!\n\nনাম: ${name}\nবয়স: ${age}\nজেলা: ${dist}\nবর্ণনা: ${bio}\nকল: ${phone}`);
+        const file = fileInput.files[0];
+        const reader = new FileReader();
 
-        try {
-            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, { method: 'POST', body: formData });
-            alert("বিজ্ঞাপন টেলিগ্রামে পাঠানো হয়েছে। এডমিন চেক করে পাবলিশ করবেন।");
-            toggleModal(false);
-        } catch (e) {
-            alert("ত্রুটি হয়েছে!");
-        } finally {
-            btn.innerText = "বিজ্ঞাপন প্রকাশ করুন";
-            btn.disabled = false;
-        }
+        reader.onloadend = async function () {
+            const base64Image = reader.result; // ছবিটিকে টেক্সট ফরম্যাটে নেওয়া হলো
+
+            const newPost = {
+                name: name,
+                age: age,
+                dist: dist,
+                bio: bio,
+                call: phone,
+                img: base64Image
+            };
+
+            try {
+                // সরাসরি ফায়ারবেস ডেটাবেসে পুশ করা হলো
+                await db.ref('profiles').push(newPost);
+                
+                // আপনার এডমিন নোটিফিকেশনের জন্য টেলিগ্রামেও পাঠানো হচ্ছে (ঐচ্ছিক)
+                const formData = new FormData();
+                formData.append('chat_id', TELEGRAM_CHAT_ID);
+                formData.append('photo', file);
+                formData.append('caption', `🔔 নতুন বিজ্ঞাপন (সরাসরি অ্যাপে যুক্ত হয়েছে)!\n\nনাম: ${name}\nবয়স: ${age}\nজেলা: ${dist}\nকল: ${phone}`);
+                fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, { method: 'POST', body: formData });
+
+                alert("আপনার বিজ্ঞাপনটি সফলভাবে প্রকাশ করা হয়েছে!");
+                toggleModal(false);
+                // ইনপুট ক্লিয়ার করা
+                document.querySelectorAll('.modal-content input, textarea').forEach(i => i.value = '');
+                document.getElementById('file-name-display').innerText = "";
+                
+            } catch (error) {
+                alert("ত্রুটি হয়েছে! আবার চেষ্টা করুন।");
+            } finally {
+                btn.innerText = "বিজ্ঞাপন প্রকাশ করুন";
+                btn.disabled = false;
+            }
+        };
+
+        reader.readAsDataURL(file); // ফাইল পড়ার কাজ শুরু
     }
 
     function openDetails(img, name, dist, age, bio, call) {
