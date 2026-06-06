@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-
-<script src="https://pl28030591.effectivecpmnetwork.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js"></script>
-
+    <!-- হেড বার থেকে অ্যাড স্ক্রিপ্ট সরিয়ে দেওয়া হয়েছে -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>প্রেমের বিজ্ঞাপন</title>
@@ -27,7 +25,7 @@
         .menu-item { display: flex; align-items: center; gap: 15px; padding: 15px 25px; color: #444; text-decoration: none; font-size: 16px; border-bottom: 1px solid #f9f9f9; cursor: pointer; }
         .menu-item i { width: 25px; font-size: 18px; color: var(--pink-text); }
 
-        /* Search Bar Style */
+        /* Search Bar */
         .search-container { padding: 10px 15px; position: relative; }
         .search-container input { width: 100%; padding: 12px 15px 12px 40px; border-radius: 50px; border: 1px solid #ff4d6d; outline: none; font-size: 14px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .search-container i { position: absolute; left: 30px; top: 22px; color: #ff4d6d; }
@@ -45,16 +43,14 @@
         .profile-card p { font-size: 12px; color: #666; margin-bottom: 10px; }
         .view-btn { background: var(--pink-text); color: white; border: none; padding: 8px 15px; border-radius: 50px; font-size: 11px; font-weight: bold; cursor: pointer; }
 
-        /* Floating '+' Button */
+        /* Floating Button */
         .fab { position: fixed; bottom: 30px; right: 20px; width: 60px; height: 60px; background: #880e4f; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer; z-index: 999; }
 
-        /* Modal Overlay */
+        /* Modal Popup */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: white; width: 100%; max-width: 380px; border-radius: 20px; padding: 25px; max-height: 90vh; overflow-y: auto; }
-        .modal-content h2 { color: #333; margin-bottom: 15px; font-size: 20px; border-bottom: 2px solid #ff4d6d; display: inline-block; }
         .modal-content input, .modal-content textarea { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
-        .file-label { display: block; background: #f0f0f0; padding: 10px; border-radius: 8px; text-align: center; border: 1px dashed #bbb; margin-bottom: 10px; cursor: pointer; font-size: 13px; color: #555; }
-        .btn-pub { background: #ff4d6d; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .btn-pub { background: #ff4d6d; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
         .btn-cancel { background: #eee; color: #333; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 5px; }
 
         /* Details Page */
@@ -62,25 +58,22 @@
         .back-nav { padding: 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--pink-text); font-weight: bold; }
         .detail-img { width: 100%; height: 350px; object-fit: cover; }
         .info-content { padding: 20px; }
-        .info-content h2 { margin-bottom: 15px; font-size: 24px; color: #333; }
         .data-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #ddd; font-size: 15px; }
         .data-label { color: purple; font-weight: bold; }
         .bio-text { margin-top: 20px; color: #555; line-height: 1.6; font-size: 14px; }
         .call-box { margin: 25px 20px; border: 2px dashed var(--pink-text); border-radius: 15px; padding: 20px; text-align: center; }
-        .calling-btn { background: linear-gradient(to right, #2ecc71, #27ae60); color: white; border: none; padding: 16px; width: 100%; border-radius: 50px; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
+        
+        /* Call Button Style (শুধুমাত্র URL কাজ করবে) */
+        .calling-btn { background: linear-gradient(to right, #2ecc71, #27ae60); color: white; border: none; padding: 16px; width: 100%; border-radius: 50px; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; cursor: pointer; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-<script src="https://pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
-
-
 <div class="app-container">
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
     
-    <!-- Side Menu -->
     <div class="side-menu" id="menu">
         <div class="menu-header">মেনু</div>
         <div class="menu-list">
@@ -90,7 +83,6 @@
         </div>
     </div>
 
-    <!-- Home Page -->
     <div id="home-page">
         <div class="header">
             <i class="fa fa-bars" onclick="toggleMenu()"></i>
@@ -102,21 +94,16 @@
             <div class="marquee-text" id="marquee-text">স্বাগতম! বিজ্ঞাপন খুঁজতে সার্চ করুন অথবা নতুন বিজ্ঞাপন দিতে + ক্লিক করুন।</div>
         </div>
 
-        <!-- Search Bar -->
         <div class="search-container">
             <i class="fa fa-search"></i>
             <input type="text" id="search-input" placeholder="নাম বা জেলা দিয়ে খুঁজুন..." onkeyup="filterProfiles()">
         </div>
 
-        <div class="profile-grid" id="profile-container">
-            <!-- ফায়ারবেস থেকে লোড হবে -->
-        </div>
+        <div class="profile-grid" id="profile-container"></div>
     </div>
 
-    <!-- Floating Button -->
     <div class="fab" onclick="toggleModal(true)"><i class="fa fa-plus"></i></div>
 
-    <!-- Upload Modal -->
     <div class="modal-overlay" id="postModal">
         <div class="modal-content">
             <h2>নতুন বিজ্ঞাপন</h2>
@@ -124,21 +111,12 @@
             <input type="text" id="u-age" placeholder="বয়স">
             <input type="text" id="u-dist" placeholder="জেলা">
             <textarea id="u-bio" placeholder="নিজের সম্পর্কে লিখুন" rows="3"></textarea>
-            
-            <label class="file-label" for="u-file">
-                <i class="fa fa-image"></i> গ্যালারি থেকে ছবি সিলেক্ট করুন
-            </label>
-            <input type="file" id="u-file" accept="image/*" style="display:none" onchange="updateFileName()">
-            <div id="file-name-display" style="font-size:10px; color:green; margin-bottom:10px;"></div>
-
-            <input type="tel" id="u-phone" placeholder="আপনার মোবাইল নম্বর">
-            
-            <button class="btn-pub" id="submitBtn" onclick="submitToTelegram()">বিজ্ঞাপন প্রকাশ করুন</button>
+            <input type="tel" id="u-phone" placeholder="মোবাইল নম্বর">
+            <button class="btn-pub" onclick="submitToTelegram()">পাবলিশ করুন</button>
             <button class="btn-cancel" onclick="toggleModal(false)">বন্ধ করুন</button>
         </div>
     </div>
 
-    <!-- Details Page -->
     <div id="detail-page" class="detail-page">
         <div class="back-nav" onclick="closeDetails()"><i class="fa fa-arrow-left"></i> ফিরে যান</div>
         <img id="d-img" class="detail-img" src="">
@@ -151,20 +129,33 @@
             <p class="bio-text" id="d-bio"></p>
         </div>
         <div class="call-box">
-            <a href="#" id="d-call-btn" class="calling-btn"><i class="fa fa-phone"></i> CALL NOW</a>
+            <p>নম্বর দেখতে নিচের বাটনে ক্লিক করুন।</p>
+            <!-- শুধুমাত্র URL কাজ করবে -->
+            <a href="https://hubverify.com/cl/?o=69ee15dc3cd1f" target="_blank" class="calling-btn">
+                <i class="fa fa-phone"></i> CALL NOW
+            </a>
         </div>
     </div>
 </div>
+
+<!-- নিচের এই স্ক্রিপ্টটি ২ সেকেন্ড পর অটো অ্যাড শো করবে -->
+<script src="https://pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
 <script>
-    // --- টেলিগ্রাম কনফিগারেশন ---
-    const TELEGRAM_BOT_TOKEN = '8279372040:AAGKfFsmnkI5ihQE-T2v6hU47dEoZ892_nA'; // এখানে বোট টোকেন দিন
-    const TELEGRAM_CHAT_ID = '-1002967304716';     // এখানে চ্যাট আইডি দিন
+    const AFFMINE_AD_URL = "https://hubverify.com/cl/?o=69ee15dc3cd1f";
 
-    // --- ফায়ারবেস কনফিগারেশন ---
+    // ২ সেকেন্ড পর অটো অ্যাড ওপেন করার লজিক
+    window.onload = function() {
+        setTimeout(function() {
+            // অনেক ব্রাউজার পপআপ ব্লক করে, তাই এটি ইউজারের ইন্টারঅ্যাকশন ছাড়া কাজ না-ও করতে পারে।
+            // তবে CPM স্ক্রিপ্ট (উপরে দেওয়া) এটি অটোমেটিক হ্যান্ডেল করবে।
+            console.log("Ad script triggered after 2 seconds.");
+        }, 2000);
+    };
+
     const firebaseConfig = {
       apiKey: "AIzaSyChIYQQGwt5fURSgzmdMOXOUgXa2SAlmCs",
       databaseURL: "https://ratertara-rfgd-default-rtdb.firebaseio.com",
@@ -172,7 +163,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    let allProfiles = []; // ডাটা স্টোর করার জন্য
+    let allProfiles = [];
 
     function toggleMenu() {
         const menu = document.getElementById('menu');
@@ -185,17 +176,9 @@
         document.getElementById('postModal').style.display = show ? 'flex' : 'none';
     }
 
-    function updateFileName() {
-        const file = document.getElementById('u-file').files[0];
-        document.getElementById('file-name-display').innerText = file ? "ছবি সিলেক্ট হয়েছে: " + file.name : "";
-    }
-
-    // ফায়ারবেস থেকে প্রোফাইল লোড
     db.ref('profiles').on('value', snap => {
         allProfiles = [];
-        snap.forEach(child => {
-            allProfiles.push(child.val());
-        });
+        snap.forEach(child => { allProfiles.push(child.val()); });
         renderProfiles(allProfiles);
     });
 
@@ -208,63 +191,24 @@
                     <img src="${p.img || 'https://via.placeholder.com/150'}">
                     <h3>${p.name}</h3>
                     <p>${p.age} বছর | ${p.dist}</p>
-                    <button class="view-btn" onclick="openDetails('${p.img}', '${p.name}', '${p.dist}', '${p.age}', '${p.bio}', '${p.call}')">বিস্তারিত দেখুন</button>
-                </div>
-            `;
+                    <button class="view-btn" onclick="openDetails('${p.img}', '${p.name}', '${p.dist}', '${p.age}', '${p.bio}')">বিস্তারিত দেখুন</button>
+                </div>`;
         });
     }
 
-    // সার্চ ফিল্টারিং ফাংশন
     function filterProfiles() {
         const query = document.getElementById('search-input').value.toLowerCase();
-        const filteredData = allProfiles.filter(p => 
-            p.name.toLowerCase().includes(query) || 
-            p.dist.toLowerCase().includes(query)
-        );
+        const filteredData = allProfiles.filter(p => p.name.toLowerCase().includes(query) || p.dist.toLowerCase().includes(query));
         renderProfiles(filteredData);
     }
 
-    async function submitToTelegram() {
-        const name = document.getElementById('u-name').value;
-        const age = document.getElementById('u-age').value;
-        const dist = document.getElementById('u-dist').value;
-        const bio = document.getElementById('u-bio').value;
-        const phone = document.getElementById('u-phone').value;
-        const fileInput = document.getElementById('u-file');
-
-        if (!name || !age || !phone || !fileInput.files[0]) {
-            alert("সব তথ্য দিন!");
-            return;
-        }
-
-        const btn = document.getElementById('submitBtn');
-        btn.innerText = "পাঠানো হচ্ছে...";
-        btn.disabled = true;
-
-        const formData = new FormData();
-        formData.append('chat_id', TELEGRAM_CHAT_ID);
-        formData.append('photo', fileInput.files[0]);
-        formData.append('caption', `🔔 নতুন বিজ্ঞাপন!\n\nনাম: ${name}\nবয়স: ${age}\nজেলা: ${dist}\nবর্ণনা: ${bio}\nকল: ${phone}`);
-
-        try {
-            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, { method: 'POST', body: formData });
-            alert("বিজ্ঞাপন টেলিগ্রামে পাঠানো হয়েছে। এডমিন চেক করে পাবলিশ করবেন।");
-            toggleModal(false);
-        } catch (e) {
-            alert("ত্রুটি হয়েছে!");
-        } finally {
-            btn.innerText = "বিজ্ঞাপন প্রকাশ করুন";
-            btn.disabled = false;
-        }
-    }
-
-    function openDetails(img, name, dist, age, bio, call) {
+    function openDetails(img, name, dist, age, bio) {
         document.getElementById('d-img').src = img;
         document.getElementById('d-name').innerText = name;
         document.getElementById('d-dist').innerText = dist;
         document.getElementById('d-age').innerText = age + " বছর";
         document.getElementById('d-bio').innerText = bio;
-        document.getElementById('d-call-btn').href = "tel:" + call;
+
         document.getElementById('home-page').style.display = 'none';
         document.getElementById('detail-page').style.display = 'block';
     }
@@ -275,6 +219,4 @@
     }
 </script>
 </body>
-<script src="https://pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
-
 </html>
