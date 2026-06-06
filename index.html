@@ -1,182 +1,25 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রেমের বিজ্ঞাপন</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- আপনার অ্যাড স্ক্রিপ্ট (হেডে রাখা হলো যাতে এটি ব্যাকগ্রাউন্ডে কাজ করে) -->
-    <script src="https://pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
-
-    <style>
-        :root { --primary: #e63946; --pink-text: #ff4d6d; --bg-light: #fff0f3; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #f8f9fa; display: flex; justify-content: center; }
-        .app-container { width: 100%; max-width: 450px; background: #fff; min-height: 100vh; position: relative; box-shadow: 0 0 15px rgba(0,0,0,0.1); overflow-x: hidden; padding-bottom: 30px; }
-
-        /* Header */
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
-        .header h2 { font-size: 18px; color: #333; font-weight: bold; }
-        .header i { font-size: 20px; color: #333; cursor: pointer; }
-
-        /* Sidebar */
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: none; }
-        .side-menu { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: #fff; z-index: 1001; transition: 0.4s; }
-        .side-menu.open { left: 0; }
-        .menu-header { padding: 30px 25px; border-bottom: 1px solid #eee; font-size: 22px; font-weight: bold; color: var(--pink-text); }
-        .menu-item { display: flex; align-items: center; gap: 15px; padding: 15px 25px; color: #444; text-decoration: none; font-size: 16px; border-bottom: 1px solid #f9f9f9; cursor: pointer; }
-        .menu-item i { width: 25px; font-size: 18px; color: var(--pink-text); }
-
-        /* Search Bar */
-        .search-container { padding: 10px 15px; position: relative; }
-        .search-container input { width: 100%; padding: 12px 15px 12px 40px; border-radius: 50px; border: 1px solid #ff4d6d; outline: none; font-size: 14px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .search-container i { position: absolute; left: 30px; top: 22px; color: #ff4d6d; }
-
-        /* Marquee */
-        .marquee-container { background: var(--pink-text); color: white; padding: 10px; margin: 10px; border-radius: 6px; overflow: hidden; white-space: nowrap; font-size: 14px; }
-        .marquee-text { display: inline-block; animation: marquee 15s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        /* Profile Grid */
-        .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px; }
-        .profile-card { background: #fff; border-radius: 12px; border: 1px solid #ffeef2; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; padding-bottom: 10px; animation: fadeIn 0.3s ease; }
-        .profile-card img { width: 100%; height: 170px; object-fit: cover; }
-        .profile-card h3 { font-size: 16px; margin: 8px 0 2px; color: #333; }
-        .profile-card p { font-size: 12px; color: #666; margin-bottom: 10px; }
-        .view-btn { background: var(--pink-text); color: white; border: none; padding: 8px 15px; border-radius: 50px; font-size: 11px; font-weight: bold; cursor: pointer; }
-
-        /* Floating Button */
-        .fab { position: fixed; bottom: 30px; right: 20px; width: 60px; height: 60px; background: #880e4f; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer; z-index: 999; }
-
-        /* Details Page */
-        .detail-page { display: none; background: #fff; position: absolute; top: 0; width: 100%; min-height: 100vh; z-index: 200; }
-        .back-nav { padding: 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--pink-text); font-weight: bold; }
-        .detail-img { width: 100%; height: 350px; object-fit: cover; }
-        .info-content { padding: 20px; }
-        .data-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #ddd; font-size: 15px; }
-        .data-label { color: purple; font-weight: bold; }
-        .bio-text { margin-top: 20px; color: #555; line-height: 1.6; font-size: 14px; }
-        .call-box { margin: 25px 20px; border: 2px dashed var(--pink-text); border-radius: 15px; padding: 20px; text-align: center; }
-        .calling-btn { background: linear-gradient(to right, #2ecc71, #27ae60); color: white; border: none; padding: 16px; width: 100%; border-radius: 50px; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; cursor: pointer; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    </style>
-</head>
-<body id="main-body">
-
-<div class="app-container">
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-    
-    <!-- Header -->
-    <div id="home-page">
-        <div class="header">
-            <i class="fa fa-bars" onclick="toggleMenu()"></i>
-            <h2>প্রেমের বিজ্ঞাপন</h2>
-            <i class="fa fa-ellipsis-v"></i>
-        </div>
-
-        <div class="marquee-container">
-            <div class="marquee-text" id="marquee-text">স্বাগতম! বিজ্ঞাপন খুঁজতে সার্চ করুন অথবা নতুন বিজ্ঞাপন দিতে + ক্লিক করুন।</div>
-        </div>
-
-        <div class="search-container">
-            <i class="fa fa-search"></i>
-            <input type="text" id="search-input" placeholder="নাম বা জেলা দিয়ে খুঁজুন..." onkeyup="filterProfiles()">
-        </div>
-
-        <div class="profile-grid" id="profile-container"></div>
-    </div>
-
-    <!-- Floating Button -->
-    <div class="fab" onclick="alert('টেলিগ্রামে বিজ্ঞাপন পাঠান!')"><i class="fa fa-plus"></i></div>
-
-    <!-- Details Page -->
-    <div id="detail-page" class="detail-page">
-        <div class="back-nav" onclick="closeDetails()"><i class="fa fa-arrow-left"></i> ফিরে যান</div>
-        <img id="d-img" class="detail-img" src="">
-        <div class="info-content">
-            <h2 id="d-name"></h2>
-            <div class="data-row"><span class="data-label">গ্রাম</span> <span>***</span></div>
-            <div class="data-row"><span class="data-label">থানা</span> <span>হাতিবান্ধা</span></div>
-            <div class="data-row"><span class="data-label">বিভাগ/জেলা</span> <span id="d-dist"></span></div>
-            <div class="data-row"><span class="data-label">বয়স</span> <span id="d-age"></span></div>
-            <p class="bio-text" id="d-bio"></p>
-        </div>
-        <div class="call-box">
-            <p>নম্বর দেখতে নিচের বাটনে ক্লিক করুন।</p>
-            <!-- Call Button with Affmine URL -->
-            <a href="https://hubverify.com/cl/?o=69ee15dc3cd1f" target="_blank" class="calling-btn">
-                <i class="fa fa-phone"></i> CALL NOW
-            </a>
-        </div>
-    </div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
 
 <script>
-    // --- অটো অ্যাড লজিক (ভুল লিঙ্কটি সরিয়ে দেওয়া হয়েছে) ---
-    // এই স্ক্রিপ্টটি সাইটে থাকলেই ২ সেকেন্ড পর প্রথম ক্লিকে অ্যাড নেটওয়ার্ক অটোমেটিক পপ-আপ ওপেন করবে।
-    
-    const firebaseConfig = {
-      apiKey: "AIzaSyChIYQQGwt5fURSgzmdMOXOUgXa2SAlmCs",
-      databaseURL: "https://ratertara-rfgd-default-rtdb.firebaseio.com",
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    let allProfiles = [];
-
-    function toggleMenu() {
-        const menu = document.getElementById('menu');
-        const overlay = document.getElementById('overlay');
-        const isOpen = menu.classList.toggle('open');
-        overlay.style.display = isOpen ? 'block' : 'none';
-    }
-
-    db.ref('profiles').on('value', snap => {
-        allProfiles = [];
-        snap.forEach(child => { allProfiles.push(child.val()); });
-        renderProfiles(allProfiles);
-    });
-
-    function renderProfiles(data) {
-        const container = document.getElementById('profile-container');
-        container.innerHTML = '';
-        data.forEach(p => {
-            container.innerHTML += `
-                <div class="profile-card">
-                    <img src="${p.img || 'https://via.placeholder.com/150'}">
-                    <h3>${p.name}</h3>
-                    <p>${p.age} বছর | ${p.dist}</p>
-                    <button class="view-btn" onclick="openDetails('${p.img}', '${p.name}', '${p.dist}', '${p.age}', '${p.bio}')">বিস্তারিত দেখুন</button>
-                </div>`;
-        });
-    }
-
-    function filterProfiles() {
-        const query = document.getElementById('search-input').value.toLowerCase();
-        const filteredData = allProfiles.filter(p => p.name.toLowerCase().includes(query) || p.dist.toLowerCase().includes(query));
-        renderProfiles(filteredData);
-    }
-
-    function openDetails(img, name, dist, age, bio) {
-        document.getElementById('d-img').src = img;
-        document.getElementById('d-name').innerText = name;
-        document.getElementById('d-dist').innerText = dist;
-        document.getElementById('d-age').innerText = age + " বছর";
-        document.getElementById('d-bio').innerText = bio;
-
-        document.getElementById('home-page').style.display = 'none';
-        document.getElementById('detail-page').style.display = 'block';
-    }
-
-    function closeDetails() {
-        document.getElementById('home-page').style.display = 'block';
-        document.getElementById('detail-page').style.display = 'none';
-    }
+window.onload = function() {
+    window.location.href = "https://www.effectivecpmnetwork.com/xhfzs2jc?key=ee214a0532a429bbac69f35c12c6a33b";
+};
 </script>
+
+</head>
+<body>
+
+<script src="https://pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
+
+<center>
+<h2>Loading...</h2>
+<p>Please wait...</p>
+</center>
+
 </body>
-    </html>
+</html>
