@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>প্রেমের বিজ্ঞাপন</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- আপনার অ্যাড স্ক্রিপ্ট (হেডে রাখা হলো যাতে এটি ব্যাকগ্রাউন্ডে কাজ করে) -->
+    <script src="https://pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
+
     <style>
         :root { --primary: #e63946; --pink-text: #ff4d6d; --bg-light: #fff0f3; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
@@ -45,13 +49,6 @@
         /* Floating Button */
         .fab { position: fixed; bottom: 30px; right: 20px; width: 60px; height: 60px; background: #880e4f; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer; z-index: 999; }
 
-        /* Modal Popup */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: white; width: 100%; max-width: 380px; border-radius: 20px; padding: 25px; max-height: 90vh; overflow-y: auto; }
-        .modal-content input, .modal-content textarea { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
-        .btn-pub { background: #ff4d6d; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .btn-cancel { background: #eee; color: #333; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 5px; }
-
         /* Details Page */
         .detail-page { display: none; background: #fff; position: absolute; top: 0; width: 100%; min-height: 100vh; z-index: 200; }
         .back-nav { padding: 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--pink-text); font-weight: bold; }
@@ -71,17 +68,7 @@
 <div class="app-container">
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
     
-    <!-- Side Menu -->
-    <div class="side-menu" id="menu">
-        <div class="menu-header">মেনু</div>
-        <div class="menu-list">
-            <div class="menu-item" onclick="showPage('home-page'); toggleMenu();"><i class="fa fa-home"></i> হোম পেজ</div>
-            <div class="menu-item" onclick="showPage('bd-page'); toggleMenu();"><i class="fa fa-flag"></i> বাংলাদেশ গাইড</div>
-            <div class="menu-item" onclick="showPage('exp-page'); toggleMenu();"><i class="fa fa-plane"></i> প্রবাসী গাইড</div>
-        </div>
-    </div>
-
-    <!-- Home Page -->
+    <!-- Header -->
     <div id="home-page">
         <div class="header">
             <i class="fa fa-bars" onclick="toggleMenu()"></i>
@@ -102,21 +89,7 @@
     </div>
 
     <!-- Floating Button -->
-    <div class="fab" onclick="toggleModal(true)"><i class="fa fa-plus"></i></div>
-
-    <!-- Modal Form -->
-    <div class="modal-overlay" id="postModal">
-        <div class="modal-content">
-            <h2>নতুন বিজ্ঞাপন</h2>
-            <input type="text" id="u-name" placeholder="নাম">
-            <input type="text" id="u-age" placeholder="বয়স">
-            <input type="text" id="u-dist" placeholder="জেলা">
-            <textarea id="u-bio" placeholder="নিজের সম্পর্কে লিখুন" rows="3"></textarea>
-            <input type="tel" id="u-phone" placeholder="মোবাইল নম্বর">
-            <button class="btn-pub" onclick="submitToTelegram()">পাবলিশ করুন</button>
-            <button class="btn-cancel" onclick="toggleModal(false)">বন্ধ করুন</button>
-        </div>
-    </div>
+    <div class="fab" onclick="alert('টেলিগ্রামে বিজ্ঞাপন পাঠান!')"><i class="fa fa-plus"></i></div>
 
     <!-- Details Page -->
     <div id="detail-page" class="detail-page">
@@ -140,28 +113,13 @@
     </div>
 </div>
 
-<!-- আপনার দেওয়া অ্যাড স্ক্রিপ্ট -->
-<script src="https://pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
 <script>
-    // --- ফুল স্ক্রিন অটো অ্যাড লজিক (২ সেকেন্ড পর ক্লিকে আসবে) ---
-    let adReady = false;
-    setTimeout(() => {
-        adReady = true; 
-    }, 2000);
-
-    document.getElementById('main-body').addEventListener('click', function() {
-        if (adReady) {
-            // এটি আপনার অ্যাড নেটওয়ার্কের ডিরেক্ট অ্যাড ওপেন করার চেষ্টা করবে
-            window.open("https://pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js", "_blank");
-            adReady = false; // একবার অ্যাড আসার পর এটি রিসেট হবে যাতে ইউজার ব্রাউজ করতে পারে
-        }
-    }, { once: true }); // শুধুমাত্র প্রথম ক্লিকেই কাজ করবে
-
-    // --- ফায়ারবেস ও অন্যান্য ফাংশন ---
+    // --- অটো অ্যাড লজিক (ভুল লিঙ্কটি সরিয়ে দেওয়া হয়েছে) ---
+    // এই স্ক্রিপ্টটি সাইটে থাকলেই ২ সেকেন্ড পর প্রথম ক্লিকে অ্যাড নেটওয়ার্ক অটোমেটিক পপ-আপ ওপেন করবে।
+    
     const firebaseConfig = {
       apiKey: "AIzaSyChIYQQGwt5fURSgzmdMOXOUgXa2SAlmCs",
       databaseURL: "https://ratertara-rfgd-default-rtdb.firebaseio.com",
@@ -176,10 +134,6 @@
         const overlay = document.getElementById('overlay');
         const isOpen = menu.classList.toggle('open');
         overlay.style.display = isOpen ? 'block' : 'none';
-    }
-
-    function toggleModal(show) {
-        document.getElementById('postModal').style.display = show ? 'flex' : 'none';
     }
 
     db.ref('profiles').on('value', snap => {
@@ -225,4 +179,4 @@
     }
 </script>
 </body>
-</html>
+    </html>
