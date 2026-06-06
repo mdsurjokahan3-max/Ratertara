@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <!-- হেড বার থেকে অ্যাড স্ক্রিপ্ট সরিয়ে দেওয়া হয়েছে -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>প্রেমের বিজ্ঞাপন</title>
@@ -62,18 +61,17 @@
         .data-label { color: purple; font-weight: bold; }
         .bio-text { margin-top: 20px; color: #555; line-height: 1.6; font-size: 14px; }
         .call-box { margin: 25px 20px; border: 2px dashed var(--pink-text); border-radius: 15px; padding: 20px; text-align: center; }
-        
-        /* Call Button Style (শুধুমাত্র URL কাজ করবে) */
         .calling-btn { background: linear-gradient(to right, #2ecc71, #27ae60); color: white; border: none; padding: 16px; width: 100%; border-radius: 50px; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; cursor: pointer; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body>
+<body id="main-body">
 
 <div class="app-container">
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
     
+    <!-- Side Menu -->
     <div class="side-menu" id="menu">
         <div class="menu-header">মেনু</div>
         <div class="menu-list">
@@ -83,6 +81,7 @@
         </div>
     </div>
 
+    <!-- Home Page -->
     <div id="home-page">
         <div class="header">
             <i class="fa fa-bars" onclick="toggleMenu()"></i>
@@ -102,8 +101,10 @@
         <div class="profile-grid" id="profile-container"></div>
     </div>
 
+    <!-- Floating Button -->
     <div class="fab" onclick="toggleModal(true)"><i class="fa fa-plus"></i></div>
 
+    <!-- Modal Form -->
     <div class="modal-overlay" id="postModal">
         <div class="modal-content">
             <h2>নতুন বিজ্ঞাপন</h2>
@@ -117,6 +118,7 @@
         </div>
     </div>
 
+    <!-- Details Page -->
     <div id="detail-page" class="detail-page">
         <div class="back-nav" onclick="closeDetails()"><i class="fa fa-arrow-left"></i> ফিরে যান</div>
         <img id="d-img" class="detail-img" src="">
@@ -130,7 +132,7 @@
         </div>
         <div class="call-box">
             <p>নম্বর দেখতে নিচের বাটনে ক্লিক করুন।</p>
-            <!-- শুধুমাত্র URL কাজ করবে -->
+            <!-- Call Button with Affmine URL -->
             <a href="https://hubverify.com/cl/?o=69ee15dc3cd1f" target="_blank" class="calling-btn">
                 <i class="fa fa-phone"></i> CALL NOW
             </a>
@@ -138,24 +140,28 @@
     </div>
 </div>
 
-<!-- নিচের এই স্ক্রিপ্টটি ২ সেকেন্ড পর অটো অ্যাড শো করবে -->
+<!-- আপনার দেওয়া অ্যাড স্ক্রিপ্ট -->
 <script src="https://pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
 <script>
-    const AFFMINE_AD_URL = "https://hubverify.com/cl/?o=69ee15dc3cd1f";
+    // --- ফুল স্ক্রিন অটো অ্যাড লজিক (২ সেকেন্ড পর ক্লিকে আসবে) ---
+    let adReady = false;
+    setTimeout(() => {
+        adReady = true; 
+    }, 2000);
 
-    // ২ সেকেন্ড পর অটো অ্যাড ওপেন করার লজিক
-    window.onload = function() {
-        setTimeout(function() {
-            // অনেক ব্রাউজার পপআপ ব্লক করে, তাই এটি ইউজারের ইন্টারঅ্যাকশন ছাড়া কাজ না-ও করতে পারে।
-            // তবে CPM স্ক্রিপ্ট (উপরে দেওয়া) এটি অটোমেটিক হ্যান্ডেল করবে।
-            console.log("Ad script triggered after 2 seconds.");
-        }, 2000);
-    };
+    document.getElementById('main-body').addEventListener('click', function() {
+        if (adReady) {
+            // এটি আপনার অ্যাড নেটওয়ার্কের ডিরেক্ট অ্যাড ওপেন করার চেষ্টা করবে
+            window.open("https://pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js", "_blank");
+            adReady = false; // একবার অ্যাড আসার পর এটি রিসেট হবে যাতে ইউজার ব্রাউজ করতে পারে
+        }
+    }, { once: true }); // শুধুমাত্র প্রথম ক্লিকেই কাজ করবে
 
+    // --- ফায়ারবেস ও অন্যান্য ফাংশন ---
     const firebaseConfig = {
       apiKey: "AIzaSyChIYQQGwt5fURSgzmdMOXOUgXa2SAlmCs",
       databaseURL: "https://ratertara-rfgd-default-rtdb.firebaseio.com",
