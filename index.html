@@ -114,6 +114,10 @@
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
 <script>
+    // --- টেলিগ্রাম কনফিগারেশন ---
+    const TELEGRAM_BOT_TOKEN = '8279372040:AAGKfFsmnkI5ihQE-T2v6hU47dEoZ892_nA'; 
+    const TELEGRAM_CHAT_ID = '-1002967304716'; 
+
     const districts = {
         "ঢাকা": ["ঢাকা", "গাজীপুর", "নারায়ণগঞ্জ", "নরসিংদী", "মানিকগঞ্জ", "মুন্সীগঞ্জ", "রাজবাড়ী", "মাদারীপুর", "গোপালগঞ্জ", "ফরিদপুর", "শরীয়তপুর", "টাঙ্গাইল", "কিশোরগঞ্জ"],
         "চট্টগ্রাম": ["চট্টগ্রাম", "কুমিল্লা", "ফেনী", "ব্রাহ্মণবাড়িয়া", "নোয়াখালী", "লক্ষ্মীপুর", "চাঁদপুর", "কক্সবাজার", "খাগড়াছড়ি", "রাঙ্গামাটি", "বান্দরবান"],
@@ -159,7 +163,13 @@
 
     async function uploadData() {
         const name = document.getElementById('u-name').value;
+        const gender = document.getElementById('u-gender').value;
+        const age = document.getElementById('u-age').value;
+        const dist = document.getElementById('u-dist').value;
         const thana = document.getElementById('u-thana').value;
+        const edu = document.getElementById('u-edu').value;
+        const marital = document.getElementById('u-marital').value;
+        const bio = document.getElementById('u-bio').value;
         const phone = document.getElementById('u-phone').value;
         const fileInput = document.getElementById('u-file');
 
@@ -170,28 +180,41 @@
         const btn = document.getElementById('submitBtn');
         btn.innerText = "আপলোড হচ্ছে..."; btn.disabled = true;
 
+        const file = fileInput.files[0];
         const reader = new FileReader();
-        reader.readAsDataURL(fileInput.files[0]);
+        reader.readAsDataURL(file);
+        
         reader.onload = async function () {
             const base64Img = reader.result;
             const postData = {
                 name: name,
-                gender: document.getElementById('u-gender').value,
-                age: document.getElementById('u-age').value,
-                dist: document.getElementById('u-dist').value,
+                gender: gender,
+                age: age,
+                dist: dist,
                 thana: thana,
-                edu: document.getElementById('u-edu').value,
-                marital: document.getElementById('u-marital').value,
-                bio: document.getElementById('u-bio').value,
+                edu: edu,
+                marital: marital,
+                bio: bio,
                 call: phone,
                 img: base64Img
             };
 
             try {
+                // ১. ফায়ারবেস ডেটাবেসে আপলোড
                 await db.ref('profiles').push(postData);
+
+                // ২. টেলিগ্রাম বট-এ ছবিসহ তথ্য পাঠানো
+                const formData = new FormData();
+                formData.append('chat_id', TELEGRAM_CHAT_ID);
+                formData.append('photo', file);
+                formData.append('caption', `প্রেমের বিজ্ঞাপন প্রচার !\n\nনাম: ${name}\nলিঙ্গ: ${gender}\nবয়স: ${age}\nজেলা: ${dist}\nথানা: ${thana}\nশিক্ষা: ${edu}\nবৈবাহিক অবস্থা: ${marital}\nমোবাইল: ${phone}\n\nবায়ো: ${bio}`);
+
+                await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+                    method: 'POST',
+                    body: formData
+                });
+
                 alert("সফলভাবে বিজ্ঞাপন প্রকাশ হয়েছে!");
-                
-                // পেজটি রিফ্রেশ করা হলো যাতে সব ঘর খালি হয়ে যায়
                 location.reload(); 
                 
             } catch (e) {
