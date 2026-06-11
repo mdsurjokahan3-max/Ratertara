@@ -1,228 +1,313 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>পরিচয় প্রদান করুন</title>
+<div id="rater-tara-main-wrapper">
+    <!-- CSS Style Start -->
+    <style>
+        :root { --primary: #e63946; --pink-text: #ff4d6d; --bg-light: #fff0f3; }
+        #rater-tara-main-wrapper { width: 100%; display: flex; justify-content: center; background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
+        .app-container { width: 100%; max-width: 450px; background: #fff; min-height: 100vh; position: relative; box-shadow: 0 0 15px rgba(0,0,0,0.1); overflow-x: hidden; padding-bottom: 30px; }
+
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+        .header h2 { font-size: 18px; color: #333; font-weight: bold; margin: 0; }
+        .header i { font-size: 20px; color: #333; cursor: pointer; }
+
+        /* Sidebar */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: none; }
+        .side-menu { position: fixed; top: 0; left: -280px; width: 280px; height: 100%; background: #fff; z-index: 1001; transition: 0.4s; }
+        .side-menu.open { left: 0; }
+        .menu-header { padding: 30px 25px; border-bottom: 1px solid #eee; font-size: 22px; font-weight: bold; color: var(--pink-text); }
+        .menu-item { display: flex; align-items: center; gap: 15px; padding: 15px 25px; color: #444; text-decoration: none; font-size: 16px; border-bottom: 1px solid #f9f9f9; cursor: pointer; }
+        .menu-item i { width: 25px; font-size: 18px; color: var(--pink-text); }
+
+        /* Search Bar Style */
+        .search-container { padding: 10px 15px; position: relative; }
+        .search-container input { width: 100%; padding: 12px 15px 12px 40px; border-radius: 50px; border: 1px solid #ff4d6d; outline: none; font-size: 14px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .search-container i { position: absolute; left: 30px; top: 22px; color: #ff4d6d; }
+
+        /* Marquee */
+        .marquee-container { background: var(--pink-text); color: white; padding: 10px; margin: 10px; border-radius: 6px; overflow: hidden; white-space: nowrap; font-size: 14px; }
+        .marquee-text { display: inline-block; animation: marquee 15s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* Profile Grid */
+        .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px; }
+        .profile-card { background: #fff; border-radius: 12px; border: 1px solid #ffeef2; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; padding-bottom: 10px; animation: fadeIn 0.3s ease; }
+        .profile-card img { width: 100%; height: 170px; object-fit: cover; background: #f0f0f0; }
+        .profile-card h3 { font-size: 16px; margin: 8px 0 2px; color: #333; }
+        .profile-card p { font-size: 12px; color: #666; margin-bottom: 10px; }
+        .view-btn { background: var(--pink-text); color: white; border: none; padding: 8px 15px; border-radius: 50px; font-size: 11px; font-weight: bold; cursor: pointer; }
+
+        /* Floating Button */
+        .fab { position: fixed; bottom: 30px; right: 20px; width: 60px; height: 60px; background: #880e4f; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer; z-index: 999; }
+
+        /* Modal Overlay */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: white; width: 100%; max-width: 380px; border-radius: 20px; padding: 25px; max-height: 90vh; overflow-y: auto; }
+        .modal-content h2 { color: #333; margin-bottom: 15px; font-size: 20px; border-bottom: 2px solid #ff4d6d; display: inline-block; }
+        .modal-content input, .modal-content textarea, .modal-content select { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
+        .file-label { display: block; background: #f0f0f0; padding: 10px; border-radius: 8px; text-align: center; border: 1px dashed #bbb; margin-bottom: 10px; cursor: pointer; font-size: 13px; color: #555; }
+        .btn-pub { background: #ff4d6d; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .btn-cancel { background: #eee; color: #333; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+
+        /* Details Page */
+        .detail-page { display: none; background: #fff; position: absolute; top: 0; width: 100%; min-height: 100vh; z-index: 200; }
+        .back-nav { padding: 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--pink-text); font-weight: bold; }
+        .detail-img { width: 100%; height: 350px; object-fit: cover; }
+        .info-content { padding: 20px; }
+        .info-content h2 { margin-bottom: 15px; font-size: 24px; color: #333; }
+        .data-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #ddd; font-size: 15px; }
+        .data-label { color: purple; font-weight: bold; }
+        .bio-text { margin-top: 20px; color: #555; line-height: 1.6; font-size: 14px; }
+        .call-box { margin: 25px 20px; border: 2px dashed var(--pink-text); border-radius: 15px; padding: 20px; text-align: center; }
+        .calling-btn { background: linear-gradient(to right, #2ecc71, #27ae60); color: white; border: none; padding: 16px; width: 100%; border-radius: 50px; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+    </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root { --primary: #ff4d6d; --bg: #fff0f3; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #f8f9fa; display: flex; justify-content: center; padding: 15px; }
+
+    <div class="app-container">
+        <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
         
-        .form-card { width: 100%; max-width: 400px; background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-        .form-card h2 { color: var(--primary); text-align: center; margin-bottom: 20px; font-size: 22px; border-bottom: 2px solid var(--primary); display: inline-block; width: 100%; padding-bottom: 10px; }
+        <!-- Side Menu -->
+        <div class="side-menu" id="menu">
+            <div class="menu-header">মেনু</div>
+            <div class="menu-list">
+                <div class="menu-item" onclick="closeDetails(); toggleMenu();"><i class="fa fa-home"></i> হোম পেজ</div>
+                <div class="menu-item" onclick="toggleMenu();"><i class="fa fa-flag"></i> বাংলাদেশ গাইড</div>
+                <div class="menu-item" onclick="toggleMenu();"><i class="fa fa-plane"></i> প্রবাসী গাইড</div>
+            </div>
+        </div>
+
+        <!-- Home Page -->
+        <div id="home-page">
+            <div class="header">
+                <i class="fa fa-bars" onclick="toggleMenu()"></i>
+                <h2>প্রেমের বিজ্ঞাপন</h2>
+                <i class="fa fa-ellipsis-v"></i>
+            </div>
+
+            <div class="marquee-container">
+                <div class="marquee-text" id="marquee-text">স্বাগতম!ভালোবাসার নতুন গল্প শুরু হতে পারে আজই! 📌 এখনই ভিজিট করুন:ratertara_bot জয়েন করুন টেলিগ্রাম</div>
+            </div>
+
+            <div class="search-container">
+                <i class="fa fa-search"></i>
+                <input type="text" id="search-input" placeholder="নাম বা জেলা দিয়ে খুঁজুন..." onkeyup="filterProfiles()">
+            </div>
+
+            <div class="profile-grid" id="profile-container"></div>
+        </div>
+
+        <!-- Floating Button -->
         
-        label { display: block; margin: 10px 0 5px; font-size: 14px; font-weight: bold; color: #555; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; background: #fdfdfd; }
-        input:focus, select:focus, textarea:focus { border-color: var(--primary); }
-        
-        .file-box { display: block; background: #f9f9f9; padding: 15px; border: 2px dashed #ccc; border-radius: 8px; text-align: center; cursor: pointer; margin: 15px 0; color: #777; }
-        .file-box i { font-size: 25px; color: var(--primary); display: block; margin-bottom: 5px; }
-        
-        .btn-submit { background: var(--primary); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .btn-submit:hover { background: #e63946; }
-        .btn-back { display: block; text-align: center; margin-top: 15px; color: #666; text-decoration: none; font-size: 14px; }
-        
-        #preview-name { font-size: 11px; color: green; margin-top: 5px; text-align: center; }
-    </style>
-</head>
-<body>
-
-<div class="form-card">
-    <h2>আপনার পরিচয় দিন</h2>
-    
-    <form id="bioForm">
-        <label>আপনার নাম</label>
-        <input type="text" id="u-name" placeholder="নাম লিখুন" required>
-
-        <label>লিঙ্গ</label>
-        <select id="u-gender" required>
-            <option value="">নির্বাচন করুন</option>
-            <option>পুরুষ</option>
-            <option>মহিলা</option>
-        </select>
-
-        <label>বয়স</label>
-        <select id="u-age" required>
-            <option value="">বয়স নির্বাচন করুন</option>
-        </select>
-
-        <label>বিভাগ</label>
-        <select id="u-div" onchange="updateDistricts()" required>
-            <option value="">বিভাগ নির্বাচন করুন</option>
-            <option>ঢাকা</option>
-            <option>চট্টগ্রাম</option>
-            <option>রাজশাহী</option>
-            <option>খুলনা</option>
-            <option>বরিশাল</option>
-            <option>সিলেট</option>
-            <option>রংপুর</option>
-            <option>ময়মনসিংহ</option>
-        </select>
-
-        <label>জেলা</label>
-        <select id="u-dist" required>
-            <option value="">আগে বিভাগ নির্বাচন করুন</option>
-        </select>
-
-        <!-- থানা ঘরটি সচল করা হয়েছে -->
-        <label>থানা/উপজেলা</label>
-        <input type="text" id="u-thana" placeholder="আপনার থানা লিখুন" required>
-
-        <label>শিক্ষাগত যোগ্যতা</label>
-        <select id="u-edu">
-            <option value="">নির্বাচন করুন</option>
-            <option>প্রাথমিক</option>
-            <option>মাধ্যমিক</option>
-            <option>উচ্চ মাধ্যমিক</option>
-            <option>স্নাতক/ডিগ্রি</option>
-            <option>স্নাতকোত্তর</option>
-            <option>অন্যান্য</option>
-        </select>
-
-        <label>বৈবাহিক অবস্থা</label>
-        <select id="u-marital">
-            <option value="">নির্বাচন করুন</option>
-            <option>অবিবাহিত</option>
-            <option>বিবাহিত</option>
-            <option>ডিভোর্সড</option>
-            <option>বিপত্নীক/বিধবা</option>
-        </select>
-
-        <label>নিজের সম্পর্কে লিখুন</label>
-        <textarea id="u-bio" rows="3" placeholder="আপনার সম্পর্কে কিছু বলুন..."></textarea>
-
-        <label class="file-box" for="u-file">
-            <i class="fa fa-cloud-upload-alt"></i>
-            গ্যালারি থেকে ছবি সিলেক্ট করুন
-        </label>
-        <input type="file" id="u-file" accept="image/*" style="display:none" onchange="showName()">
-        <div id="preview-name"></div>
-
-        <label>মোবাইল নম্বর</label>
-        <input type="tel" id="u-phone" placeholder="xxxxxxxx" required>
-
-        <button type="button" id="submitBtn" class="btn-submit" onclick="uploadData()">বিজ্ঞাপন প্রকাশ করুন</button>
-        
-        <a href="https://ratertara.rf.gd" class="btn-back"><i class="fa fa-arrow-left"></i> হোম পেজে ফিরে যান</a>
-    </form>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-
-<script>
-    // --- টেলিগ্রাম কনফিগারেশন ---
-    const TELEGRAM_BOT_TOKEN = '8279372040:AAGKfFsmnkI5ihQE-T2v6hU47dEoZ892_nA'; 
-    const TELEGRAM_CHAT_ID = '-1002967304716'; 
-
-    const districts = {
-        "ঢাকা": ["ঢাকা", "গাজীপুর", "নারায়ণগঞ্জ", "নরসিংদী", "মানিকগঞ্জ", "মুন্সীগঞ্জ", "রাজবাড়ী", "মাদারীপুর", "গোপালগঞ্জ", "ফরিদপুর", "শরীয়তপুর", "টাঙ্গাইল", "কিশোরগঞ্জ"],
-        "চট্টগ্রাম": ["চট্টগ্রাম", "কুমিল্লা", "ফেনী", "ব্রাহ্মণবাড়িয়া", "নোয়াখালী", "লক্ষ্মীপুর", "চাঁদপুর", "কক্সবাজার", "খাগড়াছড়ি", "রাঙ্গামাটি", "বান্দরবান"],
-        "রাজশাহী": ["রাজশাহী", "বগুড়া", "পাবনা", "সিরাজগঞ্জ", "নাটোর", "নওগাঁ", "চাঁপাইনবাবগঞ্জ", "জয়পুরহাট"],
-        "খুলনা": ["খুলনা", "যশোর", "ঝিনাইদহ", "কুষ্টিয়া", "মাগুরা", "নড়াইল", "বাগেরহাট", "সাতক্ষীরা", "চুয়াডাঙ্গা", "মেহেরপুর"],
-        "বরিশাল": ["বরিশাল", "ভোলা", "পটুয়াখালী", "পিরোজপুর", "ঝালকাঠি", "বরগুনা"],
-        "সিলেট": ["সিলেট", "মৌলভীবাজার", "হবিগঞ্জ", "সুনামগঞ্জ"],
-        "রংপুর": ["রংপুর", "দিনাজপুর", "কুড়িগ্রাম", "গাইবান্ধা", "নীলফামারী", "পঞ্চগড়", "ঠাকুরগাঁও", "লালমনিরহাট"],
-        "ময়মনসিংহ": ["ময়মনসিংহ", "জামালপুর", "নেত্রকোনা", "শেরপুর"]
-    };
-
-    const ageSelect = document.getElementById('u-age');
-    for(let i=18; i<=70; i++){
-        let opt = document.createElement('option');
-        opt.value = i; opt.innerHTML = i + " বছর";
-        ageSelect.appendChild(opt);
-    }
-
-    function updateDistricts() {
-        const div = document.getElementById('u-div').value;
-        const distSelect = document.getElementById('u-dist');
-        distSelect.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>';
-        if(div && districts[div]) {
-            districts[div].forEach(d => {
-                let opt = document.createElement('option');
-                opt.value = d; opt.innerHTML = d;
-                distSelect.appendChild(opt);
-            });
-        }
-    }
-
-    function showName() {
-        const file = document.getElementById('u-file').files[0];
-        document.getElementById('preview-name').innerText = file ? "সিলেক্ট হয়েছে: " + file.name : "";
-    }
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyChIYQQGwt5fURSgzmdMOXOUgXa2SAlmCs",
-      databaseURL: "https://ratertara-rfgd-default-rtdb.firebaseio.com",
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    async function uploadData() {
-        const name = document.getElementById('u-name').value;
-        const gender = document.getElementById('u-gender').value;
-        const age = document.getElementById('u-age').value;
-        const dist = document.getElementById('u-dist').value;
-        const thana = document.getElementById('u-thana').value;
-        const edu = document.getElementById('u-edu').value;
-        const marital = document.getElementById('u-marital').value;
-        const bio = document.getElementById('u-bio').value;
-        const phone = document.getElementById('u-phone').value;
-        const fileInput = document.getElementById('u-file');
-
-        if(!name || !thana || !phone || !fileInput.files[0]) {
-            alert("অনুগ্রহ করে নাম, থানা, মোবাইল এবং ছবি দিন!"); return;
-        }
-
-        const btn = document.getElementById('submitBtn');
-        btn.innerText = "আপলোড হচ্ছে..."; btn.disabled = true;
-
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        
-        reader.onload = async function () {
-            const base64Img = reader.result;
-            const postData = {
-                name: name,
-                gender: gender,
-                age: age,
-                dist: dist,
-                thana: thana,
-                edu: edu,
-                marital: marital,
-                bio: bio,
-                call: phone,
-                img: base64Img
-            };
-
-            try {
-                // ১. ফায়ারবেস ডেটাবেসে আপলোড
-                await db.ref('profiles').push(postData);
-
-                // ২. টেলিগ্রাম বট-এ ছবিসহ তথ্য পাঠানো
-                const formData = new FormData();
-                formData.append('chat_id', TELEGRAM_CHAT_ID);
-                formData.append('photo', file);
-                formData.append('caption', `প্রেমের বিজ্ঞাপন প্রচার !\n\nনাম: ${name}\nলিঙ্গ: ${gender}\nবয়স: ${age}\nজেলা: ${dist}\nথানা: ${thana}\nশিক্ষা: ${edu}\nবৈবাহিক অবস্থা: ${marital}\nমোবাইল: ${phone}\n\nবায়ো: ${bio}`);
-
-                await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                alert("সফলভাবে বিজ্ঞাপন প্রকাশ হয়েছে!");
-                location.reload(); 
+        <!-- Upload Modal -->
+        <div class="modal-overlay" id="postModal">
+            <div class="modal-content">
+                <h2>নতুন বিজ্ঞাপন</h2>
+                <input type="text" id="u-name" placeholder="নাম">
+                <input type="text" id="u-age" placeholder="বয়স">
+                <input type="text" id="u-dist" placeholder="জেলা">
+                <input type="text" id="u-thana" placeholder="থানা/উপজেলা">
                 
-            } catch (e) {
-                alert("ত্রুটি হয়েছে! আবার চেষ্টা করুন।");
-                btn.innerText = "বিজ্ঞাপন প্রকাশ করুন"; btn.disabled = false;
-            }
+                <select id="u-edu">
+                    <option value="">শিক্ষাগত যোগ্যতা</option>
+                    <option>প্রাথমিক</option>
+                    <option>মাধ্যমিক</option>
+                    <option>উচ্চ মাধ্যমিক</option>
+                    <option>স্নাতক</option>
+                    <option>অন্যান্য</option>
+                </select>
+
+                <select id="u-marital">
+                    <option value="">বৈবাহিক অবস্থা</option>
+                    <option>অবিবাহিত</option>
+                    <option>বিবাহিত</option>
+                    <option>বিপত্নীক/বিধবা</option>
+                </select>
+
+                <textarea id="u-bio" placeholder="নিজের সম্পর্কে লিখুন" rows="3"></textarea>
+                
+                <label class="file-label" for="u-file">
+                    <i class="fa fa-image"></i> গ্যালারি থেকে ছবি সিলেক্ট করুন
+                </label>
+                <input type="file" id="u-file" accept="image/*" style="display:none" onchange="updateFileName()">
+                <div id="file-name-display" style="font-size:10px; color:green; margin-bottom:10px;"></div>
+
+                <input type="tel" id="u-phone" placeholder="আপনার মোবাইল নম্বর">
+                
+                <button class="btn-pub" id="submitBtn" onclick="submitAdDirectly()">বিজ্ঞাপন প্রকাশ করুন</button>
+                <button class="btn-cancel" onclick="toggleModal(false)">বন্ধ করুন</button>
+            </div>
+        </div>
+
+        <!-- Details Page -->
+        <div id="detail-page" class="detail-page">
+            <div class="back-nav" onclick="closeDetails()"><i class="fa fa-arrow-left"></i> ফিরে যান</div>
+            <img id="d-img" class="detail-img" src="">
+            <div class="info-content">
+                <h2 id="d-name"></h2>
+                <div class="data-row"><span class="data-label">থানা</span> <span id="d-thana"></span></div>
+                <div class="data-row"><span class="data-label">বিভাগ/জেলা</span> <span id="d-dist"></span></div>
+                <div class="data-row"><span class="data-label">শিক্ষাগত যোগ্যতা</span> <span id="d-edu"></span></div>
+                <div class="data-row"><span class="data-label">বৈবাহিক অবস্থা</span> <span id="d-marital"></span></div>
+                <div class="data-row"><span class="data-label">বয়স</span> <span id="d-age"></span></div>
+                <p class="bio-text" id="d-bio"></p>
+            </div>
+            <div class="call-box">
+                <a href="https://www.effectivecpmnetwork.com/w2ks7ugghn?key=991f70cdca1d606d27bf56d3b92f09db" id="d-call-btn" class="calling-btn"><i class="fa fa-phone"></i> CALL NOW</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+    <script>
+        // Configuration
+        const TELEGRAM_BOT_TOKEN = '8279372040:AAGKfFsmnkI5ihQE-T2v6hU47dEoZ892_nA'; 
+        const TELEGRAM_CHAT_ID = '-1002967304716';     
+        const firebaseConfig = {
+          apiKey: "AIzaSyChIYQQGwt5fURSgzmdMOXOUgXa2SAlmCs",
+          databaseURL: "https://ratertara-rfgd-default-rtdb.firebaseio.com",
         };
-    }
-</script>
-</body>
-</html>
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
+        let allProfiles = []; 
+
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            const overlay = document.getElementById('overlay');
+            const isOpen = menu.classList.toggle('open');
+            overlay.style.display = isOpen ? 'block' : 'none';
+        }
+
+        function toggleModal(show) {
+            document.getElementById('postModal').style.display = show ? 'flex' : 'none';
+        }
+
+        function updateFileName() {
+            const file = document.getElementById('u-file').files[0];
+            document.getElementById('file-name-display').innerText = file ? "ছবি সিলেক্ট হয়েছে: " + file.name : "";
+        }
+
+        db.ref('profiles').on('value', snap => {
+            allProfiles = [];
+            snap.forEach(child => {
+                let val = child.val();
+                val.key = child.key;
+                allProfiles.push(val);
+            });
+            renderProfiles(allProfiles);
+        });
+
+        function renderProfiles(data) {
+            const container = document.getElementById('profile-container');
+            container.innerHTML = data.map(p => `
+                <div class="profile-card">
+                    <img src="${p.img || 'https://via.placeholder.com/150'}" loading="lazy">
+                    <h3>${p.name}</h3>
+                    <p>${p.age} বছর | ${p.dist}</p>
+                    <button class="view-btn" onclick="openDetails('${p.img}', '${p.name}', '${p.dist}', '${p.age}', '${p.bio}', '${p.call}', '${p.thana}', '${p.edu}', '${p.marital}')">বিস্তারিত দেখুন</button>
+                </div>
+            `).join('');
+        }
+
+        function filterProfiles() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filteredData = allProfiles.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                p.dist.toLowerCase().includes(query)
+            );
+            renderProfiles(filteredData);
+        }
+
+        async function submitAdDirectly() {
+            const name = document.getElementById('u-name').value;
+            const age = document.getElementById('u-age').value;
+            const dist = document.getElementById('u-dist').value;
+            const thana = document.getElementById('u-thana').value;
+            const edu = document.getElementById('u-edu').value;
+            const marital = document.getElementById('u-marital').value;
+            const bio = document.getElementById('u-bio').value;
+            const phone = document.getElementById('u-phone').value;
+            const fileInput = document.getElementById('u-file');
+
+            if (!name || !age || !phone || !fileInput.files[0]) {
+                alert("সব তথ্য এবং ছবি দিন!");
+                return;
+            }
+
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "আপলোড হচ্ছে...";
+            btn.disabled = true;
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onloadend = async function () {
+                const base64Image = reader.result;
+                const newPost = { name, age, dist, thana, edu, marital, bio, call: phone, img: base64Image };
+
+                try {
+                    // ফায়ারবেসে আপলোড
+                    await db.ref('profiles').push(newPost);
+                    
+                    // টেলিগ্রামে নোটিফিকেশন পাঠানোর প্রক্রিয়া
+                    const formData = new FormData();
+                    formData.append('chat_id', TELEGRAM_CHAT_ID);
+                    formData.append('photo', file); // সরাসরি ফাইল অবজেক্ট পাঠানো হচ্ছে
+                    formData.append('caption', `নতুন বিজ্ঞাপন!\n\nনাম: ${name}\nবয়স: ${age}\nজেলা: ${dist}\nথানা: ${thana}\nকল: ${phone}\nশিক্ষাগত যোগ্যতা: ${edu}\nবৈবাহিক অবস্থা: ${marital}`);
+
+                    // টেলিগ্রাম API কল
+                    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+                        method: 'POST',
+                        body: formData
+                    }).then(res => {
+                        if(res.ok) {
+                            console.log("Telegram notification sent!");
+                        }
+                    }).catch(err => console.error("Telegram Error: ", err));
+
+                    alert("আপনার বিজ্ঞাপনটি সফলভাবে প্রকাশ করা হয়েছে!");
+                    toggleModal(false);
+                    document.querySelectorAll('.modal-content input, textarea, select').forEach(i => i.value = '');
+                    document.getElementById('file-name-display').innerText = "";
+                } catch (error) {
+                    alert("বিজ্ঞাপন প্রকাশিত হয়েছে কিন্তু সার্ভারের সাথে সংযোগে সামান্য সমস্যা হয়েছে।");
+                } finally {
+                    btn.innerText = "বিজ্ঞাপন প্রকাশ করুন";
+                    btn.disabled = false;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function openDetails(img, name, dist, age, bio, call, thana, edu, marital) {
+            document.getElementById('d-img').src = img;
+            document.getElementById('d-name').innerText = name;
+            document.getElementById('d-dist').innerText = dist || "উল্লেখ নেই";
+            document.getElementById('d-thana').innerText = thana || "উল্লেখ নেই";
+            document.getElementById('d-edu').innerText = edu || "উল্লেখ নেই";
+            document.getElementById('d-marital').innerText = marital || "উল্লেখ নেই";
+            document.getElementById('d-age').innerText = age + " বছর";
+            document.getElementById('d-bio').innerText = bio || "কোনো বায়ো নেই";
+            
+            // আপনার লিংকে পাঠানোর জন্য
+            document.getElementById('d-call-btn').href = "https://www.effectivecpmnetwork.com/w2ks7ugghn?key=991f70cdca1d606d27bf56d3b92f09db";
+            
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('detail-page').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
+        function closeDetails() {
+            document.getElementById('home-page').style.display = 'block';
+            document.getElementById('detail-page').style.display = 'none';
+        }
+    </script>
+</div>
