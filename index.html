@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title></title>
+<title>Verify & Continue</title>
 
 <style>
 body{
@@ -25,10 +25,18 @@ body{
     box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
+.checkbox{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-top:10px;
+}
+
 button{
     width:100%;
     padding:10px;
-    margin-top:10px;
+    margin-top:15px;
     border:none;
     border-radius:8px;
     background:#22c55e;
@@ -38,7 +46,7 @@ button{
 }
 
 #adsBox{
-    margin-top:10px;
+    margin-top:15px;
     display:none;
 }
 
@@ -52,90 +60,80 @@ button{
 <body>
 
 <div class="box">
-    <h2>Verification</h2>
+    <h2> Verify You Are Human</h2>
 
-    <p id="status">Starting...</p>
+    <p id="status">Please verify to continue...</p>
 
-    <button id="continueBtn" style="display:none;">Continue to Website</button>
+    <div class="checkbox">
+        <input type="checkbox" id="check">
+        <label>I am not a robot</label>
+    </div>
+
+    <button id="btn">Verify</button>
 
     <div id="adsBox"></div>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-// ===== FIREBASE CONFIG =====
-const firebaseConfig = {
-  apiKey: "AIzaSyC...",
-  authDomain: "ratertara-rfgd.firebaseapp.com",
-  databaseURL: "https://ratertara-rfgd-default-rtdb.firebaseio.com",
-  projectId: "ratertara-rfgd",
-  storageBucket: "ratertara-rfgd.firebasestorage.app",
-  messagingSenderId: "624181865811",
-  appId: "1:624181865811:web:e3283ed9718becf98505a6",
-  measurementId: "G-T87GCRSB8V"
-};
-
-// init firebase
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
+<script>
+const btn = document.getElementById("btn");
+const check = document.getElementById("check");
 const status = document.getElementById("status");
-const btn = document.getElementById("continueBtn");
 const adsBox = document.getElementById("adsBox");
 
 let verified = false;
 
-// ===== ADS LOAD =====
-function loadAds(){
-    const script = document.createElement("script");
-    script.src = "https://pl28030591.effectivecpmnetwork.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js";
-    script.async = true;
-    adsBox.appendChild(script);
-}
+// ===== VERIFY SYSTEM =====
+btn.onclick = () => {
 
-// ===== SAVE VISIT TO FIREBASE =====
-function saveVisit(){
-    const visitRef = push(ref(db, "visits"));
-    set(visitRef, {
-        time: Date.now(),
-        verified: true
-    });
-}
+    if(!check.checked){
+        status.innerText = "❌ Please confirm checkbox first";
+        return;
+    }
 
-// ===== AUTO VERIFY =====
-window.onload = () => {
     let t = 5;
+    btn.disabled = true;
+
+    status.innerText = "Verifying... " + t + "s";
 
     let interval = setInterval(() => {
-        status.innerText = "Verifying... " + t + "s";
         t--;
+        status.innerText = "Verifying... " + t + "s";
 
         if(t < 0){
             clearInterval(interval);
 
             verified = true;
-            status.innerText = "Verified ";
+            status.innerText = "✔ Verified Successfully";
 
-            adsBox.style.display = "block";
             loadAds();
-
-            btn.style.display = "block";
-
-            // save to firebase
-            saveVisit();
         }
     },1000);
 };
 
-// ===== REDIRECT =====
-btn.onclick = () => {
-    if(!verified) return;
+// ===== ADS LOAD =====
+function loadAds(){
 
-    // 👉 তোমার লিংক এখানে বসাবে
-    window.location.href = "https://ratertara.vercel.app/";
-};
+    adsBox.style.display = "block";
+
+    const script = document.createElement("script");
+    script.src = "https://pl28030591.effectivecpmnetwork.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js";
+    script.async = true;
+
+    script.onload = () => {
+        status.innerText = "  Loaded... Redirecting soon";
+    };
+
+    script.onerror = () => {
+        status.innerText = "❌ Ads failed to load, redirecting...";
+    };
+
+    adsBox.appendChild(script);
+
+    // ===== welcome to ratertara  =====
+    setTimeout(() => {
+        window.location.href = "https://www.effectivecpmnetwork.com/xhfzs2jc?key=ee214a0532a429bbac69f35c12c6a33b";
+    }, 5000);
+}
 </script>
 
 </body>
