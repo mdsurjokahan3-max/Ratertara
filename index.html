@@ -3,22 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auto Verified Ads System</title>
+<title>Ads Verification System</title>
 
 <style>
 body{
     margin:0;
     font-family:Arial;
     background:#ffffff;
-    color:#111;
     display:flex;
     justify-content:center;
     align-items:center;
     height:100vh;
 }
 
-.container{
-    width:320px;
+.box{
+    width:340px;
     background:#f3f4f6;
     padding:20px;
     border-radius:12px;
@@ -26,87 +25,117 @@ body{
     box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
+button{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+    background:#22c55e;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
 #adsBox{
-    margin-top:15px;
+    margin-top:10px;
     display:none;
 }
 
 #status{
-    font-size:14px;
     margin-top:10px;
-}
-
-.badge{
-    display:inline-block;
-    padding:5px 10px;
-    background:#e5e7eb;
-    border-radius:20px;
-    font-size:12px;
-    margin-top:8px;
+    font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h2>Welcome to ratertara </h2>
-
-    <div class="badge">ভিজিট করুন </div>
+<div class="box">
+    <h2>🔐 Ads Verification</h2>
 
     <p id="status">Starting...</p>
+
+    <button id="continueBtn" style="display:none;">Continue to Website</button>
 
     <div id="adsBox"></div>
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+// ===== FIREBASE CONFIG =====
+const firebaseConfig = {
+  apiKey: "AIzaSyC...",
+  authDomain: "ratertara-rfgd.firebaseapp.com",
+  databaseURL: "https://ratertara-rfgd-default-rtdb.firebaseio.com",
+  projectId: "ratertara-rfgd",
+  storageBucket: "ratertara-rfgd.firebasestorage.app",
+  messagingSenderId: "624181865811",
+  appId: "1:624181865811:web:e3283ed9718becf98505a6",
+  measurementId: "G-T87GCRSB8V"
+};
+
+// init firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
 const status = document.getElementById("status");
+const btn = document.getElementById("continueBtn");
 const adsBox = document.getElementById("adsBox");
 
 let verified = false;
 
-// ===== AUTO VERIFICATION =====
-window.onload = () => {
-    let time = 5;
-
-    status.innerText = "Verifying automatically... " + time + "s";
-
-    let interval = setInterval(() => {
-        time--;
-        status.innerText = "Verifying automatically... " + time + "s";
-
-        if(time < 0){
-            clearInterval(interval);
-
-            verified = true;
-            status.innerText = " Loading...";
-
-            loadAds();
-        }
-    }, 1000);
-};
-
-// ===== ADS LOADER =====
+// ===== ADS LOAD =====
 function loadAds(){
-
-    if(!verified) return;
-
-    adsBox.style.display = "block";
-
     const script = document.createElement("script");
     script.src = "https://pl28030591.effectivecpmnetwork.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js";
     script.async = true;
-
-    script.onload = () => {
-        status.innerText = " Successfully ✔";
-    };
-
-    script.onerror = () => {
-        status.innerText = "Ads Failed ❌";
-    };
-
     adsBox.appendChild(script);
 }
+
+// ===== SAVE VISIT TO FIREBASE =====
+function saveVisit(){
+    const visitRef = push(ref(db, "visits"));
+    set(visitRef, {
+        time: Date.now(),
+        verified: true
+    });
+}
+
+// ===== AUTO VERIFY =====
+window.onload = () => {
+    let t = 5;
+
+    let interval = setInterval(() => {
+        status.innerText = "Verifying... " + t + "s";
+        t--;
+
+        if(t < 0){
+            clearInterval(interval);
+
+            verified = true;
+            status.innerText = "Verified ✔ Ads Loaded";
+
+            adsBox.style.display = "block";
+            loadAds();
+
+            btn.style.display = "block";
+
+            // save to firebase
+            saveVisit();
+        }
+    },1000);
+};
+
+// ===== REDIRECT =====
+btn.onclick = () => {
+    if(!verified) return;
+
+    // 👉 তোমার লিংক এখানে বসাবে
+    window.location.href = "https://ratertara.rf.gd";
+};
 </script>
 
 </body>
