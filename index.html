@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রেমের বিজ্ঞাপন - ইউজার</title>
+    <title>প্রেমের বিজ্ঞাপন</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --primary: #e63946; --pink-text: #ff4d6d; --bg-light: #fff0f3; }
@@ -11,101 +11,99 @@
         body { background-color: #f8f9fa; display: flex; justify-content: center; }
         .app-container { width: 100%; max-width: 450px; background: #fff; min-height: 100vh; position: relative; box-shadow: 0 0 15px rgba(0,0,0,0.1); overflow-x: hidden; padding-bottom: 30px; }
         .header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
-        .header h2 { font-size: 18px; color: #333; font-weight: bold; }
-        .header i { cursor: pointer; font-size: 20px; color: #444; }
-        
-        /* Auth UI */
-        #auth-section { text-align: center; padding: 50px 20px; }
-        .login-btn { background: #db4437; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; }
-
+        #auth-section { text-align: center; padding: 100px 20px; }
+        .login-btn { background: #db4437; color: white; border: none; padding: 15px 25px; border-radius: 50px; cursor: pointer; font-size: 16px; font-weight: bold; }
         .marquee-container { background: var(--pink-text); color: white; padding: 10px; margin: 10px; border-radius: 6px; overflow: hidden; white-space: nowrap; font-size: 14px; }
         .marquee-text { display: inline-block; animation: marquee 15s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        
         .search-container { padding: 10px 15px; position: relative; }
         .search-container input { width: 100%; padding: 12px 15px 12px 40px; border-radius: 50px; border: 1px solid #ff4d6d; outline: none; }
         .search-container i { position: absolute; left: 30px; top: 22px; color: #ff4d6d; }
-        
         .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px; }
         .profile-card { background: #fff; border-radius: 12px; border: 1px solid #ffeef2; overflow: hidden; text-align: center; padding-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
         .profile-card img { width: 100%; height: 160px; object-fit: cover; }
         .view-btn { background: var(--pink-text); color: white; border: none; padding: 8px 15px; border-radius: 50px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 5px; }
-        
         .fab { position: fixed; bottom: 30px; right: 20px; width: 60px; height: 60px; background: #880e4f; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; z-index: 999; cursor: pointer; }
-        
-        /* Ads Area */
-        .ad-slot { width: 100%; text-align: center; margin: 10px 0; min-height: 50px; background: #f9f9f9; }
-
+        .ad-slot { width: 100%; text-align: center; margin: 10px 0; }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: white; width: 100%; max-width: 400px; border-radius: 20px; padding: 20px; max-height: 90vh; overflow-y: auto; }
         .modal-content input, .modal-content textarea { width: 100%; padding: 10px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px; }
-
         .detail-page { display: none; background: #fff; position: absolute; top: 0; width: 100%; min-height: 100vh; z-index: 200; }
-        .info-content { padding: 20px; }
-        .data-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #ddd; font-size: 14px; }
+        .data-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #ddd; font-size: 14px; }
+        .data-label { color: purple; font-weight: bold; }
         .calling-btn { background: linear-gradient(to right, #2ecc71, #27ae60); color: white; border: none; padding: 16px; width: 100%; border-radius: 50px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; font-weight: bold; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <!-- Google Login Section -->
+    <!-- Auth Section -->
     <div id="auth-section">
-        <h2 style="color:var(--pink-text)">স্বাগতম</h2>
-        <p>অ্যাপটি ব্যবহার করতে লগইন করুন</p><br>
+        <h1 style="color:var(--pink-text)">Love Ads</h1>
+        <p style="margin-bottom:30px;">অ্যাপটি ব্যবহার করতে লগইন করুন</p>
         <button class="login-btn" onclick="googleLogin()"><i class="fab fa-google"></i> Google Login</button>
     </div>
 
-    <!-- Main Content (Hidden initially) -->
+    <!-- Main Content -->
     <div id="main-content" style="display:none;">
         <div class="header">
             <i class="fa fa-bars"></i>
-            <h2>প্রেমের বিজ্ঞাপন</h2>
-            <i class="fa fa-user-circle" id="user-pic"></i>
+            <h2 style="font-size:18px;">প্রেমের বিজ্ঞাপন</h2>
+            <img id="user-pic" style="width:35px; border-radius:50%;">
         </div>
-
-        <div id="top-ad" class="ad-slot"></div> <!-- Adsterra Top -->
-
+        <div id="top-ad" class="ad-slot"></div>
         <div class="marquee-container"><div class="marquee-text" id="marquee-text">লোড হচ্ছে...</div></div>
-        
         <div class="search-container">
             <i class="fa fa-search"></i>
             <input type="text" id="search-input" placeholder="নাম বা জেলা দিয়ে খুঁজুন..." onkeyup="filterProfiles()">
         </div>
-
         <div class="profile-grid" id="profile-container"></div>
-
-        <div id="bottom-ad" class="ad-slot"></div> <!-- Adsterra Bottom -->
+        <div id="bottom-ad" class="ad-slot"></div>
     </div>
 
     <div class="fab" id="add-btn" style="display:none;" onclick="toggleModal(true)"><i class="fa fa-plus"></i></div>
 
-    <!-- Add Post Modal -->
-    <div class="modal-overlay" id="postModal">
-        <div class="modal-content">
-            <h3 style="text-align:center; color:var(--pink-text)">নতুন বিজ্ঞাপন</h3>
-            <input type="text" id="u-name" placeholder="নাম">
-            <input type="text" id="u-dist" placeholder="জেলা">
-            <input type="number" id="u-age" placeholder="বয়স">
-            <input type="tel" id="u-phone" placeholder="ফোন নম্বর">
-            <textarea id="u-bio" placeholder="আপনার সম্পর্কে..."></textarea>
-            <p style="font-size:12px; margin-top:10px;">ফটো:</p>
-            <input type="file" id="u-file" accept="image/*">
-            <button class="view-btn" id="submitBtn" onclick="submitAd()" style="width:100%; padding:15px; margin-top:15px;">জমা দিন</button>
-            <button onclick="toggleModal(false)" style="width:100%; margin-top:10px; border:none; background:none;">বন্ধ করুন</button>
-        </div>
-    </div>
-
-    <!-- Detail View -->
+    <!-- Detail Page -->
     <div id="detail-page" class="detail-page">
         <div style="padding:15px; cursor:pointer; color:red;" onclick="closeDetails()"><i class="fa fa-arrow-left"></i> ফিরে যান</div>
         <img id="d-img" style="width:100%; height:320px; object-fit:cover;">
-        <div class="info-content">
-            <h2 id="d-name"></h2>
-            <div class="data-row"><span>জেলা</span> <span id="d-dist"></span></div>
-            <div class="data-row"><span>বয়স</span> <span id="d-age"></span></div>
-            <p id="d-bio" style="margin-top:15px;"></p>
-            <a href="#" id="d-call" class="calling-btn"><i class="fa fa-phone"></i> CALL NOW</a>
+        <div style="padding:20px;">
+            <h2 id="d-name" style="margin-bottom:10px;"></h2>
+            <div class="data-row"><span class="data-label">বিভাগ</span> <span id="d-div"></span></div>
+            <div class="data-row"><span class="data-label">জেলা</span> <span id="d-dist"></span></div>
+            <div class="data-row"><span class="data-label">থানা</span> <span id="d-thana"></span></div>
+            <div class="data-row"><span class="data-label">গ্রাম</span> <span id="d-village"></span></div>
+            <div class="data-row"><span class="data-label">বয়স</span> <span id="d-age"></span></div>
+            <div class="data-row"><span class="data-label">কর্ম/পেশা</span> <span id="d-work"></span></div>
+            <div class="data-row"><span class="data-label">দেশ</span> <span id="d-country"></span></div>
+            <div class="data-row"><span class="data-label">বর্তমান স্থান</span> <span id="d-loc"></span></div>
+            <div style="margin-top:15px;">
+                <p class="data-label">ব্যক্তিগত তথ্য:</p>
+                <p id="d-bio" style="color:#555; line-height:1.5;"></p>
+            </div>
+            <a href="#" id="d-call" class="calling-btn"><i class="fa fa-phone"></i> সরাসরি কল করুন</a>
+        </div>
+    </div>
+
+    <!-- Add Modal -->
+    <div class="modal-overlay" id="postModal">
+        <div class="modal-content">
+            <h3 style="text-align:center; color:var(--pink-text)">নতুন বিজ্ঞাপন জমা দিন</h3>
+            <input type="text" id="u-name" placeholder="নাম">
+            <input type="text" id="u-div" placeholder="বিভাগ">
+            <input type="text" id="u-dist" placeholder="জেলা">
+            <input type="text" id="u-thana" placeholder="থানা">
+            <input type="text" id="u-village" placeholder="গ্রাম">
+            <input type="number" id="u-age" placeholder="বয়স">
+            <input type="text" id="u-work" placeholder="কর্ম/পেশা">
+            <input type="text" id="u-country" placeholder="দেশ">
+            <input type="text" id="u-loc" placeholder="বর্তমান স্থান">
+            <input type="tel" id="u-phone" placeholder="ফোন নম্বর">
+            <textarea id="u-bio" placeholder="আপনার সম্পর্কে ব্যক্তিগত তথ্য..." rows="3"></textarea>
+            <p style="font-size:12px; margin-top:10px;">একটি সুন্দর ছবি সিলেক্ট করুন:</p>
+            <input type="file" id="u-file" accept="image/*">
+            <button class="view-btn" id="submitBtn" onclick="submitAd()" style="width:100%; padding:15px; margin-top:15px; font-size:16px;">জমা দিন</button>
+            <button onclick="toggleModal(false)" style="width:100%; margin-top:10px; border:none; background:none; color:#777;">বন্ধ করুন</button>
         </div>
     </div>
 </div>
@@ -116,8 +114,14 @@
 
 <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyChIYQQGwt5fURSgzmdMOXOUgXa2SAlmCs",
-      databaseURL: "https://ratertara-rfgd-default-rtdb.firebaseio.com",
+      apiKey: "AIzaSyAC8EXuscOlO8u6rIwUa5Nn68qXOlHUG2c",
+      authDomain: "love-ads-6e6f6.firebaseapp.com",
+      databaseURL: "https://love-ads-6e6f6-default-rtdb.firebaseio.com",
+      projectId: "love-ads-6e6f6",
+      storageBucket: "love-ads-6e6f6.firebasestorage.app",
+      messagingSenderId: "435675133984",
+      appId: "1:435675133984:web:e63e0bf09c436002106445",
+      measurementId: "G-R8CJGZ0CMB"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
@@ -126,30 +130,27 @@
     let approvedProfiles = [];
     let appConfig = {};
 
-    // Auth State
     auth.onAuthStateChanged(user => {
         if(user) {
             document.getElementById('auth-section').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
             document.getElementById('add-btn').style.display = 'flex';
-            db.ref('users/' + user.uid).set({ name: user.displayName, email: user.email, pic: user.photoURL });
+            document.getElementById('user-pic').src = user.photoURL;
         }
     });
 
     function googleLogin() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithPopup(provider);
+        auth.signInWithPopup(provider).catch(e => alert(e.message));
     }
 
-    // Load Config & Ads
     db.ref('app_config').on('value', snap => {
         appConfig = snap.val() || {};
-        document.getElementById('marquee-text').innerText = appConfig.marquee || "স্বাগতম";
+        document.getElementById('marquee-text').innerText = appConfig.marquee || "স্বাগতম!";
         if(appConfig.ad_top) document.getElementById('top-ad').innerHTML = appConfig.ad_top;
         if(appConfig.ad_bottom) document.getElementById('bottom-ad').innerHTML = appConfig.ad_bottom;
     });
 
-    // Load Approved Profiles
     db.ref('approved_profiles').on('value', snap => {
         approvedProfiles = [];
         let html = '';
@@ -165,16 +166,21 @@
         const p = approvedProfiles.find(x => x.id === id);
         document.getElementById('d-img').src = p.img;
         document.getElementById('d-name').innerText = p.name;
-        document.getElementById('d-dist').innerText = p.dist;
-        document.getElementById('d-age').innerText = p.age;
-        document.getElementById('d-bio').innerText = p.bio;
+        document.getElementById('d-div').innerText = p.div || "---";
+        document.getElementById('d-dist').innerText = p.dist || "---";
+        document.getElementById('d-thana').innerText = p.thana || "---";
+        document.getElementById('d-village').innerText = p.village || "---";
+        document.getElementById('d-age').innerText = p.age + " বছর";
+        document.getElementById('d-work').innerText = p.work || "---";
+        document.getElementById('d-country').innerText = p.country || "---";
+        document.getElementById('d-loc').innerText = p.loc || "---";
+        document.getElementById('d-bio').innerText = p.bio || "তথ্য নেই";
         
-        // Admin Logic for Call Button
-        let finalCall = "tel:" + p.call;
-        if(p.custom_link) finalCall = p.custom_link; // Individual override
-        else if(appConfig.global_call_link) finalCall = appConfig.global_call_link; // Global override
+        let callLink = "tel:" + p.call;
+        if(p.custom_link) callLink = p.custom_link;
+        else if(appConfig.global_call_link) callLink = appConfig.global_call_link;
         
-        document.getElementById('d-call').href = finalCall;
+        document.getElementById('d-call').href = callLink;
         document.getElementById('main-content').style.display = 'none';
         document.getElementById('detail-page').style.display = 'block';
     }
@@ -183,25 +189,42 @@
         const name = document.getElementById('u-name').value;
         const phone = document.getElementById('u-phone').value;
         const file = document.getElementById('u-file').files[0];
-        if(!name || !file || !phone) return alert("সব তথ্য দিন");
-
+        
+        if(!name || !file || !phone) return alert("দয়া করে নাম, ফোন এবং ফটো অবশ্যই দিন!");
+        
+        document.getElementById('submitBtn').innerText = "জমা হচ্ছে...";
         const reader = new FileReader();
         reader.onload = async (e) => {
             await db.ref('pending_profiles').push({
-                name, dist: document.getElementById('u-dist').value,
+                name, div: document.getElementById('u-div').value,
+                dist: document.getElementById('u-dist').value,
+                thana: document.getElementById('u-thana').value,
+                village: document.getElementById('u-village').value,
                 age: document.getElementById('u-age').value,
+                work: document.getElementById('u-work').value,
+                country: document.getElementById('u-country').value,
+                loc: document.getElementById('u-loc').value,
                 bio: document.getElementById('u-bio').value,
                 call: phone, img: e.target.result, 
-                uid: auth.currentUser.uid, status: 'pending'
+                uid: auth.currentUser.uid, time: Date.now()
             });
-            alert("অপেক্ষায় থাকুন, এডমিন এপ্রুভ করলে দেখা যাবে।");
+            alert("আপনার বিজ্ঞাপনটি সফলভাবে জমা হয়েছে। এডমিন এপ্রুভ করলে এটি দেখা যাবে।");
             location.reload();
         };
         reader.readAsDataURL(file);
+    }
+
+    function filterProfiles() {
+        const q = document.getElementById('search-input').value.toLowerCase();
+        let html = '';
+        approvedProfiles.filter(p => p.name.toLowerCase().includes(q) || p.dist.toLowerCase().includes(q)).forEach(p => {
+            html += `<div class="profile-card"><img src="${p.img}"><h3>${p.name}</h3><p>${p.age} বছর | ${p.dist}</p><button class="view-btn" onclick="openDetails('${p.id}')">বিস্তারিত</button></div>`;
+        });
+        document.getElementById('profile-container').innerHTML = html;
     }
 
     function closeDetails() { document.getElementById('main-content').style.display = 'block'; document.getElementById('detail-page').style.display = 'none'; }
     function toggleModal(s) { document.getElementById('postModal').style.display = s?'flex':'none'; }
 </script>
 </body>
-                </html>
+</html>
