@@ -1,69 +1,70 @@
-= html;
-    });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VideoHub - Rater Tara</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
 
-    function openDetails(id) {
-        const p = approvedProfiles.find(x => x.id === id);
-        document.getElementById('d-img').src = p.img;
-        document.getElementById('d-name').innerText = p.name;
-        document.getElementById('d-div').innerText = p.div || "---";
-        document.getElementById('d-dist').innerText = p.dist || "---";
-        document.getElementById('d-thana').innerText = p.thana || "---";
-        document.getElementById('d-village').innerText = p.village || "---";
-        document.getElementById('d-age').innerText = p.age + " বছর";
-        document.getElementById('d-work').innerText = p.work || "---";
-        document.getElementById('d-country').innerText = p.country || "---";
-        document.getElementById('d-loc').innerText = p.loc || "---";
-        document.getElementById('d-bio').innerText = p.bio || "তথ্য নেই";
-        
-        let callLink = "tel:" + p.call;
-        if(p.custom_link) callLink = p.custom_link;
-        else if(appConfig.global_call_link) callLink = appConfig.global_call_link;
-        
-        document.getElementById('d-call').href = callLink;
-        document.getElementById('main-content').style.display = 'none';
-        document.getElementById('detail-page').style.display = 'block';
-    }
+    <header class="top-nav">
+        <div class="logo"><i class="fab fa-youtube"></i> VideoHub</div>
+        <div class="header-right">
+            <i class="fas fa-search" onclick="alert('Search Coming Soon')"></i>
+            <img src="https://i.pravatar.cc/100" class="avatar" onclick="showSection('profile-section')">
+        </div>
+    </header>
 
-    async function submitAd() {
-        const name = document.getElementById('u-name').value;
-        const phone = document.getElementById('u-phone').value;
-        const file = document.getElementById('u-file').files[0];
-        
-        if(!name || !file || !phone) return alert("দয়া করে নাম, ফোন এবং ফটো অবশ্যই দিন!");
-        
-        document.getElementById('submitBtn').innerText = "জমা হচ্ছে...";
-        const reader = new FileReader();
-        reader.onload = async (e) => {
-            await db.ref('pending_profiles').push({
-                name, div: document.getElementById('u-div').value,
-                dist: document.getElementById('u-dist').value,
-                thana: document.getElementById('u-thana').value,
-                village: document.getElementById('u-village').value,
-                age: document.getElementById('u-age').value,
-                work: document.getElementById('u-work').value,
-                country: document.getElementById('u-country').value,
-                loc: document.getElementById('u-loc').value,
-                bio: document.getElementById('u-bio').value,
-                call: phone, img: e.target.result, 
-                uid: auth.currentUser.uid, time: Date.now()
-            });
-            alert("আপনার বিজ্ঞাপনটি সফলভাবে জমা হয়েছে। এডমিন এপ্রুভ করলে এটি দেখা যাবে।");
-            location.reload();
-        };
-        reader.readAsDataURL(file);
-    }
+    <main id="app-content">
+        <!-- Home Feed -->
+        <section id="home-section" class="content-section">
+            <h3 class="section-title">🎬 Featured Videos</h3>
+            <div id="videoGrid" class="video-grid">
+                <!-- ভিডিও এখানে লোড হবে -->
+            </div>
+        </section>
 
-    function filterProfiles() {
-        const q = document.getElementById('search-input').value.toLowerCase();
-        let html = '';
-        approvedProfiles.filter(p => p.name.toLowerCase().includes(q) || p.dist.toLowerCase().includes(q)).forEach(p => {
-            html += `<div class="profile-card"><img src="${p.img}"><h3>${p.name}</h3><p>${p.age} বছর | ${p.dist}</p><button class="view-btn" onclick="openDetails('${p.id}')">বিস্তারিত</button></div>`;
-        });
-        document.getElementById('profile-container').innerHTML = html;
-    }
+        <!-- Publish Section -->
+        <section id="upload-section" class="content-section" style="display:none;">
+            <div class="card-form">
+                <h3><i class="fas fa-plus-circle"></i> Publish New Video</h3>
+                <input type="text" id="vTitle" placeholder="Video Title">
+                <select id="vSource">
+                    <option value="youtube">YouTube Link</option>
+                    <option value="drive">Google Drive Link</option>
+                </select>
+                <input type="text" id="vLink" placeholder="Paste Video Link Here">
+                <button class="btn-primary" onclick="publishVideo()">Publish Video</button>
+            </div>
+        </section>
 
-    function closeDetails() { document.getElementById('main-content').style.display = 'block'; document.getElementById('detail-page').style.display = 'none'; }
-    function toggleModal(s) { document.getElementById('postModal').style.display = s?'flex':'none'; }
-</script>
+        <!-- Profile Dashboard -->
+        <section id="profile-section" class="content-section" style="display:none;">
+            <div class="profile-header">
+                <img src="https://i.pravatar.cc/150" class="p-img">
+                <h2>User Dashboard</h2>
+                <p style="color: #888;">Manage your shared videos here</p>
+                <div id="adminVideoList" style="margin-top: 20px;">
+                    <!-- ভিডিও কন্ট্রোল লিস্ট -->
+                </div>
+                <button class="btn-sec" onclick="location.reload()">Refresh App</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="showSection('home-section')"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-item" onclick="alert('Shorts Ready')"><i class="fas fa-bolt"></i><span>Shorts</span></div>
+        <div class="nav-plus" onclick="showSection('upload-section')"><i class="fas fa-plus"></i></div>
+        <div class="nav-item"><i class="fas fa-heart"></i><span>Fav</span></div>
+        <div class="nav-item" onclick="showSection('profile-section')"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    </nav>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="app.js"></script>
 </body>
-</html>
+</html>।
