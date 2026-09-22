@@ -1,70 +1,864 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VideoHub - Rater Tara</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Free Spin</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Hind Siliguri',sans-serif;
+    min-height:100vh;
+    background:linear-gradient(135deg,#fff1f7,#eee7ff);
+    padding:20px 12px;
+}
+
+.app{
+    width:100%;
+    max-width:430px;
+    margin:auto;
+    background:#fff;
+    border-radius:28px;
+    padding:24px 16px 30px;
+    box-shadow:0 15px 45px rgba(0,0,0,.15);
+}
+
+.header{
+    text-align:center;
+}
+
+.logo{
+    width:78px;
+    height:78px;
+    margin:auto;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    font-size:40px;
+
+    background:
+        linear-gradient(135deg,#ff2874,#754cff);
+
+    box-shadow:
+        0 10px 25px rgba(117,76,255,.30);
+}
+
+h1{
+    margin-top:13px;
+    font-size:28px;
+}
+
+.subtitle{
+    color:#777;
+    margin-top:3px;
+}
+
+
+/* =========================
+   WHEEL
+========================= */
+
+.wheel-area{
+    position:relative;
+
+    width:280px;
+    height:280px;
+
+    margin:32px auto 25px;
+}
+
+.pointer{
+    position:absolute;
+
+    top:-17px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    z-index:20;
+
+    width:0;
+    height:0;
+
+    border-left:18px solid transparent;
+    border-right:18px solid transparent;
+    border-top:38px solid #222;
+
+    filter:
+        drop-shadow(0 3px 3px rgba(0,0,0,.3));
+}
+
+.wheel{
+    position:relative;
+
+    width:280px;
+    height:280px;
+
+    border-radius:50%;
+
+    background:
+        conic-gradient(
+            #4d7cff 0deg 90deg,
+            #229ed9 90deg 180deg,
+            #25d366 180deg 270deg,
+            #ff4d6d 270deg 360deg
+        );
+
+    border:9px solid #fff;
+
+    box-shadow:
+        0 12px 32px rgba(0,0,0,.22);
+
+    transition:
+        transform 4s cubic-bezier(.12,.8,.16,1);
+}
+
+
+/* =========================
+   WHEEL TEXT
+========================= */
+
+.wheel-text{
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+    left:0;
+    top:0;
+}
+
+.option{
+    position:absolute;
+
+    width:110px;
+
+    left:50%;
+    top:50%;
+
+    margin-left:-55px;
+    margin-top:-17px;
+
+    text-align:center;
+
+    color:#fff;
+
+    font-size:16px;
+    font-weight:700;
+
+    text-shadow:
+        0 2px 4px rgba(0,0,0,.45);
+}
+
+.option span{
+    display:block;
+    font-size:27px;
+}
+
+.o1{
+    transform:
+        rotate(45deg)
+        translateY(-90px);
+}
+
+.o2{
+    transform:
+        rotate(135deg)
+        translateY(-90px);
+}
+
+.o3{
+    transform:
+        rotate(225deg)
+        translateY(-90px);
+}
+
+.o4{
+    transform:
+        rotate(315deg)
+        translateY(-90px);
+}
+
+
+/* CENTER */
+
+.center{
+    position:absolute;
+
+    width:70px;
+    height:70px;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:#fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:30px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,.25);
+
+    z-index:5;
+}
+
+
+/* =========================
+   SPIN BUTTON
+========================= */
+
+.spin-btn{
+    width:100%;
+
+    border:0;
+    border-radius:17px;
+
+    padding:15px;
+
+    color:#fff;
+
+    font-family:inherit;
+
+    font-size:20px;
+    font-weight:700;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff2874,
+            #754cff
+        );
+
+    box-shadow:
+        0 8px 22px rgba(117,76,255,.28);
+
+    cursor:pointer;
+}
+
+.spin-btn:active{
+    transform:scale(.97);
+}
+
+.spin-btn:disabled{
+    opacity:.55;
+}
+
+
+/* =========================
+   RESULT
+========================= */
+
+.result{
+    display:none;
+
+    margin-top:20px;
+
+    padding:20px 15px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff4f8,
+            #f3efff
+        );
+}
+
+.result-icon{
+    font-size:45px;
+}
+
+.result h2{
+    margin-top:5px;
+    font-size:23px;
+}
+
+.result p{
+    color:#777;
+    margin-top:4px;
+}
+
+
+/* =========================
+   OPEN BUTTON
+========================= */
+
+.open-btn{
+    display:none;
+
+    width:100%;
+
+    margin-top:15px;
+
+    padding:13px;
+
+    border:0;
+
+    border-radius:14px;
+
+    color:#fff;
+
+    font-family:inherit;
+
+    font-size:17px;
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+.whatsapp{
+    background:#25D366;
+}
+
+.telegram{
+    background:#229ED9;
+}
+
+.imo{
+    background:#4d7cff;
+}
+
+.call{
+    background:#ff4d6d;
+}
+
+
+/* =========================
+   AD
+========================= */
+
+.ad-box{
+    margin-top:23px;
+
+    min-height:80px;
+
+    border-radius:15px;
+
+    background:#f8f8f8;
+
+    overflow:hidden;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.footer{
+    text-align:center;
+
+    color:#999;
+
+    font-size:12px;
+
+    margin-top:20px;
+}
+
+</style>
 </head>
+
+
 <body>
 
-    <header class="top-nav">
-        <div class="logo"><i class="fab fa-youtube"></i> VideoHub</div>
-        <div class="header-right">
-            <i class="fas fa-search" onclick="alert('Search Coming Soon')"></i>
-            <img src="https://i.pravatar.cc/100" class="avatar" onclick="showSection('profile-section')">
+<div class="app">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="logo">
+            📞
         </div>
-    </header>
 
-    <main id="app-content">
-        <!-- Home Feed -->
-        <section id="home-section" class="content-section">
-            <h3 class="section-title">🎬 Featured Videos</h3>
-            <div id="videoGrid" class="video-grid">
-                <!-- ভিডিও এখানে লোড হবে -->
-            </div>
-        </section>
+        <h1>
+             Free Spin
+        </h1>
 
-        <!-- Publish Section -->
-        <section id="upload-section" class="content-section" style="display:none;">
-            <div class="card-form">
-                <h3><i class="fas fa-plus-circle"></i> Publish New Video</h3>
-                <input type="text" id="vTitle" placeholder="Video Title">
-                <select id="vSource">
-                    <option value="youtube">YouTube Link</option>
-                    <option value="drive">Google Drive Link</option>
-                </select>
-                <input type="text" id="vLink" placeholder="Paste Video Link Here">
-                <button class="btn-primary" onclick="publishVideo()">Publish Video</button>
-            </div>
-        </section>
+        <div class="subtitle">
+            স্পিন করে একটি Free Option নির্বাচন করুন
+        </div>
 
-        <!-- Profile Dashboard -->
-        <section id="profile-section" class="content-section" style="display:none;">
-            <div class="profile-header">
-                <img src="https://i.pravatar.cc/150" class="p-img">
-                <h2>User Dashboard</h2>
-                <p style="color: #888;">Manage your shared videos here</p>
-                <div id="adminVideoList" style="margin-top: 20px;">
-                    <!-- ভিডিও কন্ট্রোল লিস্ট -->
+    </div>
+
+
+    <!-- WHEEL -->
+
+    <div class="wheel-area">
+
+        <div class="pointer"></div>
+
+        <div
+            class="wheel"
+            id="wheel">
+
+            <div class="wheel-text">
+
+                <div class="option o1">
+                    <span></span>
+                    IMO
                 </div>
-                <button class="btn-sec" onclick="location.reload()">Refresh App</button>
+
+                <div class="option o2">
+                    <span></span>
+                    Telegram
+                </div>
+
+                <div class="option o3">
+                    <span></span>
+                    Call
+                </div>
+
+                <div class="option o4">
+                    <span></span>
+                    WhatsApp
+                </div>
+
             </div>
-        </section>
-    </main>
 
-    <!-- Bottom Nav -->
-    <nav class="bottom-nav">
-        <div class="nav-item active" onclick="showSection('home-section')"><i class="fas fa-home"></i><span>Home</span></div>
-        <div class="nav-item" onclick="alert('Shorts Ready')"><i class="fas fa-bolt"></i><span>Shorts</span></div>
-        <div class="nav-plus" onclick="showSection('upload-section')"><i class="fas fa-plus"></i></div>
-        <div class="nav-item"><i class="fas fa-heart"></i><span>Fav</span></div>
-        <div class="nav-item" onclick="showSection('profile-section')"><i class="fas fa-user-circle"></i><span>Profile</span></div>
-    </nav>
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-    <script src="app.js"></script>
+            <div class="center">
+                📥
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SPIN -->
+
+    <button
+        class="spin-btn"
+        id="spinBtn"
+        onclick="spinWheel()">
+
+       Contact
+
+    </button>
+
+
+    <!-- RESULT -->
+
+    <div
+        class="result"
+        id="result">
+
+        <div
+            class="result-icon"
+            id="resultIcon">
+            🎉
+        </div>
+
+        <h2 id="resultTitle">
+            Congratulations!
+        </h2>
+
+        <p id="resultText">
+            আপনার Free Option নির্বাচিত হয়েছে।
+        </p>
+
+
+        <!-- WHATSAPP -->
+
+        <button
+            id="whatsappBtn"
+            class="open-btn whatsapp"
+            onclick="openWhatsApp()">
+
+            💚 WhatsApp খুলুন
+
+        </button>
+
+
+        <!-- TELEGRAM -->
+
+        <button
+            id="telegramBtn"
+            class="open-btn telegram"
+            onclick="openTelegram()">
+
+            ✈️ Telegram খুলুন
+
+        </button>
+
+
+        <!-- IMO -->
+
+        <button
+            id="imoBtn"
+            class="open-btn imo"
+            onclick="openIMO()">
+
+            📱 IMO খুলুন
+
+        </button>
+
+
+        <!-- CALL -->
+
+        <button
+            id="callBtn"
+            class="open-btn call"
+            onclick="makeCall()">
+
+            📞 Call করুন
+
+        </button>
+
+    </div>
+
+
+    <!-- AD -->
+
+    <div class="ad-box">
+
+        <script src="https://pl28030591.profitableratecpmnetwork.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js"></script>
+
+    </div>
+
+
+    <div class="footer">
+        © 2026 Free Spin • All Rights Reserved
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==========================================
+   YOUR CONTACT INFORMATION
+========================================== */
+
+const WHATSAPP_NUMBER = "8801XXXXXXXXX";
+
+const TELEGRAM_USERNAME = "YourTelegramUsername";
+
+const CALL_NUMBER = "tel:+8801XXXXXXXXX";
+
+
+/* ==========================================
+   ONLY 4 OPTIONS
+========================================== */
+
+const options = [
+
+    {
+        title:"IMO",
+        icon:"📱",
+        text:"আপনার Free IMO Option নির্বাচিত হয়েছে।",
+        type:"imo"
+    },
+
+    {
+        title:"Telegram",
+        icon:"✈️",
+        text:"আপনার Free Telegram Option নির্বাচিত হয়েছে।",
+        type:"telegram"
+    },
+
+    {
+        title:"Call",
+        icon:"📞",
+        text:"আপনার Free Call Option নির্বাচিত হয়েছে।",
+        type:"call"
+    },
+
+    {
+        title:"WhatsApp",
+        icon:"💚",
+        text:"আপনার Free WhatsApp Option নির্বাচিত হয়েছে।",
+        type:"whatsapp"
+    }
+
+];
+
+
+/* ==========================================
+   SPIN
+========================================== */
+
+let spinning = false;
+
+let currentRotation = 0;
+
+function spinWheel(){
+
+    if(spinning) return;
+
+    spinning = true;
+
+    const wheel =
+        document.getElementById("wheel");
+
+    const button =
+        document.getElementById("spinBtn");
+
+    const result =
+        document.getElementById("result");
+
+
+    button.disabled = true;
+
+    result.style.display = "none";
+
+
+    /* Hide all buttons */
+
+    document
+        .getElementById("whatsappBtn")
+        .style.display = "none";
+
+    document
+        .getElementById("telegramBtn")
+        .style.display = "none";
+
+    document
+        .getElementById("imoBtn")
+        .style.display = "none";
+
+    document
+        .getElementById("callBtn")
+        .style.display = "none";
+
+
+    /* Random option */
+
+    const selectedIndex =
+        Math.floor(
+            Math.random() * options.length
+        );
+
+
+    /*
+       4 options = 90 degree
+    */
+
+    const segment = 90;
+
+
+    const targetAngle =
+        360 -
+        (
+            selectedIndex * segment
+            + segment / 2
+        );
+
+
+    const extraSpins =
+        360 * 6;
+
+
+    currentRotation +=
+        extraSpins + targetAngle;
+
+
+    wheel.style.transform =
+        `rotate(${currentRotation}deg)`;
+
+
+    /* Result */
+
+    setTimeout(function(){
+
+        const selected =
+            options[selectedIndex];
+
+
+        document
+            .getElementById("resultIcon")
+            .textContent =
+            selected.icon;
+
+
+        document
+            .getElementById("resultTitle")
+            .textContent =
+            selected.title;
+
+
+        document
+            .getElementById("resultText")
+            .textContent =
+            selected.text;
+
+
+        result.style.display =
+            "block";
+
+
+        if(selected.type === "whatsapp"){
+
+            document
+                .getElementById("whatsappBtn")
+                .style.display =
+                "block";
+
+        }
+
+
+        if(selected.type === "telegram"){
+
+            document
+                .getElementById("telegramBtn")
+                .style.display =
+                "block";
+
+        }
+
+
+        if(selected.type === "imo"){
+
+            document
+                .getElementById("imoBtn")
+                .style.display =
+                "block";
+
+        }
+
+
+        if(selected.type === "call"){
+
+            document
+                .getElementById("callBtn")
+                .style.display =
+                "block";
+
+        }
+
+
+        button.disabled = false;
+
+        spinning = false;
+
+
+        result.scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+
+
+    },4000);
+
+}
+
+
+/* ==========================================
+   WHATSAPP
+========================================== */
+
+function openWhatsApp(){
+
+    if(
+        WHATSAPP_NUMBER ===
+        "8801XXXXXXXXX"
+    ){
+
+        alert(
+            "প্রথমে WHATSAPP_NUMBER-এ আপনার নম্বর দিন।"
+        );
+
+        return;
+    }
+
+
+    window.open(
+        "https://wa.me/" +
+        WHATSAPP_NUMBER,
+        "_blank"
+    );
+
+}
+
+
+/* ==========================================
+   TELEGRAM
+========================================== */
+
+function openTelegram(){
+
+    if(
+        TELEGRAM_USERNAME ===
+        "YourTelegramUsername"
+    ){
+
+        alert(
+            "প্রথমে TELEGRAM_USERNAME-এ আপনার username দিন।"
+        );
+
+        return;
+    }
+
+
+    const username =
+        TELEGRAM_USERNAME
+        .replace("@","");
+
+
+    window.open(
+        "https://t.me/" +
+        username,
+        "_blank"
+    );
+
+}
+
+
+/* ==========================================
+   IMO
+========================================== */
+
+function openIMO(){
+
+    /*
+       IMO অ্যাপ ইনস্টল থাকলে
+       অ্যাপ খোলার চেষ্টা করবে।
+    */
+
+    window.location.href =
+        "imo://";
+
+}
+
+
+/* ==========================================
+   PHONE CALL
+========================================== */
+
+function makeCall(){
+
+    window.location.href =
+        CALL_NUMBER;
+
+}
+
+</script>
+
 </body>
 </html>
