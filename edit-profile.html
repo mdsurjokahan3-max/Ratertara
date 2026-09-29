@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color"
+        content="#006666">
+
+  <title>Edit Profile - Rater Tara</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Hind Siliguri", sans-serif;
+      background: #f2f4f6;
+      color: #222;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    input,
+    textarea {
+      font-family: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 520px;
+      min-height: 100vh;
+      margin: auto;
+      background: #fff;
+      overflow-x: hidden;
+      box-shadow: 0 0 25px rgba(0,0,0,.08);
+    }
+
+
+    /* =====================================================
+       HEADER
+       ===================================================== */
+
+    .header {
+      height: 62px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #008b8b,
+          #006666
+        );
+
+      color: #fff;
+
+      display: flex;
+      align-items: center;
+
+      padding: 0 14px;
+
+      position: sticky;
+      top: 0;
+      z-index: 50;
+
+      box-shadow:
+        0 2px 10px rgba(0,0,0,.15);
+    }
+
+    .back-btn {
+      width: 40px;
+      height: 40px;
+
+      border: 0;
+      border-radius: 50%;
+
+      background: rgba(255,255,255,.15);
+      color: #fff;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    .header-title {
+      flex: 1;
+
+      text-align: center;
+
+      font-size: 19px;
+      font-weight: 700;
+
+      margin: 0 10px;
+    }
+
+    .save-top {
+      border: 0;
+      background: transparent;
+
+      color: #fff;
+
+      font-size: 14px;
+      font-weight: 600;
+
+      cursor: pointer;
+    }
+
+
+    /* =====================================================
+       CONTENT
+       ===================================================== */
+
+    .content {
+      padding: 24px 16px 35px;
+    }
+
+
+    /* =====================================================
+       PROFILE PHOTO
+       ===================================================== */
+
+    .photo-section {
+      text-align: center;
+      margin-bottom: 27px;
+    }
+
+    .photo-wrap {
+      width: 120px;
+      height: 120px;
+
+      margin: auto;
+      position: relative;
+    }
+
+    .profile-photo {
+      width: 120px;
+      height: 120px;
+
+      border-radius: 50%;
+      object-fit: cover;
+
+      display: none;
+
+      border: 4px solid #fff;
+
+      box-shadow:
+        0 5px 18px rgba(0,0,0,.15),
+        0 0 0 2px #006666;
+    }
+
+    .default-photo {
+      width: 120px;
+      height: 120px;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          145deg,
+          #004444,
+          #008b8b
+        );
+
+      color: #fff;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 45px;
+
+      border: 4px solid #fff;
+
+      box-shadow:
+        0 5px 18px rgba(0,0,0,.15),
+        0 0 0 2px #006666;
+    }
+
+    .camera-icon {
+      position: absolute;
+
+      right: 0;
+      bottom: 3px;
+
+      width: 36px;
+      height: 36px;
+
+      border-radius: 50%;
+
+      background: #006666;
+      color: #fff;
+
+      border: 3px solid #fff;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 15px;
+    }
+
+    .photo-title {
+      margin-top: 13px;
+
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .photo-help {
+      margin-top: 3px;
+
+      font-size: 12px;
+      color: #888;
+    }
+
+
+    /* =====================================================
+       FORM
+       ===================================================== */
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .label,
+    .form-label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      font-size: 14px;
+      font-weight: 600;
+
+      color: #333;
+    }
+
+    .label i {
+      color: #006666;
+      margin-right: 5px;
+    }
+
+    .required {
+      color: #e53935;
+      margin-left: 2px;
+    }
+
+    .input,
+    .textarea {
+      width: 100%;
+
+      border: 1px solid #ddd;
+      border-radius: 11px;
+
+      background: #fafafa;
+      color: #222;
+
+      outline: none;
+
+      font-size: 15px;
+
+      transition: .2s;
+    }
+
+    .input {
+      height: 48px;
+      padding: 0 13px;
+    }
+
+    .textarea {
+      min-height: 105px;
+      padding: 11px 13px;
+
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .input:focus,
+    .textarea:focus {
+      background: #fff;
+
+      border-color: #008b8b;
+
+      box-shadow:
+        0 0 0 3px rgba(0,139,139,.08);
+    }
+
+    .help {
+      margin-top: 5px;
+
+      color: #888;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       CLOUDINARY IMAGE URL
+       ===================================================== */
+
+    .image-url-box {
+      padding: 15px;
+
+      background: #f5fbfb;
+
+      border: 1px solid #d9eeee;
+
+      border-radius: 14px;
+
+      margin-bottom: 22px;
+    }
+
+    .image-url-top {
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+
+      margin-bottom: 13px;
+    }
+
+    .image-url-icon {
+      width: 42px;
+      height: 42px;
+
+      border-radius: 11px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #008b8b,
+          #006666
+        );
+
+      color: #fff;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 18px;
+
+      flex-shrink: 0;
+    }
+
+    .image-url-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #006666;
+    }
+
+    .image-url-subtitle {
+      margin-top: 2px;
+
+      font-size: 11px;
+      color: #888;
+
+      line-height: 1.4;
+    }
+
+    .image-url-box .input {
+      background: #fff;
+    }
+
+    .url-actions {
+      display: flex;
+
+      gap: 8px;
+
+      margin-top: 9px;
+    }
+
+    .open-upload-btn {
+      flex: 1;
+
+      min-height: 44px;
+
+      padding: 8px 10px;
+
+      border-radius: 10px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #008b8b,
+          #006666
+        );
+
+      color: #fff;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 7px;
+
+      font-size: 13px;
+      font-weight: 600;
+
+      text-align: center;
+    }
+
+    .clear-url-btn {
+      width: 44px;
+      min-height: 44px;
+
+      border: 1px solid #ddd;
+      border-radius: 10px;
+
+      background: #fff;
+      color: #777;
+
+      font-size: 17px;
+
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .clear-url-btn:active {
+      transform: scale(.96);
+    }
+
+    .image-preview-box {
+      display: none;
+
+      margin-top: 13px;
+
+      padding: 10px;
+
+      background: #fff;
+
+      border: 1px solid #e1eeee;
+
+      border-radius: 12px;
+
+      text-align: center;
+    }
+
+    .image-preview-box.show {
+      display: block;
+    }
+
+    .image-preview-box img {
+      width: 130px;
+      height: 130px;
+
+      object-fit: cover;
+
+      border-radius: 50%;
+
+      border: 3px solid #fff;
+
+      box-shadow:
+        0 4px 15px rgba(0,0,0,.15);
+
+      background: #eee;
+    }
+
+    .image-preview-success {
+      margin-top: 7px;
+
+      font-size: 12px;
+
+      color: #008b8b;
+      font-weight: 600;
+    }
+
+    .image-preview-error {
+      margin-top: 7px;
+
+      font-size: 12px;
+
+      color: #d32f2f;
+      font-weight: 600;
+    }
+
+    .image-url-note {
+      margin-top: 11px;
+
+      padding-top: 10px;
+
+      border-top: 1px solid #e2eeee;
+
+      color: #777;
+
+      font-size: 11px;
+
+      line-height: 1.6;
+    }
+
+    .image-url-note i {
+      color: #008b8b;
+      margin-right: 4px;
+    }
+
+
+    /* =====================================================
+       SAVE BUTTON
+       ===================================================== */
+
+    .save-btn {
+      width: 100%;
+      height: 50px;
+
+      border: 0;
+      border-radius: 12px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #008b8b,
+          #006666
+        );
+
+      color: #fff;
+
+      font-size: 16px;
+      font-weight: 700;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 8px;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 5px 15px rgba(0,102,102,.2);
+    }
+
+    .save-btn:active {
+      transform: scale(.98);
+    }
+
+
+    /* =====================================================
+       RESET BUTTON
+       ===================================================== */
+
+    .reset-btn {
+      width: 100%;
+      height: 45px;
+
+      margin-top: 10px;
+
+      border: 1px solid #ddd;
+      border-radius: 11px;
+
+      background: #fff;
+      color: #666;
+
+      font-size: 14px;
+
+      cursor: pointer;
+    }
+
+
+    /* =====================================================
+       TOAST
+       ===================================================== */
+
+    .toast {
+      position: fixed;
+
+      left: 50%;
+      bottom: 25px;
+
+      transform:
+        translate(-50%, 80px);
+
+      background: #222;
+      color: #fff;
+
+      padding: 11px 18px;
+
+      border-radius: 25px;
+
+      font-size: 14px;
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition: .3s;
+
+      z-index: 999;
+
+      max-width: 90%;
+
+      text-align: center;
+    }
+
+    .toast.show {
+      transform:
+        translate(-50%, 0);
+
+      opacity: 1;
+    }
+
+
+    /* =====================================================
+       DESKTOP
+       ===================================================== */
+
+    @media (min-width:521px) {
+
+      body {
+        padding: 20px 0;
+      }
+
+      .app {
+        border-radius: 18px;
+
+        min-height:
+          calc(100vh - 40px);
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
+
+  <header class="header">
+
+    <button
+      type="button"
+      class="back-btn"
+      onclick="goBack()"
+      aria-label="Back">
+
+      <i class="fa-solid fa-arrow-left"></i>
+
+    </button>
+
+
+    <div class="header-title">
+      Edit Profile
+    </div>
+
+
+    <button
+      type="button"
+      class="save-top"
+      onclick="saveProfile()">
+
+      Save
+
+    </button>
+
+  </header>
+
+
+  <!-- =====================================================
+       CONTENT
+       ===================================================== -->
+
+  <main class="content">
+
+
+    <!-- ===================================================
+         PROFILE PHOTO
+         =================================================== -->
+
+    <section class="photo-section">
+
+      <div class="photo-wrap">
+
+        <img
+          id="profileImage"
+          class="profile-photo"
+          alt="Profile Picture">
+
+
+        <div
+          id="defaultPhoto"
+          class="default-photo">
+
+          <i class="fa-solid fa-user"></i>
+
+        </div>
+
+
+        <div class="camera-icon">
+
+          <i class="fa-solid fa-camera"></i>
+
+        </div>
+
+      </div>
+
+
+      <div class="photo-title">
+        প্রোফাইল পিকচার
+      </div>
+
+      <div class="photo-help">
+        Cloudinary থেকে পাওয়া Image URL ব্যবহার করুন
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         IMAGE URL
+         =================================================== -->
+
+    <div class="form-group">
+
+      <label class="form-label">
+
+        ছবির URL
+
+        <span class="required">*</span>
+
+      </label>
+
+
+      <div class="image-url-box">
+
+        <div class="image-url-top">
+
+          <div class="image-url-icon">
+
+            <i class="fa-solid fa-image"></i>
+
+          </div>
+
+
+          <div>
+
+            <div class="image-url-title">
+              Cloudinary Image URL
+            </div>
+
+            <div class="image-url-subtitle">
+              প্রথমে Image Upload Website-এ ছবি আপলোড করুন
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <input
+          type="url"
+          id="imageUrl"
+          class="input"
+          placeholder="https://res.cloudinary.com/..."
+          autocomplete="off"
+        >
+
+
+        <div class="url-actions">
+
+          <a
+            href="https://admin-panel-neon-chi.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="open-upload-btn">
+
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+
+            ছবি আপলোড করুন
+
+          </a>
+
+
+          <button
+            type="button"
+            class="clear-url-btn"
+            onclick="clearImageUrl()"
+            title="URL মুছুন">
+
+            <i class="fa-solid fa-xmark"></i>
+
+          </button>
+
+        </div>
+
+
+        <div
+          id="imagePreviewBox"
+          class="image-preview-box">
+
+          <img
+            id="imagePreview"
+            alt="Image Preview">
+
+          <div
+            id="imagePreviewMessage">
+          </div>
+
+        </div>
+
+
+        <div class="image-url-note">
+
+          <i class="fa-solid fa-circle-info"></i>
+
+          ছবি আপলোড করার পর পাওয়া Cloudinary URL এখানে
+          Paste করুন। URL সঠিক হলে নিচে ছবির Preview দেখা যাবে।
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         NAME
+         =================================================== -->
+
+    <div class="form-group">
+
+      <label
+        class="label"
+        for="name">
+
+        <i class="fa-solid fa-user"></i>
+
+        নাম
+
+      </label>
+
+
+      <input
+        type="text"
+        id="name"
+        class="input"
+        placeholder="আপনার নাম"
+        maxlength="60">
+
+    </div>
+
+
+    <!-- ===================================================
+         USERNAME
+         =================================================== -->
+
+    <div class="form-group">
+
+      <label
+        class="label"
+        for="username">
+
+        <i class="fa-solid fa-at"></i>
+
+        Username
+
+      </label>
+
+
+      <input
+        type="text"
+        id="username"
+        class="input"
+        placeholder="@username"
+        maxlength="30">
+
+      <div class="help">
+        উদাহরণ: @rater_tara
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         BIO
+         =================================================== -->
+
+    <div class="form-group">
+
+      <label
+        class="label"
+        for="bio">
+
+        <i class="fa-solid fa-align-left"></i>
+
+        Bio
+
+      </label>
+
+
+      <textarea
+        id="bio"
+        class="textarea"
+        maxlength="250"
+        placeholder="আপনার সম্পর্কে কিছু লিখুন..."></textarea>
+
+      <div class="help">
+        সর্বোচ্চ ২৫০ অক্ষর
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         SAVE
+         =================================================== -->
+
+    <button
+      type="button"
+      class="save-btn"
+      onclick="saveProfile()">
+
+      <i class="fa-solid fa-check"></i>
+
+      প্রোফাইল সেভ করুন
+
+    </button>
+
+
+    <!-- ===================================================
+         RESET
+         =================================================== -->
+
+    <button
+      type="button"
+      class="reset-btn"
+      onclick="resetProfile()">
+
+      <i class="fa-solid fa-rotate-left"></i>
+
+      ডিফল্ট প্রোফাইল ফিরিয়ে আনুন
+
+    </button>
+
+
+  </main>
+
+</div>
+
+
+<!-- Toast -->
+
+<div
+  id="toast"
+  class="toast">
+</div>
+
+
+<script>
+
+/* =========================================================
+   RATER TARA
+   EDIT PROFILE
+
+   NO FIREBASE
+
+   PROFILE STORAGE:
+   localStorage
+
+   SAME KEY:
+   raterTaraProfile
+   ========================================================= */
+
+
+const PROFILE_STORAGE_KEY =
+  "raterTaraProfile";
+
+
+/* =========================================================
+   DEFAULT PROFILE
+   ========================================================= */
+
+const defaultProfile = {
+
+  name:
+    "Rater Tara",
+
+  username:
+    "@rater_tara",
+
+  bio:
+    "একটা সুন্দর গল্পের অপেক্ষায়… তুমি হবে গল্পের সবচেয়ে সুন্দর অধ্যায়…",
+
+  photoURL:
+    ""
+
+};
+
+
+/* =========================================================
+   DOM
+   ========================================================= */
+
+const nameInput =
+  document.getElementById("name");
+
+const usernameInput =
+  document.getElementById("username");
+
+const bioInput =
+  document.getElementById("bio");
+
+const imageUrlInput =
+  document.getElementById("imageUrl");
+
+const profileImage =
+  document.getElementById("profileImage");
+
+const defaultPhoto =
+  document.getElementById("defaultPhoto");
+
+const imagePreviewBox =
+  document.getElementById("imagePreviewBox");
+
+const imagePreview =
+  document.getElementById("imagePreview");
+
+const imagePreviewMessage =
+  document.getElementById("imagePreviewMessage");
+
+
+/* =========================================================
+   GET PROFILE
+   ========================================================= */
+
+function getProfile() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        PROFILE_STORAGE_KEY
+      );
+
+    if (!saved) {
+
+      return {
+        ...defaultProfile
+      };
+
+    }
+
+    const data =
+      JSON.parse(saved);
+
+    return {
+      ...defaultProfile,
+      ...data
+    };
+
+  } catch (error) {
+
+    console.error(
+      "Profile read error:",
+      error
+    );
+
+    return {
+      ...defaultProfile
+    };
+
+  }
+
+}
+
+
+/* =========================================================
+   URL VALIDATION
+   ========================================================= */
+
+function isValidURL(url) {
+
+  try {
+
+    const parsed =
+      new URL(url);
+
+    return (
+      parsed.protocol === "http:" ||
+      parsed.protocol === "https:"
+    );
+
+  } catch {
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================================================
+   SHOW PROFILE PHOTO
+   ========================================================= */
+
+function showProfilePhoto(url) {
+
+  if (
+    url &&
+    isValidURL(url)
+  ) {
+
+    profileImage.src =
+      url;
+
+    profileImage.style.display =
+      "block";
+
+    defaultPhoto.style.display =
+      "none";
+
+  } else {
+
+    profileImage.removeAttribute(
+      "src"
+    );
+
+    profileImage.style.display =
+      "none";
+
+    defaultPhoto.style.display =
+      "flex";
+
+  }
+
+}
+
+
+/* =========================================================
+   IMAGE PREVIEW
+   ========================================================= */
+
+function previewImage() {
+
+  const url =
+    imageUrlInput.value.trim();
+
+
+  if (!url) {
+
+    imagePreviewBox.style.display =
+      "none";
+
+    showToast(
+      "প্রথমে Image URL দিন"
+    );
+
+    return;
+
+  }
+
+
+  if (!isValidURL(url)) {
+
+    imagePreviewBox.style.display =
+      "block";
+
+    imagePreviewMessage.className =
+      "image-preview-error";
+
+    imagePreviewMessage.textContent =
+      "সঠিক HTTP/HTTPS Image URL দিন।";
+
+    showToast(
+      "Image URL সঠিক নয়"
+    );
+
+    return;
+
+  }
+
+
+  imagePreview.onload =
+    function() {
+
+      imagePreviewBox.style.display =
+        "block";
+
+      imagePreviewMessage.className =
+        "image-preview-success";
+
+      imagePreviewMessage.textContent =
+        "✓ Image Preview সফল হয়েছে";
+
+      showProfilePhoto(url);
+
+    };
+
+
+  imagePreview.onerror =
+    function() {
+
+      imagePreviewBox.style.display =
+        "block";
+
+      imagePreviewMessage.className =
+        "image-preview-error";
+
+      imagePreviewMessage.textContent =
+        "✕ এই URL থেকে ছবিটি লোড করা যাচ্ছে না।";
+
+      showToast(
+        "ছবিটি লোড করা যাচ্ছে না"
+      );
+
+    };
+
+
+  imagePreview.src =
+    url;
+
+}
+
+
+/* =========================================================
+   IMAGE URL INPUT
+
+   URL Paste করলে Auto Preview
+   ========================================================= */
+
+imageUrlInput.addEventListener(
+  "input",
+  function() {
+
+    const url =
+      this.value.trim();
+
+
+    if (!url) {
+
+      imagePreviewBox.style.display =
+        "none";
+
+      showProfilePhoto("");
+
+      return;
+
+    }
+
+
+    if (isValidURL(url)) {
+
+      previewImage();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   CLEAR IMAGE URL
+   ========================================================= */
+
+function clearImageUrl() {
+
+  imageUrlInput.value =
+    "";
+
+  imagePreview.removeAttribute(
+    "src"
+  );
+
+  imagePreviewBox.style.display =
+    "none";
+
+  imagePreviewMessage.textContent =
+    "";
+
+  showProfilePhoto("");
+
+  showToast(
+    "Image URL মুছে দেওয়া হয়েছে"
+  );
+
+}
+
+
+/* =========================================================
+   LOAD PROFILE
+   ========================================================= */
+
+function loadProfile() {
+
+  const profile =
+    getProfile();
+
+
+  nameInput.value =
+    profile.name || "";
+
+
+  usernameInput.value =
+    profile.username || "";
+
+
+  bioInput.value =
+    profile.bio || "";
+
+
+  imageUrlInput.value =
+    profile.photoURL || "";
+
+
+  if (profile.photoURL) {
+
+    showProfilePhoto(
+      profile.photoURL
+    );
+
+  } else {
+
+    showProfilePhoto("");
+
+  }
+
+}
+
+
+/* =========================================================
+   PROFILE IMAGE ERROR
+   ========================================================= */
+
+profileImage.addEventListener(
+  "error",
+  function() {
+
+    this.style.display =
+      "none";
+
+    defaultPhoto.style.display =
+      "flex";
+
+  }
+);
+
+
+/* =========================================================
+   USERNAME
+   ========================================================= */
+
+usernameInput.addEventListener(
+  "blur",
+  function() {
+
+    let username =
+      this.value.trim();
+
+
+    if (!username) {
+
+      return;
+
+    }
+
+
+    if (!username.startsWith("@")) {
+
+      username =
+        "@" + username;
+
+    }
+
+
+    username =
+      username.replace(
+        /\s+/g,
+        "_"
+      );
+
+
+    this.value =
+      username;
+
+  }
+);
+
+
+/* =========================================================
+   SAVE PROFILE
+   ========================================================= */
+
+function saveProfile() {
+
+  const name =
+    nameInput.value.trim();
+
+
+  let username =
+    usernameInput.value.trim();
+
+
+  const bio =
+    bioInput.value.trim();
+
+
+  const photoURL =
+    imageUrlInput.value.trim();
+
+
+  /* NAME */
+
+  if (!name) {
+
+    showToast(
+      "আপনার নাম লিখুন"
+    );
+
+    nameInput.focus();
+
+    return;
+
+  }
+
+
+  /* USERNAME */
+
+  if (!username) {
+
+    username =
+      "@rater_tara";
+
+  }
+
+
+  if (!username.startsWith("@")) {
+
+    username =
+      "@" + username;
+
+  }
+
+
+  username =
+    username.replace(
+      /\s+/g,
+      "_"
+    );
+
+
+  /* IMAGE URL */
+
+  if (
+    photoURL &&
+    !isValidURL(photoURL)
+  ) {
+
+    showToast(
+      "সঠিক Image URL দিন"
+    );
+
+    imageUrlInput.focus();
+
+    return;
+
+  }
+
+
+  /* PROFILE DATA */
+
+  const profile = {
+
+    name:
+      name,
+
+    username:
+      username,
+
+    bio:
+      bio ||
+      defaultProfile.bio,
+
+    photoURL:
+      photoURL
+
+  };
+
+
+  try {
+
+    localStorage.setItem(
+      PROFILE_STORAGE_KEY,
+      JSON.stringify(profile)
+    );
+
+
+    showToast(
+      "✓ প্রোফাইল সফলভাবে সেভ হয়েছে"
+    );
+
+
+    setTimeout(
+      function() {
+
+        window.location.href =
+          "profile.html";
+
+      },
+      700
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Save error:",
+      error
+    );
+
+    showToast(
+      "প্রোফাইল সেভ করা যায়নি"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   RESET PROFILE
+   ========================================================= */
+
+function resetProfile() {
+
+  const confirmed =
+    confirm(
+      "আপনি কি ডিফল্ট প্রোফাইল ফিরিয়ে আনতে চান?"
+    );
+
+
+  if (!confirmed) {
+
+    return;
+
+  }
+
+
+  try {
+
+    localStorage.removeItem(
+      PROFILE_STORAGE_KEY
+    );
+
+
+    loadProfile();
+
+
+    showToast(
+      "ডিফল্ট প্রোফাইল ফিরিয়ে আনা হয়েছে"
+    );
+
+
+  } catch (error) {
+
+    showToast(
+      "রিসেট করা যায়নি"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   BACK
+   ========================================================= */
+
+function goBack() {
+
+  if (
+    document.referrer &&
+    document.referrer !==
+    window.location.href
+  ) {
+
+    window.history.back();
+
+  } else {
+
+    window.location.href =
+      "profile.html";
+
+  }
+
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+let toastTimer;
+
+
+function showToast(message) {
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.textContent =
+    message;
+
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
+    setTimeout(
+      function() {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      2500
+    );
+
+}
+
+
+/* =========================================================
+   STORAGE UPDATE
+
+   অন্য Tab থেকে Profile পরিবর্তন হলে
+   ========================================================= */
+
+window.addEventListener(
+  "storage",
+  function(event) {
+
+    if (
+      event.key ===
+      PROFILE_STORAGE_KEY
+    ) {
+
+      loadProfile();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   INITIAL LOAD
+   ========================================================= */
+
+loadProfile();
+
+</script>
+
+
+</body>
+</html>

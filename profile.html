@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rater Tara - Profile</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #f2f4f7;
+      font-family: "Hind Siliguri", sans-serif;
+      color: #222;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button,
+    input {
+      font-family: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 520px;
+      min-height: 100vh;
+      margin: auto;
+      background: #fff;
+      position: relative;
+      overflow-x: hidden;
+      box-shadow: 0 0 25px rgba(0,0,0,.08);
+    }
+
+    /* ================= HEADER ================= */
+
+    .header {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 17px;
+      border-bottom: 1px solid #eee;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #004444;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .header-btn {
+      width: 39px;
+      height: 39px;
+      border-radius: 50%;
+      border: 0;
+      background: #f5f6f7;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    .header-btn:active {
+      transform: scale(.94);
+    }
+
+    /* ================= PROFILE ================= */
+
+    .profile-section {
+      text-align: center;
+      padding: 27px 18px 20px;
+    }
+
+    .profile-photo-wrap {
+      width: 112px;
+      height: 112px;
+      margin: auto;
+      position: relative;
+    }
+
+    .profile-photo {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: none;
+      border: 4px solid #fff;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,.16),
+        0 0 0 2px #004444;
+    }
+
+    .default-photo {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #004444, #008080);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 43px;
+      border: 4px solid #fff;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,.16),
+        0 0 0 2px #004444;
+    }
+
+    .photo-edit-badge {
+      position: absolute;
+      right: 0;
+      bottom: 3px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #004444;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      border: 3px solid #fff;
+      z-index: 2;
+    }
+
+    .profile-name {
+      margin-top: 15px;
+      font-size: 25px;
+      font-weight: 700;
+      color: #222;
+    }
+
+    .username {
+      margin-top: 2px;
+      color: #777;
+      font-size: 15px;
+    }
+
+    .bio {
+      max-width: 420px;
+      margin: 9px auto 0;
+      color: #555;
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    /* ================= ACTIONS ================= */
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    .action-btn {
+      min-width: 125px;
+      height: 43px;
+      padding: 0 17px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .action-btn.primary {
+      background: #004444;
+      color: #fff;
+      border-color: #004444;
+    }
+
+    .action-btn:active {
+      transform: scale(.96);
+    }
+
+    /* ================= STATS ================= */
+
+    .stats {
+      margin: 15px 15px 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid #e9e9e9;
+      border-radius: 15px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .stat-item {
+      min-height: 84px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid #eee;
+      transition: .2s;
+    }
+
+    .stat-item:last-child {
+      border-right: 0;
+    }
+
+    .stat-item:hover {
+      background: #fafafa;
+    }
+
+    .stat-icon {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .youtube-icon {
+      color: #ff0000;
+    }
+
+    .facebook-icon {
+      color: #1877f2;
+    }
+
+    .rater-icon {
+      color: #004444;
+    }
+
+    .stat-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      line-height: 1.2;
+    }
+
+    .stat-number {
+      margin-top: 2px;
+      color: #888;
+      font-size: 12px;
+    }
+
+    /* ================= PROFILE LINKS ================= */
+
+    .links-section {
+      padding: 20px 15px 0;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 11px;
+      color: #222;
+    }
+
+    .profile-link {
+      min-height: 61px;
+      border: 1px solid #e9e9e9;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      padding: 9px 13px;
+      margin-bottom: 9px;
+      background: #fff;
+      transition: .2s;
+    }
+
+    .profile-link:active {
+      transform: scale(.98);
+      background: #fafafa;
+    }
+
+    .link-icon {
+      width: 43px;
+      height: 43px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+      margin-right: 11px;
+    }
+
+    .link-youtube {
+      background: #fff0f0;
+      color: #ff0000;
+    }
+
+    .link-facebook {
+      background: #edf4ff;
+      color: #1877f2;
+    }
+
+    .link-rater {
+      background: #e9f5f5;
+      color: #004444;
+    }
+
+    .link-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .link-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #222;
+    }
+
+    .link-subtitle {
+      font-size: 12px;
+      color: #888;
+      margin-top: 1px;
+    }
+
+    .link-arrow {
+      color: #999;
+      font-size: 14px;
+    }
+
+    /* ================= MENU ================= */
+
+    .menu {
+      display: none;
+      position: absolute;
+      top: 56px;
+      right: 12px;
+      width: 210px;
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.15);
+      overflow: hidden;
+      z-index: 100;
+    }
+
+    .menu.show {
+      display: block;
+      animation: menuShow .18s ease;
+    }
+
+    @keyframes menuShow {
+      from {
+        opacity: 0;
+        transform: translateY(-5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .menu a {
+      min-height: 47px;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #f1f1f1;
+      font-size: 14px;
+    }
+
+    .menu a:last-child {
+      border-bottom: 0;
+    }
+
+    .menu a:hover {
+      background: #f7f7f7;
+    }
+
+    .menu i {
+      width: 20px;
+      color: #004444;
+    }
+
+    /* ================= FOOTER ================= */
+
+    .footer {
+      text-align: center;
+      padding: 27px 15px 22px;
+      color: #999;
+      font-size: 12px;
+    }
+
+    /* ================= TOAST ================= */
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 25px;
+      transform: translateX(-50%) translateY(20px);
+      background: #222;
+      color: #fff;
+      padding: 11px 17px;
+      border-radius: 10px;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s;
+      z-index: 999;
+      max-width: 90%;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 380px) {
+
+      .brand {
+        font-size: 18px;
+      }
+
+      .profile-name {
+        font-size: 22px;
+      }
+
+      .stats {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+      .links-section {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .stat-title {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="header">
+
+    <div class="brand">
+      
+    </div>
+
+    <div class="header-right">
+
+
+      <!-- Menu -->
+      <button
+        class="header-btn"
+        id="menuButton"
+        type="button"
+        aria-label="Menu"
+      >
+        <i class="fa-solid fa-ellipsis-vertical"></i>
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- THREE DOT MENU -->
+  <div class="menu" id="profileMenu">
+
+    <a href="profile.html">
+      <i class="fa-solid fa-user"></i>
+      <span>প্রোফাইল</span>
+    </a>
+
+    <a href="post.html" id="postMenuLink">
+      <i class="fa-solid fa-video"></i>
+      <span>নতুন পোস্ট</span>
+    </a>
+
+    <a href="messages.html">
+      <i class="fa-solid fa-message"></i>
+      <span>মেসেজ</span>
+    </a>
+
+    <a href="settings.html">
+      <i class="fa-solid fa-gear"></i>
+      <span>সেটিংস</span>
+    </a>
+
+  </div>
+
+
+  <!-- PROFILE -->
+  <section class="profile-section">
+
+    <div class="profile-photo-wrap">
+
+      <!-- Profile image from edit-profile.html -->
+      <img
+        id="profileImage"
+        class="profile-photo"
+        alt="Rater Tara Profile"
+      >
+
+      <!-- Default image -->
+      <div
+        id="defaultPhoto"
+        class="default-photo"
+      >
+        <i class="fa-solid fa-user"></i>
+      </div>
+
+      <!-- Edit badge -->
+      <a
+        href="edit-profile.html"
+        class="photo-edit-badge"
+        title="প্রোফাইল এডিট করুন"
+      >
+        <i class="fa-solid fa-camera"></i>
+      </a>
+
+    </div>
+
+
+    <h1
+      class="profile-name"
+      id="profileName"
+    >
+      Rater Tara
+    </h1>
+
+    <div
+      class="username"
+      id="username"
+    >
+      @rater_tara
+    </div>
+
+    <p
+      class="bio"
+      id="bio"
+    >
+      একটা সুন্দর গল্পের অপেক্ষায়… তুমি হবে গল্পের সবচেয়ে সুন্দর অধ্যায়…
+    </p>
+
+
+    <!-- ACTION BUTTONS -->
+    <div class="actions">
+
+      <a
+        href="edit-profile.html"
+        class="action-btn primary"
+      >
+        <i class="fa-solid fa-pen"></i>
+        প্রোফাইল এডিট
+      </a>
+
+      <a
+        href="post.html"
+        class="action-btn"
+        id="postButton"
+      >
+        <i class="fa-solid fa-plus"></i>
+        পোস্ট
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= STATS ================= -->
+
+  <section class="stats">
+
+    <!-- YOUTUBE / VIDEO -->
+
+    <a
+      href="https://ratertara.rf.gd/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="stat-item"
+    >
+
+      <i class="fa-brands fa-youtube stat-icon youtube-icon"></i>
+
+      <span class="stat-title">
+        YouTube
+      </span>
+
+      <span class="stat-number">
+        
+      </span>
+
+    </a>
+
+
+    <!-- FACEBOOK / FOLLOWERS -->
+
+    <a
+      href="https://www.facebook.com/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="stat-item"
+    >
+
+      <i class="fa-brands fa-facebook stat-icon facebook-icon"></i>
+
+      <span class="stat-title">
+        Facebook
+      </span>
+
+      <span class="stat-number">
+        
+      </span>
+
+    </a>
+
+
+    <!-- RATER TARA VIDEO / FOLLOWING -->
+
+    <a
+      href="index.html"
+      class="stat-item"
+    >
+
+      <i class="fa-solid fa-circle-play stat-icon rater-icon"></i>
+
+      <span class="stat-title">
+        Rater Tara Video
+      </span>
+
+      <span class="stat-number">
+       
+      </span>
+
+    </a>
+
+  </section>
+
+
+  <!-- ================= LINK OPTIONS ================= -->
+
+  <section class="links-section">
+
+    <h2 class="section-title">
+      সংযুক্ত প্রোফাইল
+    </h2>
+
+
+    <!-- YouTube -->
+    <a
+      href="https://www.youtube.com/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="profile-link"
+    >
+
+      <div class="link-icon link-youtube">
+        <i class="fa-brands fa-youtube"></i>
+      </div>
+
+      <div class="link-content">
+
+        <div class="link-title">
+          YouTube
+        </div>
+
+        <div class="link-subtitle">
+          ভিডিও দেখুন
+        </div>
+
+      </div>
+
+      <i class="fa-solid fa-chevron-right link-arrow"></i>
+
+    </a>
+
+
+    <!-- Facebook -->
+    <a
+      href="https://www.facebook.com/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="profile-link"
+    >
+
+      <div class="link-icon link-facebook">
+        <i class="fa-brands fa-facebook-f"></i>
+      </div>
+
+      <div class="link-content">
+
+        <div class="link-title">
+          Facebook
+        </div>
+
+        <div class="link-subtitle">
+          ফলোয়ার
+        </div>
+
+      </div>
+
+      <i class="fa-solid fa-chevron-right link-arrow"></i>
+
+    </a>
+
+
+    <!-- Rater Tara Video -->
+    <a
+      href="index.html"
+      class="profile-link"
+    >
+
+      <div class="link-icon link-rater">
+        <i class="fa-solid fa-circle-play"></i>
+      </div>
+
+      <div class="link-content">
+
+        <div class="link-title">
+          Rater Tara Video
+        </div>
+
+        <div class="link-subtitle">
+          ভিডিও প্ল্যাটফর্ম
+        </div>
+
+      </div>
+
+      <i class="fa-solid fa-chevron-right link-arrow"></i>
+
+    </a>
+
+
+    <!-- Post -->
+    <a
+      href="post.html"
+      class="profile-link"
+    >
+
+      <div class="link-icon link-rater">
+        <i class="fa-solid fa-square-plus"></i>
+      </div>
+
+      <div class="link-content">
+
+        <div class="link-title">
+          নতুন পোস্ট
+        </div>
+
+        <div class="link-subtitle">
+          নতুন ভিডিও পোস্ট করুন
+        </div>
+
+      </div>
+
+      <i class="fa-solid fa-chevron-right link-arrow"></i>
+
+    </a>
+
+
+    <!-- Edit Profile -->
+    <a
+      href="edit-profile.html"
+      class="profile-link"
+    >
+
+      <div class="link-icon link-rater">
+        <i class="fa-solid fa-user-pen"></i>
+      </div>
+
+      <div class="link-content">
+
+        <div class="link-title">
+          Edit Profile
+        </div>
+
+        <div class="link-subtitle">
+          নাম, ছবি ও বায়ো পরিবর্তন করুন
+        </div>
+
+      </div>
+
+      <i class="fa-solid fa-chevron-right link-arrow"></i>
+
+    </a>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer class="footer">
+    © 2026 Rater Tara • All Rights Reserved
+  </footer>
+
+</div>
+
+
+<!-- TOAST -->
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
+<script>
+
+  /* =====================================================
+     RATER TARA PROFILE
+     NO FIREBASE
+     PROFILE DATA COMES FROM edit-profile.html
+  ===================================================== */
+
+
+  /*
+    edit-profile.html থেকে localStorage-এ
+    এই key-তে profile information রাখা হবে।
+  */
+
+  const PROFILE_STORAGE_KEY = "raterTaraProfile";
+
+
+  /* Default profile */
+
+  const defaultProfile = {
+
+    name: "Rater Tara",
+
+    username: "@rater_tara",
+
+    bio: "একটা সুন্দর গল্পের অপেক্ষায়… তুমি হবে গল্পের সবচেয়ে সুন্দর অধ্যায়…",
+
+    photoURL: "",
+
+  };
+
+
+  /* ================= LOAD PROFILE ================= */
+
+  function getProfile() {
+
+    try {
+
+      const saved =
+        localStorage.getItem(PROFILE_STORAGE_KEY);
+
+      if (!saved) {
+
+        return defaultProfile;
+
+      }
+
+      const data =
+        JSON.parse(saved);
+
+      return {
+
+        ...defaultProfile,
+
+        ...data
+
+      };
+
+    } catch (error) {
+
+      console.error(
+        "Profile loading error:",
+        error
+      );
+
+      return defaultProfile;
+
+    }
+
+  }
+
+
+  /* ================= DISPLAY PROFILE ================= */
+
+  function loadProfile() {
+
+    const profile =
+      getProfile();
+
+
+    const name =
+      document.getElementById("profileName");
+
+    const username =
+      document.getElementById("username");
+
+    const bio =
+      document.getElementById("bio");
+
+    const image =
+      document.getElementById("profileImage");
+
+    const defaultPhoto =
+      document.getElementById("defaultPhoto");
+
+
+    /* Name */
+
+    name.textContent =
+      profile.name || defaultProfile.name;
+
+
+    /* Username */
+
+    username.textContent =
+      profile.username || defaultProfile.username;
+
+
+    /* Bio */
+
+    bio.textContent =
+      profile.bio || defaultProfile.bio;
+
+
+    /* Profile Photo */
+
+    if (
+      profile.photoURL &&
+      isValidImageURL(profile.photoURL)
+    ) {
+
+      image.src =
+        profile.photoURL;
+
+      image.style.display =
+        "block";
+
+      defaultPhoto.style.display =
+        "none";
+
+    } else {
+
+      image.style.display =
+        "none";
+
+      defaultPhoto.style.display =
+        "flex";
+
+    }
+
+  }
+
+
+  /* ================= IMAGE URL CHECK ================= */
+
+  function isValidImageURL(url) {
+
+    try {
+
+      const parsed =
+        new URL(url);
+
+      return (
+        parsed.protocol === "http:" ||
+        parsed.protocol === "https:"
+      );
+
+    } catch {
+
+      return false;
+
+    }
+
+  }
+
+
+  /* ================= MENU ================= */
+
+  const menuButton =
+    document.getElementById("menuButton");
+
+  const profileMenu =
+    document.getElementById("profileMenu");
+
+
+  menuButton.addEventListener(
+    "click",
+    function(event) {
+
+      event.stopPropagation();
+
+      profileMenu.classList.toggle(
+        "show"
+      );
+
+    }
+  );
+
+
+  document.addEventListener(
+    "click",
+    function(event) {
+
+      if (
+        !profileMenu.contains(event.target) &&
+        !menuButton.contains(event.target)
+      ) {
+
+        profileMenu.classList.remove(
+          "show"
+        );
+
+      }
+
+    }
+  );
+
+
+  /* ================= IMAGE ERROR ================= */
+
+  document
+    .getElementById("profileImage")
+    .addEventListener(
+      "error",
+      function() {
+
+        this.style.display =
+          "none";
+
+        document
+          .getElementById("defaultPhoto")
+          .style.display =
+          "flex";
+
+        showToast(
+          "প্রোফাইল ছবি লোড করা যায়নি"
+        );
+
+      }
+    );
+
+
+  /* ================= TOAST ================= */
+
+  function showToast(message) {
+
+    const toast =
+      document.getElementById("toast");
+
+    toast.textContent =
+      message;
+
+    toast.classList.add(
+      "show"
+    );
+
+    setTimeout(
+      function() {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      2500
+    );
+
+  }
+
+
+  /* ================= START ================= */
+
+  loadProfile();
+
+
+  /*
+    অন্য tab/page থেকে edit-profile.html
+    দিয়ে profile পরিবর্তন করলে এই page
+    আবার active হলে নতুন data দেখাবে।
+  */
+
+  window.addEventListener(
+    "storage",
+    function(event) {
+
+      if (
+        event.key ===
+        PROFILE_STORAGE_KEY
+      ) {
+
+        loadProfile();
+
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "visibilitychange",
+    function() {
+
+      if (
+        document.visibilityState === "visible"
+      ) {
+
+        loadProfile();
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+</html>

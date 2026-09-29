@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<title>Rater Tara Video Apps</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<!-- Firebase 9.6.1 Compat -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:'Hind Siliguri',sans-serif;
+    background:#f2f5f5;
+    color:#222;
+}
+
+.app{
+    width:100%;
+    max-width:450px;
+    min-height:100vh;
+    margin:auto;
+    background:#fff;
+}
+
+/* HEADER */
+.header{
+    height:58px;
+    background:#004444;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 15px;
+    position:sticky;
+    top:0;
+    z-index:20;
+}
+
+.header-title{
+    font-size:20px;
+    font-weight:600;
+}
+
+.header button{
+    width:38px;
+    height:38px;
+    border:0;
+    border-radius:50%;
+    background:rgba(255,255,255,.12);
+    color:#fff;
+    font-size:17px;
+    cursor:pointer;
+}
+
+/* PLAYER */
+.player-section{
+    background:#000;
+    width:100%;
+    aspect-ratio:16/9;
+    position:relative;
+}
+
+.player-section iframe,
+.player-section video{
+    width:100%;
+    height:100%;
+    border:0;
+    display:block;
+}
+
+.loading{
+    position:absolute;
+    inset:0;
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+    z-index:5;
+    font-size:16px;
+}
+
+.loading i{
+    margin-right:8px;
+}
+
+.error-box{
+    display:none;
+    position:absolute;
+    inset:0;
+    background:#111;
+    color:#fff;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    padding:20px;
+    z-index:6;
+}
+
+.error-box i{
+    font-size:35px;
+    color:#ff5252;
+    margin-bottom:10px;
+}
+
+.error-box a{
+    margin-top:12px;
+    padding:9px 16px;
+    background:#ff0000;
+    color:#fff;
+    border-radius:6px;
+    text-decoration:none;
+}
+
+/* CONTENT */
+.content{
+    padding:15px;
+}
+
+.title{
+    font-size:22px;
+    font-weight:700;
+    line-height:1.35;
+    margin-bottom:8px;
+}
+
+.meta{
+    display:flex;
+    gap:15px;
+    color:#777;
+    font-size:14px;
+    margin-bottom:15px;
+}
+
+.meta span{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+/* SHARE */
+.share-row{
+    display:flex;
+    gap:8px;
+    margin-bottom:18px;
+}
+
+.share-btn{
+    flex:1;
+    border:1px solid #ddd;
+    background:#fff;
+    padding:10px 5px;
+    border-radius:7px;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:14px;
+}
+
+.share-btn i{
+    margin-right:5px;
+}
+
+/* INFO */
+.info-box{
+    background:#f6f8f8;
+    border-radius:10px;
+    padding:13px;
+    margin-bottom:18px;
+}
+
+.info-box h3{
+    font-size:17px;
+    margin-bottom:5px;
+    color:#004444;
+}
+
+.info-box p{
+    color:#555;
+    font-size:15px;
+    line-height:1.6;
+}
+
+/* MORE VIDEOS */
+.more-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:5px 0 12px;
+    font-size:19px;
+    font-weight:700;
+    color:#004444;
+}
+
+.more-title span{
+    font-size:13px;
+    color:#888;
+    font-weight:400;
+}
+
+/* VIDEO CARD */
+.video-card{
+    display:flex;
+    gap:10px;
+    padding:10px 0;
+    border-bottom:1px solid #eee;
+    cursor:pointer;
+}
+
+.video-card:last-child{
+    border-bottom:0;
+}
+
+.thumb{
+    width:125px;
+    height:72px;
+    flex-shrink:0;
+    border-radius:7px;
+    overflow:hidden;
+    background:#004444;
+    position:relative;
+}
+
+.thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.play-icon{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:rgba(0,0,0,.72);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+}
+
+.video-info{
+    min-width:0;
+    flex:1;
+}
+
+.video-info h4{
+    font-size:15px;
+    line-height:1.35;
+    font-weight:600;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    margin-bottom:5px;
+}
+
+.video-info p{
+    color:#888;
+    font-size:12px;
+}
+
+/* LOADING */
+.more-loading{
+    text-align:center;
+    padding:20px;
+    color:#888;
+    font-size:14px;
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    padding:20px 5px;
+    color:#999;
+    display:none;
+}
+
+.empty i{
+    font-size:28px;
+    margin-bottom:7px;
+}
+
+/* FOOTER */
+.footer{
+    text-align:center;
+    padding:20px 10px;
+    color:#999;
+    font-size:13px;
+    border-top:1px solid #eee;
+    margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+    <div class="header">
+
+     
+
+        <div class="header-title">
+            Rater Tara Video Player 
+        </div>
+
+
+    </div>
+
+
+    <!-- PLAYER -->
+    <div class="player-section" id="playerBox">
+
+        <div class="loading" id="loading">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            ভিডিও লোড হচ্ছে...
+        </div>
+
+        <div class="error-box" id="errorBox">
+
+            <i class="fa-solid fa-circle-exclamation"></i>
+
+            <div id="errorText">
+                ভিডিও চালানো যাচ্ছে না
+            </div>
+
+            <a id="youtubeLink"
+               href="#"
+               target="_blank"
+               style="display:none;">
+
+                <i class="fa-brands fa-youtube"></i>
+                YouTube-এ দেখুন
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <h1 class="title" id="videoTitle">
+            ভিডিও লোড হচ্ছে...
+        </h1>
+
+
+        <!-- VIEWS + DATE -->
+        <div class="meta">
+
+            <span>
+                <i class="fa-solid fa-eye"></i>
+
+                <span id="views">
+                    0
+                </span>
+                বার দেখা
+            </span>
+
+            <span>
+                <i class="fa-regular fa-calendar"></i>
+
+                <span id="date">
+                    —
+                </span>
+            </span>
+
+        </div>
+
+
+        <!-- SHARE -->
+        <div class="share-row">
+
+            <button class="share-btn"
+                    onclick="sharePage()">
+
+                <i class="fa-solid fa-share-nodes"></i>
+                শেয়ার
+
+            </button>
+
+
+            <button class="share-btn"
+                    onclick="copyLink()">
+
+                <i class="fa-solid fa-link"></i>
+                লিংক কপি
+
+            </button>
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+        <div class="info-box"
+             id="descriptionBox"
+             style="display:none;">
+
+            <h3>
+                <i class="fa-solid fa-circle-info"></i>
+                বিস্তারিত
+            </h3>
+
+            <p id="description"></p>
+
+        </div>
+
+
+        <!-- MORE VIDEOS -->
+        <div class="more-title">
+
+            <div>
+                <i class="fa-solid fa-clapperboard"></i>
+                আরও ভিডিও
+            </div>
+
+            <span id="videoCount"></span>
+
+        </div>
+
+
+        <div id="moreVideos">
+
+            <div class="more-loading">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                অন্যান্য ভিডিও লোড হচ্ছে...
+
+            </div>
+
+        </div>
+
+
+        <div class="empty" id="emptyVideos">
+
+            <i class="fa-regular fa-folder-open"></i>
+
+            <div>
+                অন্য কোনো ভিডিও পাওয়া যায়নি
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+    <div class="footer">
+        © 2026 Rater Tara • All Rights Reserved
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyD7MR0gTPVeqMUMRTIip9Zp6oV0J7iVIaY",
+
+    authDomain:
+    "rater-tara-video-apps.firebaseapp.com",
+
+    databaseURL:
+    "https://rater-tara-video-apps-default-rtdb.firebaseio.com",
+
+    projectId:
+    "rater-tara-video-apps",
+
+    storageBucket:
+    "rater-tara-video-apps.firebasestorage.app",
+
+    messagingSenderId:
+    "622484215343",
+
+    appId:
+    "1:622484215343:web:90e995aa400cd103ea18da",
+
+    measurementId:
+    "G-3G9Z0WVSDE"
+};
+
+
+if(!firebase.apps.length){
+
+    firebase.initializeApp(firebaseConfig);
+
+}
+
+
+const db =
+    firebase.firestore();
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const postId =
+    params.get("id");
+
+
+let currentVideoUrl = "";
+let currentVideoTitle = "";
+
+
+/* =========================================================
+   YOUTUBE ID
+========================================================= */
+
+function getYouTubeId(url){
+
+    if(!url) return null;
+
+    try{
+
+        const u =
+            new URL(url);
+
+        if(
+            u.hostname.includes("youtu.be")
+        ){
+
+            return u.pathname
+                .split("/")
+                .filter(Boolean)[0] || null;
+
+        }
+
+
+        if(
+            u.hostname.includes("youtube.com")
+        ){
+
+            const v =
+                u.searchParams.get("v");
+
+            if(v) return v;
+
+
+            const parts =
+                u.pathname
+                .split("/")
+                .filter(Boolean);
+
+
+            const index =
+                parts.findIndex(
+                    x =>
+                    x === "embed" ||
+                    x === "shorts" ||
+                    x === "live"
+                );
+
+
+            if(
+                index !== -1 &&
+                parts[index + 1]
+            ){
+
+                return parts[index + 1];
+
+            }
+
+        }
+
+    }catch(e){}
+
+    return null;
+}
+
+
+/* =========================================================
+   GOOGLE DRIVE ID
+========================================================= */
+
+function getDriveId(url){
+
+    if(!url) return null;
+
+    const match =
+        url.match(
+            /\/file\/d\/([^\/]+)/
+        );
+
+    if(match){
+
+        return match[1];
+
+    }
+
+
+    try{
+
+        const u =
+            new URL(url);
+
+        return u.searchParams.get("id");
+
+    }catch(e){
+
+        return null;
+
+    }
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function formatDate(timestamp){
+
+    if(!timestamp){
+
+        return "—";
+
+    }
+
+    try{
+
+        return timestamp
+            .toDate()
+            .toLocaleDateString(
+                "bn-BD",
+                {
+                    year:"numeric",
+                    month:"long",
+                    day:"numeric"
+                }
+            );
+
+    }catch(e){
+
+        return "—";
+
+    }
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+function showError(
+    message,
+    youtubeUrl = null
+){
+
+    document.getElementById(
+        "loading"
+    ).style.display = "none";
+
+
+    const errorBox =
+        document.getElementById(
+            "errorBox"
+        );
+
+
+    errorBox.style.display =
+        "flex";
+
+
+    document.getElementById(
+        "errorText"
+    ).textContent =
+        message;
+
+
+    if(youtubeUrl){
+
+        const link =
+            document.getElementById(
+                "youtubeLink"
+            );
+
+        link.href =
+            youtubeUrl;
+
+        link.style.display =
+            "block";
+
+    }
+}
+
+
+/* =========================================================
+   PLAY VIDEO
+========================================================= */
+
+function playVideo(url){
+
+    const playerBox =
+        document.getElementById(
+            "playerBox"
+        );
+
+
+    const youtubeId =
+        getYouTubeId(url);
+
+
+    /* YOUTUBE */
+
+    if(youtubeId){
+
+        const iframe =
+            document.createElement(
+                "iframe"
+            );
+
+
+        const origin =
+            window.location.origin;
+
+
+        const referrer =
+            window.location.href;
+
+
+        iframe.src =
+            "https://www.youtube.com/embed/" +
+            encodeURIComponent(youtubeId) +
+
+            "?autoplay=0" +
+
+            "&controls=1" +
+
+            "&rel=0" +
+
+            "&playsinline=1" +
+
+            "&enablejsapi=1" +
+
+            "&origin=" +
+            encodeURIComponent(origin) +
+
+            "&widget_referrer=" +
+            encodeURIComponent(referrer);
+
+
+        iframe.setAttribute(
+            "referrerpolicy",
+            "strict-origin-when-cross-origin"
+        );
+
+
+        iframe.allow =
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+
+
+        iframe.allowFullscreen =
+            true;
+
+
+        playerBox.appendChild(
+            iframe
+        );
+
+
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "none";
+
+
+        return;
+
+    }
+
+
+    /* GOOGLE DRIVE */
+
+    const driveId =
+        getDriveId(url);
+
+
+    if(driveId){
+
+        const iframe =
+            document.createElement(
+                "iframe"
+            );
+
+
+        iframe.src =
+            "https://drive.google.com/file/d/" +
+            encodeURIComponent(driveId) +
+            "/preview";
+
+
+        iframe.setAttribute(
+            "allow",
+            "autoplay"
+        );
+
+
+        iframe.allowFullscreen =
+            true;
+
+
+        playerBox.appendChild(
+            iframe
+        );
+
+
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "none";
+
+
+        return;
+
+    }
+
+
+    /* DIRECT VIDEO */
+
+    if(
+        /\.(mp4|webm|ogg)(\?.*)?$/i
+        .test(url)
+    ){
+
+        const video =
+            document.createElement(
+                "video"
+            );
+
+
+        video.src =
+            url;
+
+        video.controls =
+            true;
+
+        video.playsInline =
+            true;
+
+
+        playerBox.appendChild(
+            video
+        );
+
+
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "none";
+
+
+        return;
+
+    }
+
+
+    /* GENERIC IFRAME */
+
+    if(url){
+
+        const iframe =
+            document.createElement(
+                "iframe"
+            );
+
+
+        iframe.src =
+            url;
+
+
+        iframe.setAttribute(
+            "referrerpolicy",
+            "strict-origin-when-cross-origin"
+        );
+
+
+        iframe.allowFullscreen =
+            true;
+
+
+        playerBox.appendChild(
+            iframe
+        );
+
+
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "none";
+
+
+        return;
+
+    }
+
+
+    showError(
+        "ভিডিও লিংক পাওয়া যায়নি"
+    );
+}
+
+
+/* =========================================================
+   VIEWS UPDATE
+========================================================= */
+
+async function increaseViews(id){
+
+    try{
+
+        const ref =
+            db.collection("profiles")
+              .doc(id);
+
+
+        /*
+         প্রথমে বর্তমান document নেওয়া হচ্ছে।
+        */
+
+        const snapshot =
+            await ref.get();
+
+
+        if(!snapshot.exists){
+
+            console.log(
+                "Post not found"
+            );
+
+            return 0;
+        }
+
+
+        const data =
+            snapshot.data();
+
+
+        /*
+         views না থাকলে 0 ধরা হবে।
+        */
+
+        let oldViews =
+            Number(data.views);
+
+
+        if(
+            !Number.isFinite(oldViews) ||
+            oldViews < 0
+        ){
+
+            oldViews = 0;
+
+        }
+
+
+        const newViews =
+            oldViews + 1;
+
+
+        /*
+         নতুন views Firestore-এ save।
+        */
+
+        await ref.update({
+
+            views: newViews,
+
+            updatedAt:
+                firebase.firestore
+                .FieldValue.serverTimestamp()
+
+        });
+
+
+        /*
+         স্ক্রিনে নতুন সংখ্যা দেখানো।
+        */
+
+        document.getElementById(
+            "views"
+        ).textContent =
+            newViews.toLocaleString(
+                "bn-BD"
+            );
+
+
+        console.log(
+            "Views updated:",
+            newViews
+        );
+
+
+        return newViews;
+
+    }catch(error){
+
+        console.error(
+            "VIEW UPDATE ERROR:",
+            error
+        );
+
+
+        /*
+         update permission না থাকলে
+         বর্তমান views অন্তত দেখাবে।
+        */
+
+        return null;
+
+    }
+}
+
+
+/* =========================================================
+   LOAD CURRENT VIDEO
+========================================================= */
+
+async function loadVideo(){
+
+    if(!postId){
+
+        showError(
+            "ভিডিও ID পাওয়া যায়নি"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const ref =
+            db.collection("profiles")
+              .doc(postId);
+
+
+        const snapshot =
+            await ref.get();
+
+
+        if(!snapshot.exists){
+
+            showError(
+                "ভিডিও পাওয়া যায়নি"
+            );
+
+            return;
+
+        }
+
+
+        const data =
+            snapshot.data();
+
+
+        if(data.status !== "published"){
+
+            showError(
+                "এই ভিডিওটি বর্তমানে প্রকাশিত নয়।"
+            );
+
+            return;
+
+        }
+
+
+        currentVideoUrl =
+            data.videoUrl || "";
+
+
+        currentVideoTitle =
+            data.title ||
+            "Rater Tara Video";
+
+
+        /* TITLE */
+
+        document.getElementById(
+            "videoTitle"
+        ).textContent =
+            currentVideoTitle;
+
+
+        /* INITIAL VIEWS */
+
+        let initialViews =
+            Number(data.views);
+
+
+        if(
+            !Number.isFinite(initialViews) ||
+            initialViews < 0
+        ){
+
+            initialViews = 0;
+
+        }
+
+
+        document.getElementById(
+            "views"
+        ).textContent =
+            initialViews.toLocaleString(
+                "bn-BD"
+            );
+
+
+        /* DATE */
+
+        document.getElementById(
+            "date"
+        ).textContent =
+            formatDate(
+                data.createdAt
+            );
+
+
+        /* DESCRIPTION */
+
+        if(data.description){
+
+            document.getElementById(
+                "description"
+            ).textContent =
+                data.description;
+
+
+            document.getElementById(
+                "descriptionBox"
+            ).style.display =
+                "block";
+
+        }
+
+
+        /* PLAY */
+
+        playVideo(
+            currentVideoUrl
+        );
+
+
+        /*
+         ভিডিও দেখার জন্য 1 view যোগ।
+        */
+
+        await increaseViews(
+            postId
+        );
+
+
+        /*
+         অন্যান্য ভিডিও।
+        */
+
+        loadMoreVideos(
+            postId
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "LOAD VIDEO ERROR:",
+            error
+        );
+
+
+        showError(
+            "ভিডিও লোড করতে সমস্যা হয়েছে।"
+        );
+
+    }
+}
+
+
+/* =========================================================
+   LOAD MORE VIDEOS
+========================================================= */
+
+async function loadMoreVideos(
+    currentId
+){
+
+    const container =
+        document.getElementById(
+            "moreVideos"
+        );
+
+
+    try{
+
+        /*
+         এখানে orderBy ব্যবহার করছি না,
+         যাতে Firestore composite index
+         সমস্যায় না পড়ে।
+        */
+
+        const snapshot =
+            await db.collection(
+                "profiles"
+            )
+            .where(
+                "status",
+                "==",
+                "published"
+            )
+            .get();
+
+
+        container.innerHTML = "";
+
+
+        let videos = [];
+
+
+        snapshot.forEach(doc => {
+
+            if(doc.id === currentId){
+
+                return;
+
+            }
+
+
+            videos.push({
+
+                id:doc.id,
+
+                ...doc.data()
+
+            });
+
+        });
+
+
+        /*
+         নতুন ভিডিও আগে।
+        */
+
+        videos.sort(
+            (a,b) => {
+
+                const aTime =
+                    a.createdAt &&
+                    typeof a.createdAt.toMillis ===
+                    "function"
+                    ? a.createdAt.toMillis()
+                    : 0;
+
+
+                const bTime =
+                    b.createdAt &&
+                    typeof b.createdAt.toMillis ===
+                    "function"
+                    ? b.createdAt.toMillis()
+                    : 0;
+
+
+                return bTime - aTime;
+
+            }
+        );
+
+
+        /*
+         সর্বোচ্চ 20টি।
+        */
+
+        videos =
+            videos.slice(0,20);
+
+
+        document.getElementById(
+            "videoCount"
+        ).textContent =
+            videos.length
+            ? videos.length + " টি"
+            : "";
+
+
+        if(!videos.length){
+
+            document.getElementById(
+                "emptyVideos"
+            ).style.display =
+                "block";
+
+            return;
+
+        }
+
+
+        videos.forEach(
+            video => {
+
+                container.appendChild(
+                    createVideoCard(
+                        video
+                    )
+                );
+
+            }
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "MORE VIDEOS ERROR:",
+            error
+        );
+
+
+        container.innerHTML = "";
+
+
+        document.getElementById(
+            "emptyVideos"
+        ).style.display =
+            "block";
+
+    }
+}
+
+
+/* =========================================================
+   CREATE VIDEO CARD
+========================================================= */
+
+function createVideoCard(
+    video
+){
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+
+    card.className =
+        "video-card";
+
+
+    /* THUMB */
+
+    const thumb =
+        document.createElement(
+            "div"
+        );
+
+
+    thumb.className =
+        "thumb";
+
+
+    let imageUrl =
+        video.img ||
+        video.thumbnail ||
+        "";
+
+
+    /*
+     Thumbnail না থাকলে YouTube
+     thumbnail নেওয়া হবে।
+    */
+
+    const youtubeId =
+        getYouTubeId(
+            video.videoUrl || ""
+        );
+
+
+    if(
+        !imageUrl &&
+        youtubeId
+    ){
+
+        imageUrl =
+            "https://img.youtube.com/vi/" +
+            youtubeId +
+            "/hqdefault.jpg";
+
+    }
+
+
+    if(imageUrl){
+
+        const img =
+            document.createElement(
+                "img"
+            );
+
+
+        img.src =
+            imageUrl;
+
+
+        img.alt =
+            video.title ||
+            "Video";
+
+
+        img.loading =
+            "lazy";
+
+
+        img.onerror =
+            function(){
+
+                this.style.display =
+                    "none";
+
+            };
+
+
+        thumb.appendChild(
+            img
+        );
+
+    }
+
+
+    /* PLAY */
+
+    const play =
+        document.createElement(
+            "div"
+        );
+
+
+    play.className =
+        "play-icon";
+
+
+    play.innerHTML =
+        '<i class="fa-solid fa-play"></i>';
+
+
+    thumb.appendChild(
+        play
+    );
+
+
+    /* INFO */
+
+    const info =
+        document.createElement(
+            "div"
+        );
+
+
+    info.className =
+        "video-info";
+
+
+    const h4 =
+        document.createElement(
+            "h4"
+        );
+
+
+    h4.textContent =
+        video.title ||
+        "Untitled Video";
+
+
+    const p =
+        document.createElement(
+            "p"
+        );
+
+
+    let views =
+        Number(video.views);
+
+
+    if(
+        !Number.isFinite(views) ||
+        views < 0
+    ){
+
+        views = 0;
+
+    }
+
+
+    p.innerHTML =
+        '<i class="fa-solid fa-eye"></i> ' +
+        views.toLocaleString("bn-BD") +
+        ' বার দেখা';
+
+
+    info.appendChild(
+        h4
+    );
+
+
+    info.appendChild(
+        p
+    );
+
+
+    card.appendChild(
+        thumb
+    );
+
+
+    card.appendChild(
+        info
+    );
+
+
+    /* CLICK */
+
+    card.addEventListener(
+        "click",
+        function(){
+
+            window.location.href =
+                "player.html?id=" +
+                encodeURIComponent(
+                    video.id
+                );
+
+        }
+    );
+
+
+    return card;
+}
+
+
+/* =========================================================
+   SHARE
+========================================================= */
+
+async function sharePage(){
+
+    const url =
+        window.location.href;
+
+
+    if(navigator.share){
+
+        try{
+
+            await navigator.share({
+
+                title:
+                    currentVideoTitle ||
+                    "Rater Tara Video Apps",
+
+                text:
+                    currentVideoTitle ||
+                    "ভিডিও দেখুন",
+
+                url:url
+
+            });
+
+        }catch(e){}
+
+    }else{
+
+        copyLink();
+
+    }
+}
+
+
+/* =========================================================
+   COPY
+========================================================= */
+
+async function copyLink(){
+
+    try{
+
+        await navigator.clipboard.writeText(
+            window.location.href
+        );
+
+
+        alert(
+            "ভিডিও লিংক কপি হয়েছে।"
+        );
+
+
+    }catch(error){
+
+        alert(
+            "লিংক কপি করা যায়নি।"
+        );
+
+    }
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadVideo();
+
+</script>
+
+</body>
+</html>

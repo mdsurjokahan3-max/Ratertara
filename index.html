@@ -1,864 +1,1927 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Free Spin</title>
+  <meta charset="UTF-8">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-<style>
+  <title>Rater Tara Video Apps</title>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+  <!-- Google Font -->
+  <link rel="preconnect"
+        href="https://fonts.googleapis.com">
 
-body{
-    font-family:'Hind Siliguri',sans-serif;
-    min-height:100vh;
-    background:linear-gradient(135deg,#fff1f7,#eee7ff);
-    padding:20px 12px;
-}
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
 
-.app{
-    width:100%;
-    max-width:430px;
-    margin:auto;
-    background:#fff;
-    border-radius:28px;
-    padding:24px 16px 30px;
-    box-shadow:0 15px 45px rgba(0,0,0,.15);
-}
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
-.header{
-    text-align:center;
-}
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-.logo{
-    width:78px;
-    height:78px;
-    margin:auto;
+  <!-- =====================================================
+       FIREBASE COMPAT
+       SAME PROJECT: love-ads-6e6f6
+       ===================================================== -->
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
 
-    border-radius:50%;
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
-    font-size:40px;
 
-    background:
-        linear-gradient(135deg,#ff2874,#754cff);
+  <style>
 
-    box-shadow:
-        0 10px 25px rgba(117,76,255,.30);
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-h1{
-    margin-top:13px;
-    font-size:28px;
-}
 
-.subtitle{
-    color:#777;
-    margin-top:3px;
-}
+    body {
 
+      font-family:
+        "Hind Siliguri",
+        sans-serif;
 
-/* =========================
-   WHEEL
-========================= */
+      background:
+        #f4f5f7;
 
-.wheel-area{
-    position:relative;
+      color:
+        #222;
 
-    width:280px;
-    height:280px;
+    }
 
-    margin:32px auto 25px;
-}
 
-.pointer{
-    position:absolute;
+    .app {
 
-    top:-17px;
-    left:50%;
+      width:
+        100%;
 
-    transform:translateX(-50%);
+      max-width:
+        450px;
 
-    z-index:20;
+      min-height:
+        100vh;
 
-    width:0;
-    height:0;
+      margin:
+        auto;
 
-    border-left:18px solid transparent;
-    border-right:18px solid transparent;
-    border-top:38px solid #222;
+      background:
+        #fff;
 
-    filter:
-        drop-shadow(0 3px 3px rgba(0,0,0,.3));
-}
+      overflow-x:
+        hidden;
 
-.wheel{
-    position:relative;
+    }
 
-    width:280px;
-    height:280px;
 
-    border-radius:50%;
+    /* =====================================================
+       HEADER
+       ===================================================== */
 
-    background:
-        conic-gradient(
-            #4d7cff 0deg 90deg,
-            #229ed9 90deg 180deg,
-            #25d366 180deg 270deg,
-            #ff4d6d 270deg 360deg
-        );
+    .header {
 
-    border:9px solid #fff;
+      height:
+        58px;
 
-    box-shadow:
-        0 12px 32px rgba(0,0,0,.22);
-
-    transition:
-        transform 4s cubic-bezier(.12,.8,.16,1);
-}
-
-
-/* =========================
-   WHEEL TEXT
-========================= */
-
-.wheel-text{
-    position:absolute;
-
-    width:100%;
-    height:100%;
-
-    left:0;
-    top:0;
-}
-
-.option{
-    position:absolute;
-
-    width:110px;
-
-    left:50%;
-    top:50%;
-
-    margin-left:-55px;
-    margin-top:-17px;
-
-    text-align:center;
-
-    color:#fff;
-
-    font-size:16px;
-    font-weight:700;
-
-    text-shadow:
-        0 2px 4px rgba(0,0,0,.45);
-}
-
-.option span{
-    display:block;
-    font-size:27px;
-}
-
-.o1{
-    transform:
-        rotate(45deg)
-        translateY(-90px);
-}
-
-.o2{
-    transform:
-        rotate(135deg)
-        translateY(-90px);
-}
-
-.o3{
-    transform:
-        rotate(225deg)
-        translateY(-90px);
-}
-
-.o4{
-    transform:
-        rotate(315deg)
-        translateY(-90px);
-}
-
-
-/* CENTER */
-
-.center{
-    position:absolute;
-
-    width:70px;
-    height:70px;
-
-    left:50%;
-    top:50%;
-
-    transform:
-        translate(-50%,-50%);
-
-    border-radius:50%;
-
-    background:#fff;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:30px;
-
-    box-shadow:
-        0 5px 18px rgba(0,0,0,.25);
-
-    z-index:5;
-}
-
-
-/* =========================
-   SPIN BUTTON
-========================= */
-
-.spin-btn{
-    width:100%;
-
-    border:0;
-    border-radius:17px;
-
-    padding:15px;
-
-    color:#fff;
-
-    font-family:inherit;
-
-    font-size:20px;
-    font-weight:700;
-
-    background:
+      background:
         linear-gradient(
-            135deg,
-            #ff2874,
-            #754cff
+          135deg,
+          #008b8b,
+          #006666
         );
 
-    box-shadow:
-        0 8px 22px rgba(117,76,255,.28);
+      color:
+        #fff;
 
-    cursor:pointer;
-}
+      display:
+        flex;
 
-.spin-btn:active{
-    transform:scale(.97);
-}
+      align-items:
+        center;
 
-.spin-btn:disabled{
-    opacity:.55;
-}
+      justify-content:
+        space-between;
 
+      padding:
+        0 15px;
 
-/* =========================
-   RESULT
-========================= */
+      position:
+        sticky;
 
-.result{
-    display:none;
+      top:
+        0;
 
-    margin-top:20px;
+      z-index:
+        100;
 
-    padding:20px 15px;
+      box-shadow:
+        0 2px 10px rgba(0,0,0,.15);
 
-    border-radius:18px;
-
-    text-align:center;
-
-    background:
-        linear-gradient(
-            135deg,
-            #fff4f8,
-            #f3efff
-        );
-}
-
-.result-icon{
-    font-size:45px;
-}
-
-.result h2{
-    margin-top:5px;
-    font-size:23px;
-}
-
-.result p{
-    color:#777;
-    margin-top:4px;
-}
+    }
 
 
-/* =========================
-   OPEN BUTTON
-========================= */
+    .back-btn {
 
-.open-btn{
-    display:none;
+      width:
+        40px;
 
-    width:100%;
+      height:
+        40px;
 
-    margin-top:15px;
+      border:
+        none;
 
-    padding:13px;
+      background:
+        rgba(255,255,255,.15);
 
-    border:0;
+      color:
+        #fff;
 
-    border-radius:14px;
+      border-radius:
+        50%;
 
-    color:#fff;
+      font-size:
+        18px;
 
-    font-family:inherit;
+      cursor:
+        pointer;
 
-    font-size:17px;
-    font-weight:700;
+      flex-shrink:
+        0;
 
-    cursor:pointer;
-}
-
-.whatsapp{
-    background:#25D366;
-}
-
-.telegram{
-    background:#229ED9;
-}
-
-.imo{
-    background:#4d7cff;
-}
-
-.call{
-    background:#ff4d6d;
-}
+    }
 
 
-/* =========================
-   AD
-========================= */
+    .header-title {
 
-.ad-box{
-    margin-top:23px;
+      font-size:
+        19px;
 
-    min-height:80px;
+      font-weight:
+        700;
 
-    border-radius:15px;
+      white-space:
+        nowrap;
 
-    background:#f8f8f8;
+      overflow:
+        hidden;
 
-    overflow:hidden;
+      text-overflow:
+        ellipsis;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
+      margin:
+        0 10px;
 
-.footer{
-    text-align:center;
+      flex:
+        1;
 
-    color:#999;
+      text-align:
+        center;
 
-    font-size:12px;
+    }
 
-    margin-top:20px;
-}
 
-</style>
+    .header-share {
+
+      width:
+        40px;
+
+      height:
+        40px;
+
+      border:
+        none;
+
+      background:
+        rgba(255,255,255,.15);
+
+      color:
+        #fff;
+
+      border-radius:
+        50%;
+
+      font-size:
+        17px;
+
+      cursor:
+        pointer;
+
+      flex-shrink:
+        0;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      text-decoration:
+        none;
+
+    }
+
+
+    .header-share:active {
+
+      transform:
+        scale(.92);
+
+    }
+
+
+    /* =====================================================
+       LOADING
+       ===================================================== */
+
+    .loading {
+
+      min-height:
+        70vh;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      flex-direction:
+        column;
+
+      gap:
+        12px;
+
+      color:
+        #008b8b;
+
+    }
+
+
+    .loading i {
+
+      font-size:
+        35px;
+
+    }
+
+
+    .loading p {
+
+      font-size:
+        15px;
+
+    }
+
+
+    /* =====================================================
+       EMPTY / ERROR
+       ===================================================== */
+
+    .empty-box {
+
+      margin:
+        35px 18px;
+
+      padding:
+        30px 18px;
+
+      border-radius:
+        16px;
+
+      background:
+        #f7ffff;
+
+      border:
+        1px solid #d8eeee;
+
+      text-align:
+        center;
+
+      color:
+        #008b8b;
+
+    }
+
+
+    .empty-box i {
+
+      font-size:
+        45px;
+
+      margin-bottom:
+        12px;
+
+    }
+
+
+    .empty-box h3 {
+
+      margin-bottom:
+        6px;
+
+      font-size:
+        19px;
+
+      color:
+        #222;
+
+    }
+
+
+    .empty-box p {
+
+      font-size:
+        14px;
+
+      color:
+        #666;
+
+      line-height:
+        1.6;
+
+    }
+
+
+    .retry-btn {
+
+      margin-top:
+        18px;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      gap:
+        7px;
+
+      border:
+        none;
+
+      background:
+        #008b8b;
+
+      color:
+        #fff;
+
+      padding:
+        10px 18px;
+
+      border-radius:
+        25px;
+
+      font-family:
+        inherit;
+
+      font-size:
+        14px;
+
+      cursor:
+        pointer;
+
+    }
+
+
+    /* =====================================================
+       POST LIST
+       ===================================================== */
+
+    .posts {
+
+      padding:
+        15px;
+
+    }
+
+
+    .section-heading {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      margin-bottom:
+        14px;
+
+    }
+
+
+    .section-heading h2 {
+
+      font-size:
+        19px;
+
+      font-weight:
+        700;
+
+    }
+
+
+    .section-heading span {
+
+      font-size:
+        12px;
+
+      color:
+        #777;
+
+    }
+
+
+    /* =====================================================
+       POST CARD
+       ===================================================== */
+
+    .post-card {
+
+      background:
+        #fff;
+
+      border:
+        1px solid #e8e8e8;
+
+      border-radius:
+        16px;
+
+      overflow:
+        hidden;
+
+      margin-bottom:
+        15px;
+
+      box-shadow:
+        0 4px 15px rgba(0,0,0,.06);
+
+      cursor:
+        pointer;
+
+      transition:
+        .2s;
+
+    }
+
+
+    .post-card:active {
+
+      transform:
+        scale(.99);
+
+    }
+
+
+    /* =====================================================
+       IMAGE
+       ===================================================== */
+
+    .post-image {
+
+      width:
+        100%;
+
+      aspect-ratio:
+        16 / 9;
+
+      background:
+        #000;
+
+      position:
+        relative;
+
+      overflow:
+        hidden;
+
+    }
+
+
+    .post-image img {
+
+      width:
+        100%;
+
+      height:
+        100%;
+
+      display:
+        block;
+
+      object-fit:
+        cover;
+
+    }
+
+
+    .image-fallback {
+
+      width:
+        100%;
+
+      height:
+        100%;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      color:
+        #aaa;
+
+      font-size:
+        45px;
+
+    }
+
+
+    .play-overlay {
+
+      position:
+        absolute;
+
+      left:
+        50%;
+
+      top:
+        50%;
+
+      transform:
+        translate(-50%, -50%);
+
+      width:
+        58px;
+
+      height:
+        58px;
+
+      border-radius:
+        50%;
+
+      background:
+        rgba(0,139,139,.92);
+
+      color:
+        #fff;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      font-size:
+        22px;
+
+      box-shadow:
+        0 5px 20px rgba(0,0,0,.3);
+
+    }
+
+
+    /* =====================================================
+       CARD CONTENT
+       ===================================================== */
+
+    .post-content {
+
+      padding:
+        13px;
+
+    }
+
+
+    .post-title {
+
+      font-size:
+        18px;
+
+      font-weight:
+        700;
+
+      line-height:
+        1.4;
+
+      color:
+        #222;
+
+      display:
+        -webkit-box;
+
+      -webkit-line-clamp:
+        2;
+
+      -webkit-box-orient:
+        vertical;
+
+      overflow:
+        hidden;
+
+    }
+
+
+    .post-name {
+
+      margin-top:
+        4px;
+
+      font-size:
+        13px;
+
+      color:
+        #008b8b;
+
+      font-weight:
+        600;
+
+    }
+
+
+    .post-bio {
+
+      margin-top:
+        7px;
+
+      font-size:
+        13px;
+
+      color:
+        #666;
+
+      line-height:
+        1.6;
+
+      display:
+        -webkit-box;
+
+      -webkit-line-clamp:
+        2;
+
+      -webkit-box-orient:
+        vertical;
+
+      overflow:
+        hidden;
+
+    }
+
+
+    .post-meta {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        12px;
+
+      flex-wrap:
+        wrap;
+
+      margin-top:
+        10px;
+
+      font-size:
+        12px;
+
+      color:
+        #888;
+
+    }
+
+
+    .post-meta span {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      gap:
+        5px;
+
+    }
+
+
+    .post-meta i {
+
+      color:
+        #008b8b;
+
+    }
+
+
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+
+    .footer {
+
+      text-align:
+        center;
+
+      padding:
+        18px 10px 25px;
+
+      color:
+        #999;
+
+      font-size:
+        12px;
+
+    }
+
+
+    /* =====================================================
+       TOAST
+       ===================================================== */
+
+    .toast {
+
+      position:
+        fixed;
+
+      left:
+        50%;
+
+      bottom:
+        25px;
+
+      transform:
+        translate(-50%, 100px);
+
+      background:
+        #222;
+
+      color:
+        #fff;
+
+      padding:
+        11px 18px;
+
+      border-radius:
+        25px;
+
+      font-size:
+        14px;
+
+      z-index:
+        9999;
+
+      opacity:
+        0;
+
+      transition:
+        .3s ease;
+
+      max-width:
+        calc(100% - 30px);
+
+      text-align:
+        center;
+
+    }
+
+
+    .toast.show {
+
+      transform:
+        translate(-50%, 0);
+
+      opacity:
+        1;
+
+    }
+
+
+    /* =====================================================
+       DESKTOP
+       ===================================================== */
+
+    @media (min-width:451px) {
+
+      body {
+
+        padding:
+          20px 0;
+
+      }
+
+
+      .app {
+
+        border-radius:
+          18px;
+
+        min-height:
+          calc(100vh - 40px);
+
+        box-shadow:
+          0 5px 30px rgba(0,0,0,.08);
+
+      }
+
+
+      .header {
+
+        border-radius:
+          18px 18px 0 0;
+
+      }
+
+    }
+
+  </style>
+
 </head>
 
 
 <body>
 
+
 <div class="app">
 
-    <!-- HEADER -->
 
-    <div class="header">
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
 
-        <div class="logo">
-            📞
-        </div>
+  <header class="header">
 
-        <h1>
-             Free Spin
-        </h1>
 
-        <div class="subtitle">
-            স্পিন করে একটি Free Option নির্বাচন করুন
-        </div>
+    <div
+      class="header-title">
+
+      Rater Tara Video Apps
 
     </div>
 
 
-    <!-- WHEEL -->
+    <!-- =================================================
+         PROFILE BUTTON
+         ONLY THIS PART UPDATED
+         ================================================= -->
 
-    <div class="wheel-area">
+    <a
+      href="profile.html"
+      class="header-share"
+      aria-label="Profile"
+      title="Profile">
 
-        <div class="pointer"></div>
+      <i class="fa-solid fa-user"></i>
 
-        <div
-            class="wheel"
-            id="wheel">
-
-            <div class="wheel-text">
-
-                <div class="option o1">
-                    <span></span>
-                    IMO
-                </div>
-
-                <div class="option o2">
-                    <span></span>
-                    Telegram
-                </div>
-
-                <div class="option o3">
-                    <span></span>
-                    Call
-                </div>
-
-                <div class="option o4">
-                    <span></span>
-                    WhatsApp
-                </div>
-
-            </div>
+    </a>
 
 
-            <div class="center">
-                📥
-            </div>
-
-        </div>
-
-    </div>
+  </header>
 
 
-    <!-- SPIN -->
+  <!-- =====================================================
+       LOADING
+       ===================================================== -->
+
+  <div
+    id="loading"
+    class="loading">
+
+    <i class="fa-solid fa-spinner fa-spin"></i>
+
+    <p>
+      পোস্ট লোড হচ্ছে...
+    </p>
+
+  </div>
+
+
+  <!-- =====================================================
+       EMPTY
+       ===================================================== -->
+
+  <div
+    id="emptyBox"
+    class="empty-box"
+    style="display:none;">
+
+    <i class="fa-solid fa-video-slash"></i>
+
+    <h3>
+      কোনো প্রকাশিত পোস্ট নেই
+    </h3>
+
+    <p>
+      বর্তমানে কোনো অনুমোদিত ভিডিও পোস্ট পাওয়া যায়নি।
+    </p>
 
     <button
-        class="spin-btn"
-        id="spinBtn"
-        onclick="spinWheel()">
+      class="retry-btn"
+      onclick="loadPosts()">
 
-       Contact
+      <i class="fa-solid fa-rotate"></i>
+
+      আবার চেষ্টা করুন
 
     </button>
 
+  </div>
 
-    <!-- RESULT -->
+
+  <!-- =====================================================
+       POSTS
+       ===================================================== -->
+
+  <main
+    id="posts"
+    class="posts"
+    style="display:none;">
+
+
+    <div class="section-heading">
+
+      <h2>
+        সর্বশেষ ভিডিও
+      </h2>
+
+      <span id="postCount">
+        ০ পোস্ট
+      </span>
+
+    </div>
+
 
     <div
-        class="result"
-        id="result">
-
-        <div
-            class="result-icon"
-            id="resultIcon">
-            🎉
-        </div>
-
-        <h2 id="resultTitle">
-            Congratulations!
-        </h2>
-
-        <p id="resultText">
-            আপনার Free Option নির্বাচিত হয়েছে।
-        </p>
-
-
-        <!-- WHATSAPP -->
-
-        <button
-            id="whatsappBtn"
-            class="open-btn whatsapp"
-            onclick="openWhatsApp()">
-
-            💚 WhatsApp খুলুন
-
-        </button>
-
-
-        <!-- TELEGRAM -->
-
-        <button
-            id="telegramBtn"
-            class="open-btn telegram"
-            onclick="openTelegram()">
-
-            ✈️ Telegram খুলুন
-
-        </button>
-
-
-        <!-- IMO -->
-
-        <button
-            id="imoBtn"
-            class="open-btn imo"
-            onclick="openIMO()">
-
-            📱 IMO খুলুন
-
-        </button>
-
-
-        <!-- CALL -->
-
-        <button
-            id="callBtn"
-            class="open-btn call"
-            onclick="makeCall()">
-
-            📞 Call করুন
-
-        </button>
-
+      id="postList">
     </div>
 
 
-    <!-- AD -->
-
-    <div class="ad-box">
-
-        <script src="https://pl28030591.profitableratecpmnetwork.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js"></script>
-
-    </div>
+  </main>
 
 
-    <div class="footer">
-        © 2026 Free Spin • All Rights Reserved
-    </div>
+  <div class="footer">
 
+    © 2026 Rater Tara • All Rights Reserved
+
+  </div>
+
+
+</div>
+
+
+<!-- Toast -->
+
+<div
+  id="toast"
+  class="toast">
 </div>
 
 
 <script>
 
-/* ==========================================
-   YOUR CONTACT INFORMATION
-========================================== */
+/* =========================================================
+   RATER TARA VIDEO APPS
+   HOME / INDEX PAGE
 
-const WHATSAPP_NUMBER = "8801XXXXXXXXX";
+   FIREBASE PROJECT:
+   love-ads-6e6f6
 
-const TELEGRAM_USERNAME = "YourTelegramUsername";
+   COLLECTION:
+   profiles
 
-const CALL_NUMBER = "tel:+8801XXXXXXXXX";
+   PUBLISHED:
+   status = "published"
+   ========================================================= */
 
 
-/* ==========================================
-   ONLY 4 OPTIONS
-========================================== */
+/* =========================================================
+   FIREBASE CONFIG
+   ========================================================= */
 
-const options = [
 
-    {
-        title:"IMO",
-        icon:"📱",
-        text:"আপনার Free IMO Option নির্বাচিত হয়েছে।",
-        type:"imo"
-    },
+const firebaseConfig = {
+  apiKey: "AIzaSyD7MR0gTPVeqMUMRTIip9Zp6oV0J7iVIaY",
+ 
+  databaseURL: "https://rater-tara-video-apps-default-rtdb.firebaseio.com",
+  projectId: "rater-tara-video-apps",
+  storageBucket: "rater-tara-video-apps.firebasestorage.app",
+  messagingSenderId: "622484215343",
+  appId: "1:622484215343:web:90e995aa400cd103ea18da",
+  measurementId: "G-3G9Z0WVSDE"
+};
 
-    {
-        title:"Telegram",
-        icon:"✈️",
-        text:"আপনার Free Telegram Option নির্বাচিত হয়েছে।",
-        type:"telegram"
-    },
 
-    {
-        title:"Call",
-        icon:"📞",
-        text:"আপনার Free Call Option নির্বাচিত হয়েছে।",
-        type:"call"
-    },
+/* =========================================================
+   FIREBASE INITIALIZE
+   ========================================================= */
 
-    {
-        title:"WhatsApp",
-        icon:"💚",
-        text:"আপনার Free WhatsApp Option নির্বাচিত হয়েছে।",
-        type:"whatsapp"
-    }
+if (!firebase.apps.length) {
 
-];
-
-
-/* ==========================================
-   SPIN
-========================================== */
-
-let spinning = false;
-
-let currentRotation = 0;
-
-function spinWheel(){
-
-    if(spinning) return;
-
-    spinning = true;
-
-    const wheel =
-        document.getElementById("wheel");
-
-    const button =
-        document.getElementById("spinBtn");
-
-    const result =
-        document.getElementById("result");
-
-
-    button.disabled = true;
-
-    result.style.display = "none";
-
-
-    /* Hide all buttons */
-
-    document
-        .getElementById("whatsappBtn")
-        .style.display = "none";
-
-    document
-        .getElementById("telegramBtn")
-        .style.display = "none";
-
-    document
-        .getElementById("imoBtn")
-        .style.display = "none";
-
-    document
-        .getElementById("callBtn")
-        .style.display = "none";
-
-
-    /* Random option */
-
-    const selectedIndex =
-        Math.floor(
-            Math.random() * options.length
-        );
-
-
-    /*
-       4 options = 90 degree
-    */
-
-    const segment = 90;
-
-
-    const targetAngle =
-        360 -
-        (
-            selectedIndex * segment
-            + segment / 2
-        );
-
-
-    const extraSpins =
-        360 * 6;
-
-
-    currentRotation +=
-        extraSpins + targetAngle;
-
-
-    wheel.style.transform =
-        `rotate(${currentRotation}deg)`;
-
-
-    /* Result */
-
-    setTimeout(function(){
-
-        const selected =
-            options[selectedIndex];
-
-
-        document
-            .getElementById("resultIcon")
-            .textContent =
-            selected.icon;
-
-
-        document
-            .getElementById("resultTitle")
-            .textContent =
-            selected.title;
-
-
-        document
-            .getElementById("resultText")
-            .textContent =
-            selected.text;
-
-
-        result.style.display =
-            "block";
-
-
-        if(selected.type === "whatsapp"){
-
-            document
-                .getElementById("whatsappBtn")
-                .style.display =
-                "block";
-
-        }
-
-
-        if(selected.type === "telegram"){
-
-            document
-                .getElementById("telegramBtn")
-                .style.display =
-                "block";
-
-        }
-
-
-        if(selected.type === "imo"){
-
-            document
-                .getElementById("imoBtn")
-                .style.display =
-                "block";
-
-        }
-
-
-        if(selected.type === "call"){
-
-            document
-                .getElementById("callBtn")
-                .style.display =
-                "block";
-
-        }
-
-
-        button.disabled = false;
-
-        spinning = false;
-
-
-        result.scrollIntoView({
-            behavior:"smooth",
-            block:"center"
-        });
-
-
-    },4000);
+  firebase.initializeApp(
+    firebaseConfig
+  );
 
 }
 
 
-/* ==========================================
-   WHATSAPP
-========================================== */
+/* =========================================================
+   FIRESTORE
+   ========================================================= */
 
-function openWhatsApp(){
+const db =
+  firebase.firestore();
 
-    if(
-        WHATSAPP_NUMBER ===
-        "8801XXXXXXXXX"
-    ){
 
-        alert(
-            "প্রথমে WHATSAPP_NUMBER-এ আপনার নম্বর দিন।"
-        );
+/* =========================================================
+   DOM
+   ========================================================= */
 
-        return;
+const loading =
+  document.getElementById("loading");
+
+const emptyBox =
+  document.getElementById("emptyBox");
+
+const posts =
+  document.getElementById("posts");
+
+const postList =
+  document.getElementById("postList");
+
+const postCount =
+  document.getElementById("postCount");
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+
+    loadPosts();
+
+  }
+);
+
+
+/* =========================================================
+   LOAD PUBLISHED POSTS
+   ========================================================= */
+
+async function loadPosts() {
+
+  loading.style.display =
+    "flex";
+
+  emptyBox.style.display =
+    "none";
+
+  posts.style.display =
+    "none";
+
+  postList.innerHTML =
+    "";
+
+
+  try {
+
+    const snapshot =
+      await db
+        .collection("profiles")
+        .where(
+          "status",
+          "==",
+          "published"
+        )
+        .get();
+
+
+    loading.style.display =
+      "none";
+
+
+    if (snapshot.empty) {
+
+      emptyBox.style.display =
+        "block";
+
+      return;
+
     }
 
 
-    window.open(
-        "https://wa.me/" +
-        WHATSAPP_NUMBER,
-        "_blank"
+    /* =====================================================
+       LOCAL SORT
+       ===================================================== */
+
+    const documents =
+      snapshot.docs.sort(
+        function (a, b) {
+
+          const aData =
+            a.data();
+
+          const bData =
+            b.data();
+
+
+          const aTime =
+            getTimestamp(
+              aData.createdAt
+            );
+
+
+          const bTime =
+            getTimestamp(
+              bData.createdAt
+            );
+
+
+          return bTime - aTime;
+
+        }
+      );
+
+
+    /* =====================================================
+       RENDER
+       ===================================================== */
+
+    documents.forEach(
+      function (doc) {
+
+        renderPost(
+          doc.id,
+          doc.data()
+        );
+
+      }
+    );
+
+
+    postCount.textContent =
+      toBanglaNumber(
+        documents.length
+      ) +
+      " পোস্ট";
+
+
+    posts.style.display =
+      "block";
+
+
+  } catch (error) {
+
+    console.error(
+      "INDEX FIRESTORE ERROR:",
+      error
+    );
+
+
+    loading.style.display =
+      "none";
+
+
+    if (
+      error &&
+      error.code ===
+      "permission-denied"
+    ) {
+
+      showErrorMessage(
+        "Firestore permission denied। Firestore Rules পরীক্ষা করুন।"
+      );
+
+    } else {
+
+      showErrorMessage(
+        "পোস্ট লোড করা যাচ্ছে না। ইন্টারনেট অথবা Firebase সেটিংস পরীক্ষা করুন।"
+      );
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   RENDER POST
+   ========================================================= */
+
+function renderPost(
+  id,
+  data
+) {
+
+  const card =
+    document.createElement("article");
+
+  card.className =
+    "post-card";
+
+
+  /* =====================================================
+     IMAGE AREA
+     ===================================================== */
+
+  const image =
+    document.createElement("div");
+
+  image.className =
+    "post-image";
+
+
+  const imageUrl =
+    String(
+      data.img ||
+      data.thumbnail ||
+      data.image ||
+      ""
+    ).trim();
+
+
+  if (imageUrl) {
+
+    const img =
+      document.createElement("img");
+
+    img.src =
+      imageUrl;
+
+    img.alt =
+      escapeHtml(
+        data.title ||
+        data.name ||
+        "Rater Tara Video"
+      );
+
+
+    img.loading =
+      "lazy";
+
+
+    img.onerror =
+      function () {
+
+        this.remove();
+
+        const fallback =
+          document.createElement("div");
+
+        fallback.className =
+          "image-fallback";
+
+        fallback.innerHTML =
+          '<i class="fa-solid fa-image"></i>';
+
+        image.insertBefore(
+          fallback,
+          image.firstChild
+        );
+
+      };
+
+
+    image.appendChild(
+      img
+    );
+
+
+  } else {
+
+    const fallback =
+      document.createElement("div");
+
+    fallback.className =
+      "image-fallback";
+
+    fallback.innerHTML =
+      '<i class="fa-solid fa-image"></i>';
+
+    image.appendChild(
+      fallback
+    );
+
+  }
+
+
+  /* =====================================================
+     PLAY BUTTON
+     ===================================================== */
+
+  const play =
+    document.createElement("div");
+
+  play.className =
+    "play-overlay";
+
+  play.innerHTML =
+    '<i class="fa-solid fa-play"></i>';
+
+  image.appendChild(
+    play
+  );
+
+
+  /* =====================================================
+     CONTENT
+     ===================================================== */
+
+  const content =
+    document.createElement("div");
+
+  content.className =
+    "post-content";
+
+
+  const title =
+    document.createElement("h2");
+
+  title.className =
+    "post-title";
+
+  title.textContent =
+    data.title ||
+    data.name ||
+    "Rater Tara Video";
+
+
+  const name =
+    document.createElement("div");
+
+  name.className =
+    "post-name";
+
+  name.innerHTML =
+    '<i class="fa-solid fa-user"></i> ' +
+    escapeHtml(
+      data.name ||
+      "Rater Tara"
+    );
+
+
+  content.appendChild(
+    title
+  );
+
+
+  content.appendChild(
+    name
+  );
+
+
+  /* =====================================================
+     BIO
+     ===================================================== */
+
+  if (
+    data.bio &&
+    String(data.bio).trim()
+  ) {
+
+    const bio =
+      document.createElement("div");
+
+    bio.className =
+      "post-bio";
+
+    bio.textContent =
+      String(data.bio);
+
+    content.appendChild(
+      bio
+    );
+
+  }
+
+
+  /* =====================================================
+     META
+     ===================================================== */
+
+  const meta =
+    document.createElement("div");
+
+  meta.className =
+    "post-meta";
+
+
+  const views =
+    document.createElement("span");
+
+  views.innerHTML =
+    '<i class="fa-solid fa-eye"></i> ' +
+    toBanglaNumber(
+      Number(data.views || 0)
+    ) +
+    " বার";
+
+
+  meta.appendChild(
+    views
+  );
+
+
+  const date =
+    convertFirebaseDate(
+      data.createdAt
+    );
+
+
+  if (date) {
+
+    const dateElement =
+      document.createElement("span");
+
+    dateElement.innerHTML =
+      '<i class="fa-regular fa-calendar"></i> ' +
+      date.toLocaleDateString(
+        "bn-BD",
+        {
+          year: "numeric",
+          month: "short",
+          day: "numeric"
+        }
+      );
+
+    meta.appendChild(
+      dateElement
+    );
+
+  }
+
+
+  content.appendChild(
+    meta
+  );
+
+
+  /* =====================================================
+     CARD
+     ===================================================== */
+
+  card.appendChild(
+    image
+  );
+
+  card.appendChild(
+    content
+  );
+
+
+  /* =====================================================
+     OPEN PLAYER
+     ===================================================== */
+
+  card.addEventListener(
+    "click",
+    function () {
+
+      openPlayer(id);
+
+    }
+  );
+
+
+  postList.appendChild(
+    card
+  );
+
+}
+
+
+/* =========================================================
+   OPEN PLAYER
+   ========================================================= */
+
+function openPlayer(id) {
+
+  if (!id) {
+
+    showToast(
+      "ভিডিও আইডি পাওয়া যায়নি"
+    );
+
+    return;
+
+  }
+
+
+  window.location.href =
+    "player.html?id=" +
+    encodeURIComponent(id);
+
+}
+
+
+/* =========================================================
+   FIREBASE TIMESTAMP
+   ========================================================= */
+
+function getTimestamp(value) {
+
+  try {
+
+    if (
+      value &&
+      typeof value.toMillis ===
+      "function"
+    ) {
+
+      return value.toMillis();
+
+    }
+
+
+    if (
+      value &&
+      typeof value.toDate ===
+      "function"
+    ) {
+
+      return value.toDate().getTime();
+
+    }
+
+
+    if (
+      typeof value ===
+      "number"
+    ) {
+
+      return value;
+
+    }
+
+
+    if (
+      typeof value ===
+      "string"
+    ) {
+
+      const date =
+        new Date(value);
+
+      if (
+        !isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return date.getTime();
+
+      }
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "Timestamp error:",
+      error
+    );
+
+  }
+
+
+  return 0;
+
+}
+
+
+/* =========================================================
+   FIREBASE DATE
+   ========================================================= */
+
+function convertFirebaseDate(
+  value
+) {
+
+  try {
+
+    if (
+      value &&
+      typeof value.toDate ===
+      "function"
+    ) {
+
+      return value.toDate();
+
+    }
+
+
+    if (
+      value instanceof Date
+    ) {
+
+      return value;
+
+    }
+
+
+    if (
+      typeof value ===
+      "number"
+    ) {
+
+      return new Date(
+        value
+      );
+
+    }
+
+
+    if (
+      typeof value ===
+      "string"
+    ) {
+
+      const date =
+        new Date(value);
+
+      if (
+        !isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return date;
+
+      }
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "Date conversion error:",
+      error
+    );
+
+  }
+
+
+  return null;
+
+}
+
+
+/* =========================================================
+   BANGLA NUMBER
+   ========================================================= */
+
+function toBanglaNumber(
+  number
+) {
+
+  const n =
+    Number(number || 0);
+
+  return String(n)
+    .replace(
+      /\d/g,
+      function (digit) {
+
+        return "০১২৩৪৫৬৭৮৯"[
+          Number(digit)
+        ];
+
+      }
     );
 
 }
 
 
-/* ==========================================
-   TELEGRAM
-========================================== */
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
 
-function openTelegram(){
+function escapeHtml(
+  value
+) {
 
-    if(
-        TELEGRAM_USERNAME ===
-        "YourTelegramUsername"
-    ){
-
-        alert(
-            "প্রথমে TELEGRAM_USERNAME-এ আপনার username দিন।"
-        );
-
-        return;
-    }
-
-
-    const username =
-        TELEGRAM_USERNAME
-        .replace("@","");
-
-
-    window.open(
-        "https://t.me/" +
-        username,
-        "_blank"
+  return String(value)
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
     );
 
 }
 
 
-/* ==========================================
-   IMO
-========================================== */
+/* =========================================================
+   ERROR
+   ========================================================= */
 
-function openIMO(){
+function showErrorMessage(
+  text
+) {
 
-    /*
-       IMO অ্যাপ ইনস্টল থাকলে
-       অ্যাপ খোলার চেষ্টা করবে।
-    */
+  emptyBox.innerHTML = `
 
-    window.location.href =
-        "imo://";
+    <i class="fa-solid fa-circle-exclamation"></i>
+
+    <h3>
+      সমস্যা হয়েছে
+    </h3>
+
+    <p>
+      ${escapeHtml(text)}
+    </p>
+
+    <button
+      class="retry-btn"
+      onclick="loadPosts()">
+
+      <i class="fa-solid fa-rotate"></i>
+
+      আবার চেষ্টা করুন
+
+    </button>
+
+  `;
+
+
+  emptyBox.style.display =
+    "block";
 
 }
 
 
-/* ==========================================
-   PHONE CALL
-========================================== */
+/* =========================================================
+   TOAST
+   ========================================================= */
 
-function makeCall(){
+let toastTimer;
+
+
+function showToast(
+  text
+) {
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.textContent =
+    text;
+
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
+    setTimeout(
+      function () {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      2500
+    );
+
+}
+
+
+/* =========================================================
+   SHARE HOME
+   ========================================================= */
+
+async function shareHome() {
+
+  const url =
+    window.location.href;
+
+
+  const title =
+    "Rater Tara Video Apps";
+
+
+  if (
+    navigator.share
+  ) {
+
+    try {
+
+      await navigator.share({
+        title:
+          title,
+
+        text:
+          "Rater Tara Video Apps",
+
+        url:
+          url
+      });
+
+      return;
+
+    } catch (error) {
+
+    }
+
+  }
+
+
+  try {
+
+    await navigator.clipboard
+      .writeText(url);
+
+    showToast(
+      "হোম পেজের লিংক কপি হয়েছে ✓"
+    );
+
+  } catch (error) {
+
+    showToast(
+      "লিংক কপি করা যায়নি"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   BACK
+   ========================================================= */
+
+function goBack() {
+
+  if (
+    window.history.length > 1
+  ) {
+
+    window.history.back();
+
+  } else {
 
     window.location.href =
-        CALL_NUMBER;
+      "index.html";
+
+  }
 
 }
 
 </script>
+
 
 </body>
 </html>

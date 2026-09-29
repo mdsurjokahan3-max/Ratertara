@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>নতুন পোস্ট | Rater Tara Video Apps</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<!-- =====================================================
+     FIREBASE COMPAT SDK
+     PROJECT: rater-tara-video-apps
+
+     NOTE:
+     Firebase Storage ব্যবহার করা হচ্ছে না।
+     শুধু Firestore ব্যবহার করা হচ্ছে।
+     ===================================================== -->
+
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0
+}
+
+body{
+  font-family:"Hind Siliguri",sans-serif;
+  background:#f4f5f7;
+  color:#222
+}
+
+.app{
+  width:100%;
+  max-width:450px;
+  min-height:100vh;
+  margin:auto;
+  background:#fff;
+  overflow-x:hidden
+}
+
+.header{
+  height:60px;
+  background:linear-gradient(135deg,#008b8b,#006666);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  padding:0 14px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 2px 10px rgba(0,0,0,.15)
+}
+
+.back-btn{
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.15);
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+  flex-shrink:0
+}
+
+.header-title{
+  flex:1;
+  text-align:center;
+  font-size:18px;
+  font-weight:700
+}
+
+.header-space{
+  width:40px
+}
+
+.container{
+  padding:18px 15px 35px
+}
+
+.intro{
+  text-align:center;
+  margin-bottom:20px
+}
+
+.intro-icon{
+  width:65px;
+  height:65px;
+  margin:auto auto 10px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#008b8b,#00b3b3);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+  box-shadow:0 8px 20px rgba(0,139,139,.25)
+}
+
+.intro h2{
+  font-size:22px;
+  margin-bottom:4px
+}
+
+.intro p{
+  color:#777;
+  font-size:13px;
+  line-height:1.6
+}
+
+.form-group{
+  margin-bottom:16px
+}
+
+.form-label{
+  display:block;
+  font-size:14px;
+  font-weight:600;
+  margin-bottom:7px;
+  color:#333
+}
+
+.required{
+  color:#e00000
+}
+
+.input,
+.textarea{
+  width:100%;
+  border:1px solid #ddd;
+  background:#fff;
+  border-radius:12px;
+  padding:12px 13px;
+  font-family:inherit;
+  font-size:14px;
+  outline:none;
+  transition:.2s
+}
+
+.input:focus,
+.textarea:focus{
+  border-color:#008b8b;
+  box-shadow:0 0 0 3px rgba(0,139,139,.08)
+}
+
+.textarea{
+  min-height:110px;
+  resize:vertical;
+  line-height:1.7
+}
+
+.textarea.large{
+  min-height:140px
+}
+
+
+/* =====================================================
+   IMAGE URL BOX
+   ===================================================== */
+
+.image-url-box{
+  border:1px solid #d8e8e8;
+  border-radius:14px;
+  padding:14px;
+  background:#f8fcfc
+}
+
+.image-url-top{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px
+}
+
+.image-url-icon{
+  width:42px;
+  height:42px;
+  border-radius:11px;
+  background:linear-gradient(135deg,#008b8b,#00b3b3);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  flex-shrink:0
+}
+
+.image-url-title{
+  font-size:14px;
+  font-weight:700
+}
+
+.image-url-subtitle{
+  font-size:11px;
+  color:#888;
+  line-height:1.4
+}
+
+.url-actions{
+  display:flex;
+  gap:8px;
+  margin-top:9px
+}
+
+.open-upload-btn{
+  flex:1;
+  min-height:43px;
+  border:0;
+  border-radius:11px;
+  background:linear-gradient(135deg,#008b8b,#006666);
+  color:#fff;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  text-decoration:none
+}
+
+.clear-url-btn{
+  width:43px;
+  min-height:43px;
+  border:1px solid #ddd;
+  border-radius:11px;
+  background:#fff;
+  color:#d00000;
+  cursor:pointer;
+  font-size:15px
+}
+
+.image-preview-box{
+  display:none;
+  margin-top:12px;
+  border-radius:13px;
+  overflow:hidden;
+  background:#000;
+  border:1px solid #ddd
+}
+
+.image-preview-box img{
+  display:block;
+  width:100%;
+  max-height:260px;
+  object-fit:contain;
+  background:#000
+}
+
+.image-url-note{
+  margin-top:9px;
+  font-size:11px;
+  color:#777;
+  line-height:1.6
+}
+
+.image-url-note i{
+  color:#008b8b
+}
+
+
+/* =====================================================
+   SUBMIT BUTTON
+   ===================================================== */
+
+.submit-btn{
+  width:100%;
+  min-height:48px;
+  border:0;
+  border-radius:13px;
+  background:linear-gradient(135deg,#008b8b,#006666);
+  color:#fff;
+  font-family:inherit;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  box-shadow:0 8px 18px rgba(0,139,139,.20)
+}
+
+.submit-btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  box-shadow:none
+}
+
+.message{
+  display:none;
+  margin-bottom:15px;
+  padding:13px;
+  border-radius:12px;
+  font-size:13px;
+  line-height:1.6
+}
+
+.message.success{
+  display:block;
+  background:#effaf3;
+  border:1px solid #bfe8ca;
+  color:#177238
+}
+
+.message.error{
+  display:block;
+  background:#fff2f2;
+  border:1px solid #ffd0d0;
+  color:#c00000
+}
+
+.note{
+  margin-top:15px;
+  padding:12px 13px;
+  border-radius:12px;
+  background:#fff8e7;
+  border:1px solid #ffe2a4;
+  color:#765400;
+  font-size:12px;
+  line-height:1.7
+}
+
+.footer{
+  text-align:center;
+  padding:10px 10px 25px;
+  color:#999;
+  font-size:12px
+}
+
+@media(min-width:451px){
+
+body{
+  padding:20px 0
+}
+
+.app{
+  border-radius:18px;
+  min-height:calc(100vh - 40px);
+  box-shadow:0 5px 30px rgba(0,0,0,.08)
+}
+
+.header{
+  border-radius:18px 18px 0 0
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+
+<button class="back-btn" onclick="goBack()">
+<i class="fa-solid fa-arrow-left"></i>
+</button>
+
+<div class="header-title">
+নতুন পোস্ট
+</div>
+
+<div class="header-space"></div>
+
+</header>
+
+
+<main class="container">
+
+<div class="intro">
+
+<div class="intro-icon">
+<i class="fa-solid fa-video"></i>
+</div>
+
+<h2>Rater Tara Video Apps</h2>
+
+<p>
+আপনার পোস্টের তথ্য পূরণ করে জমা দিন।
+অনুমোদনের পর পোস্টটি হোম পেজে দেখা যাবে।
+</p>
+
+</div>
+
+
+<div id="message" class="message"></div>
+
+
+<form id="postForm">
+
+
+<!-- =====================================================
+     NAME
+     ===================================================== -->
+
+<div class="form-group">
+
+<label class="form-label">
+নাম / পোস্টের নাম
+<span class="required">*</span>
+</label>
+
+<input
+type="text"
+id="name"
+class="input"
+placeholder="নাম বা পোস্টের নাম লিখুন"
+maxlength="100"
+required
+>
+
+</div>
+
+
+<!-- =====================================================
+     TITLE
+     ===================================================== -->
+
+<div class="form-group">
+
+<label class="form-label">
+শিরোনাম
+<span class="required">*</span>
+</label>
+
+<input
+type="text"
+id="title"
+class="input"
+placeholder="ভিডিওর শিরোনাম লিখুন"
+maxlength="150"
+required
+>
+
+</div>
+
+
+<!-- =====================================================
+     BIO
+     ===================================================== -->
+
+<div class="form-group">
+
+<label class="form-label">
+সংক্ষিপ্ত পরিচিতি / Bio
+</label>
+
+<textarea
+id="bio"
+class="textarea"
+placeholder="নিজের সম্পর্কে সংক্ষিপ্ত কিছু লিখুন..."
+maxlength="1000"></textarea>
+
+</div>
+
+
+<!-- =====================================================
+     IMAGE URL
+     ===================================================== -->
+
+<div class="form-group">
+
+<label class="form-label">
+
+ছবির URL
+<span class="required">*</span>
+
+</label>
+
+
+<div class="image-url-box">
+
+<div class="image-url-top">
+
+<div class="image-url-icon">
+<i class="fa-solid fa-image"></i>
+</div>
+
+<div>
+
+<div class="image-url-title">
+Cloudinary Image URL
+</div>
+
+<div class="image-url-subtitle">
+প্রথমে Image Upload Website-এ ছবি আপলোড করুন
+</div>
+
+</div>
+
+</div>
+
+
+<input
+type="url"
+id="imageUrl"
+class="input"
+placeholder="https://res.cloudinary.com/..."
+required
+>
+
+
+<div class="url-actions">
+
+<a
+href="https://admin-panel-neon-chi.vercel.app"
+target="_blank"
+rel="noopener noreferrer"
+class="open-upload-btn">
+
+<i class="fa-solid fa-cloud-arrow-up"></i>
+
+ছবি আপলোড করুন
+
+</a>
+
+
+<button
+type="button"
+class="clear-url-btn"
+onclick="clearImageUrl()"
+title="URL মুছুন">
+
+<i class="fa-solid fa-xmark"></i>
+
+</button>
+
+</div>
+
+
+<div id="imagePreviewBox" class="image-preview-box">
+
+<img
+id="imagePreview"
+alt="Image Preview"
+>
+
+</div>
+
+
+<div class="image-url-note">
+
+<i class="fa-solid fa-circle-info"></i>
+
+ছবি আপলোড করার পর পাওয়া Cloudinary URL এখানে Paste করুন।
+URL সঠিক হলে নিচে ছবির Preview দেখা যাবে।
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     VIDEO URL
+     ===================================================== -->
+
+<div class="form-group">
+
+<label class="form-label">
+
+ভিডিও লিংক
+<span class="required">*</span>
+
+</label>
+
+<input
+type="url"
+id="videoUrl"
+class="input"
+placeholder="YouTube / Google Drive / Blogger / Telegram লিংক"
+required
+>
+
+</div>
+
+
+<!-- =====================================================
+     DESCRIPTION
+     ===================================================== -->
+
+<div class="form-group">
+
+<label class="form-label">
+বিস্তারিত লেখা
+</label>
+
+<textarea
+id="description"
+class="textarea large"
+placeholder="ভিডিও বা পোস্ট সম্পর্কে বিস্তারিত লিখুন..."
+maxlength="5000"></textarea>
+
+</div>
+
+
+<!-- =====================================================
+     SUBMIT
+     ===================================================== -->
+
+<button
+type="submit"
+id="submitBtn"
+class="submit-btn">
+
+<i class="fa-solid fa-paper-plane"></i>
+
+<span>
+আবেদন সাবমিট করুন
+</span>
+
+</button>
+
+
+<div class="note">
+
+<i class="fa-solid fa-circle-info"></i>
+
+পোস্ট সাবমিট করার পর এটি প্রথমে
+<b>Pending</b> অবস্থায় থাকবে।
+অ্যাডমিন অনুমোদন করার পর এটি হোম পেজে প্রকাশিত হবে।
+
+</div>
+
+</form>
+
+
+<div class="footer">
+© 2026 Rater Tara • All Rights Reserved
+</div>
+
+</main>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   RATER TARA VIDEO APPS
+   POST PAGE
+
+   FIREBASE PROJECT:
+   rater-tara-video-apps
+
+   COLLECTION:
+   profiles
+
+   IMAGE SYSTEM:
+   Cloudinary Image URL
+
+   FIREBASE STORAGE:
+   NOT USED
+   ========================================================= */
+
+
+/* =========================================================
+   FIREBASE CONFIG
+   ========================================================= */
+
+const firebaseConfig = {
+
+  apiKey:
+  "AIzaSyD7MR0gTPVeqMUMRTIip9Zp6oV0J7iVIaY",
+
+  authDomain:
+  "rater-tara-video-apps.firebaseapp.com",
+
+  databaseURL:
+  "https://rater-tara-video-apps-default-rtdb.firebaseio.com",
+
+  projectId:
+  "rater-tara-video-apps",
+
+  storageBucket:
+  "rater-tara-video-apps.firebasestorage.app",
+
+  messagingSenderId:
+  "622484215343",
+
+  appId:
+  "1:622484215343:web:90e995aa400cd103ea18da",
+
+  measurementId:
+  "G-3G9Z0WVSDE"
+
+};
+
+
+/* =========================================================
+   INITIALIZE FIREBASE
+   ========================================================= */
+
+try{
+
+  if(!firebase.apps.length){
+
+    firebase.initializeApp(firebaseConfig);
+
+  }
+
+}catch(error){
+
+  console.error(
+    "Firebase Initialize Error:",
+    error
+  );
+
+}
+
+
+/* =========================================================
+   FIRESTORE
+   ========================================================= */
+
+const db = firebase.firestore();
+
+
+/* =========================================================
+   DOM ELEMENTS
+   ========================================================= */
+
+const postForm =
+document.getElementById("postForm");
+
+const imageUrlInput =
+document.getElementById("imageUrl");
+
+const imagePreview =
+document.getElementById("imagePreview");
+
+const imagePreviewBox =
+document.getElementById("imagePreviewBox");
+
+const submitBtn =
+document.getElementById("submitBtn");
+
+const message =
+document.getElementById("message");
+
+
+/* =========================================================
+   IMAGE URL PREVIEW
+   ========================================================= */
+
+imageUrlInput.addEventListener(
+"input",
+function(){
+
+  const url =
+  this.value.trim();
+
+
+  if(!url){
+
+    imagePreviewBox.style.display =
+    "none";
+
+    imagePreview.src = "";
+
+    return;
+
+  }
+
+
+  try{
+
+    new URL(url);
+
+  }catch(error){
+
+    imagePreviewBox.style.display =
+    "none";
+
+    return;
+
+  }
+
+
+  imagePreview.onload =
+  function(){
+
+    imagePreviewBox.style.display =
+    "block";
+
+  };
+
+
+  imagePreview.onerror =
+  function(){
+
+    imagePreviewBox.style.display =
+    "none";
+
+  };
+
+
+  imagePreview.src = url;
+
+});
+
+
+/* =========================================================
+   CLEAR IMAGE URL
+   ========================================================= */
+
+function clearImageUrl(){
+
+  imageUrlInput.value = "";
+
+  imagePreview.src = "";
+
+  imagePreviewBox.style.display =
+  "none";
+
+}
+
+
+/* =========================================================
+   FORM SUBMIT
+   ========================================================= */
+
+postForm.addEventListener(
+"submit",
+async function(event){
+
+  event.preventDefault();
+
+
+  /* GET FORM DATA */
+
+  const name =
+  document.getElementById("name")
+  .value
+  .trim();
+
+
+  const title =
+  document.getElementById("title")
+  .value
+  .trim();
+
+
+  const bio =
+  document.getElementById("bio")
+  .value
+  .trim();
+
+
+  const description =
+  document.getElementById("description")
+  .value
+  .trim();
+
+
+  const videoUrl =
+  document.getElementById("videoUrl")
+  .value
+  .trim();
+
+
+  const imageUrl =
+  document.getElementById("imageUrl")
+  .value
+  .trim();
+
+
+  /* =====================================================
+     VALIDATION
+     ===================================================== */
+
+  if(!name){
+
+    showMessage(
+      "নাম / পোস্টের নাম লিখুন।",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!title){
+
+    showMessage(
+      "ভিডিওর শিরোনাম লিখুন।",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!imageUrl){
+
+    showMessage(
+      "দয়া করে ছবির Image URL দিন।",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  /* IMAGE URL CHECK */
+
+  try{
+
+    new URL(imageUrl);
+
+  }catch(error){
+
+    showMessage(
+      "সঠিক Image URL দিন।",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!videoUrl){
+
+    showMessage(
+      "ভিডিও লিংক দিন।",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  /* VIDEO URL CHECK */
+
+  try{
+
+    new URL(videoUrl);
+
+  }catch(error){
+
+    showMessage(
+      "সঠিক ভিডিও URL দিন।",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  /* =====================================================
+     SUBMIT
+     ===================================================== */
+
+  await submitPost({
+
+    name,
+    title,
+    bio,
+    description,
+    imageUrl,
+    videoUrl
+
+  });
+
+});
+
+
+/* =========================================================
+   SUBMIT POST
+   ========================================================= */
+
+async function submitPost(data){
+
+  try{
+
+    setLoading(true);
+
+    hideMessage();
+
+
+    /* =====================================================
+       CHECK FIREBASE
+       ===================================================== */
+
+    if(!firebase.apps.length){
+
+      throw new Error(
+        "Firebase initialize হয়নি।"
+      );
+
+    }
+
+
+    /* =====================================================
+       FIRESTORE DATA
+       ===================================================== */
+
+    const postData = {
+
+      name:
+      data.name,
+
+      title:
+      data.title,
+
+      bio:
+      data.bio,
+
+      description:
+      data.description,
+
+      /*
+       * Cloudinary Image URL
+       * Firebase Storage নয়
+       */
+
+      img:
+      data.imageUrl,
+
+      videoUrl:
+      data.videoUrl,
+
+      views:
+      0,
+
+      status:
+      "pending",
+
+      createdAt:
+      firebase.firestore
+      .FieldValue
+      .serverTimestamp(),
+
+      updatedAt:
+      firebase.firestore
+      .FieldValue
+      .serverTimestamp()
+
+    };
+
+
+    console.log(
+      "Saving Firestore data:",
+      postData
+    );
+
+
+    /* =====================================================
+       SAVE TO PROFILES COLLECTION
+       ===================================================== */
+
+    const docRef =
+    await db
+    .collection("profiles")
+    .add(postData);
+
+
+    console.log(
+      "POST SAVED:",
+      docRef.id
+    );
+
+
+    /* =====================================================
+       SUCCESS
+       ===================================================== */
+
+    setLoading(false);
+
+
+    showMessage(
+
+      "আপনার পোস্ট সফলভাবে জমা হয়েছে। " +
+      "অ্যাডমিন অনুমোদনের পর এটি হোম পেজে প্রকাশিত হবে।",
+
+      "success"
+
+    );
+
+
+    /* =====================================================
+       RESET
+       ===================================================== */
+
+    postForm.reset();
+
+    clearImageUrl();
+
+
+    window.scrollTo({
+
+      top:0,
+
+      behavior:"smooth"
+
+    });
+
+
+  }catch(error){
+
+    console.error(
+      "POST ERROR:",
+      error
+    );
+
+
+    setLoading(false);
+
+
+    /* =====================================================
+       DEFAULT ERROR
+       ===================================================== */
+
+    let errorMessage =
+    "পোস্ট জমা দেওয়া যায়নি। আবার চেষ্টা করুন।";
+
+
+    /* =====================================================
+       FIREBASE ERROR CODES
+       ===================================================== */
+
+    if(error && error.code){
+
+      switch(error.code){
+
+
+        /* FIRESTORE */
+
+        case "permission-denied":
+
+          errorMessage =
+          "Firestore Permission Denied। Firestore Rules পরীক্ষা করুন।";
+
+          break;
+
+
+        case "failed-precondition":
+
+          errorMessage =
+          "Firestore বর্তমানে এই কাজটি সম্পন্ন করতে পারছে না। Firebase Console পরীক্ষা করুন।";
+
+          break;
+
+
+        case "unavailable":
+
+          errorMessage =
+          "Firebase সার্ভারে সংযোগ পাওয়া যাচ্ছে না। Internet connection পরীক্ষা করুন।";
+
+          break;
+
+
+        case "deadline-exceeded":
+
+          errorMessage =
+          "Firebase server response পেতে বেশি সময় লাগছে। আবার চেষ্টা করুন।";
+
+          break;
+
+
+        case "network-request-failed":
+
+          errorMessage =
+          "Internet connection সমস্যা হয়েছে।";
+
+          break;
+
+
+        default:
+
+          errorMessage =
+          "Firebase Error: " +
+          error.code;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       ERROR MESSAGE
+       ===================================================== */
+
+    showMessage(
+      errorMessage,
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   BUTTON LOADING
+   ========================================================= */
+
+function setLoading(loading){
+
+  submitBtn.disabled =
+  loading;
+
+
+  if(loading){
+
+    submitBtn.innerHTML =
+    '<i class="fa-solid fa-spinner fa-spin"></i>' +
+    '<span>পোস্ট জমা হচ্ছে...</span>';
+
+  }else{
+
+    submitBtn.innerHTML =
+    '<i class="fa-solid fa-paper-plane"></i>' +
+    '<span>আবেদন সাবমিট করুন</span>';
+
+  }
+
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+function showMessage(text,type){
+
+  message.className =
+  "message " + type;
+
+  message.textContent =
+  text;
+
+  message.style.display =
+  "block";
+
+}
+
+
+function hideMessage(){
+
+  message.className =
+  "message";
+
+  message.textContent =
+  "";
+
+  message.style.display =
+  "none";
+
+}
+
+
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
+
+function goBack(){
+
+  if(window.history.length > 1){
+
+    window.history.back();
+
+  }else{
+
+    window.location.href =
+    "index.html";
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
