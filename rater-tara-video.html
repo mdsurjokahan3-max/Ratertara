@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Rater Tara Video Apps</title>
+
+  <!-- Google Font -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Hind Siliguri", sans-serif;
+      background: #f2f5f6;
+      color: #222;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 450px;
+      min-height: 100vh;
+      margin: auto;
+      background: #fff;
+      box-shadow: 0 0 20px rgba(0,0,0,.08);
+    }
+
+    /* HEADER */
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 13px 14px;
+
+      color: #fff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #008b8b,
+          #006666
+        );
+
+      box-shadow:
+        0 4px 15px rgba(0,0,0,.16);
+    }
+
+    .back-btn,
+    .profile-btn {
+      width: 39px;
+      height: 39px;
+
+      border: 0;
+      border-radius: 50%;
+
+      color: #fff;
+
+      background: rgba(255,255,255,.14);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+
+      text-decoration: none;
+    }
+
+    .back-btn:active,
+    .profile-btn:active {
+      transform: scale(.94);
+    }
+
+    .header-title {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .header-title h1 {
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.15;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-title span {
+      display: block;
+
+      margin-top: 1px;
+
+      font-size: 11px;
+      opacity: .88;
+    }
+
+    /* CONTENT */
+
+    .content {
+      padding: 14px;
+    }
+
+    /* INTRO */
+
+    .intro {
+      padding: 15px;
+      margin-bottom: 14px;
+
+      border-radius: 15px;
+
+      color: #fff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #008b8b,
+          #006666
+        );
+
+      box-shadow:
+        0 6px 18px rgba(0,102,102,.18);
+    }
+
+    .intro h2 {
+      font-size: 20px;
+      margin-bottom: 3px;
+    }
+
+    .intro p {
+      font-size: 12px;
+      line-height: 1.6;
+      opacity: .92;
+    }
+
+    /* SEARCH */
+
+    .search-box {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .search-box i {
+      position: absolute;
+
+      left: 13px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      color: #888;
+    }
+
+    .search-box input {
+      width: 100%;
+
+      border: 1px solid #ddd;
+      outline: none;
+
+      border-radius: 12px;
+
+      padding: 11px 12px 11px 38px;
+
+      font-family: inherit;
+      font-size: 14px;
+
+      background: #fafafa;
+    }
+
+    .search-box input:focus {
+      border-color: #008b8b;
+
+      background: #fff;
+
+      box-shadow:
+        0 0 0 3px rgba(0,139,139,.08);
+    }
+
+    /* STATUS */
+
+    .status {
+      display: none;
+
+      padding: 12px;
+
+      margin-bottom: 14px;
+
+      border-radius: 11px;
+
+      text-align: center;
+
+      color: #666;
+
+      background: #f5f5f5;
+
+      font-size: 13px;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .loading i {
+      margin-right: 6px;
+    }
+
+    /* VIDEO CARD */
+
+    .video-card {
+      overflow: hidden;
+
+      margin-bottom: 17px;
+
+      border-radius: 16px;
+
+      border: 1px solid #e5e5e5;
+
+      background: #fff;
+
+      box-shadow:
+        0 5px 18px rgba(0,0,0,.07);
+
+      cursor: pointer;
+
+      transition:
+        transform .2s,
+        box-shadow .2s;
+    }
+
+    .video-card:active {
+      transform: scale(.985);
+    }
+
+    .thumbnail-wrap {
+      position: relative;
+
+      width: 100%;
+
+      aspect-ratio: 16 / 9;
+
+      overflow: hidden;
+
+      background: #e8eeee;
+    }
+
+    .thumbnail {
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      object-fit: cover;
+    }
+
+    .play-overlay {
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      transform: translate(-50%, -50%);
+
+      width: 56px;
+      height: 56px;
+
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: #fff;
+
+      background: rgba(0,0,0,.62);
+
+      box-shadow:
+        0 4px 18px rgba(0,0,0,.25);
+    }
+
+    .play-overlay i {
+      margin-left: 3px;
+      font-size: 22px;
+    }
+
+    .video-info {
+      padding: 12px 13px 13px;
+    }
+
+    .video-title {
+      color: #222;
+
+      font-size: 17px;
+      font-weight: 700;
+
+      line-height: 1.4;
+
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+
+      overflow: hidden;
+    }
+
+    .video-name {
+      margin-top: 3px;
+
+      color: #008b8b;
+
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .video-bio {
+      margin-top: 5px;
+
+      color: #777;
+
+      font-size: 12px;
+
+      line-height: 1.5;
+
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+
+      overflow: hidden;
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      margin-top: 9px;
+
+      color: #999;
+
+      font-size: 11px;
+    }
+
+    .meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .source-badge {
+      margin-left: auto;
+
+      padding: 4px 8px;
+
+      border-radius: 20px;
+
+      color: #006666;
+
+      background: #e7f7f7;
+
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    /* EMPTY */
+
+    .empty {
+      padding: 45px 15px;
+
+      text-align: center;
+
+      color: #999;
+    }
+
+    .empty i {
+      display: block;
+
+      margin-bottom: 10px;
+
+      color: #cfd8d8;
+
+      font-size: 42px;
+    }
+
+    .empty strong {
+      display: block;
+
+      margin-bottom: 3px;
+
+      color: #777;
+
+      font-size: 15px;
+    }
+
+    .empty span {
+      font-size: 12px;
+    }
+
+    /* ERROR */
+
+    .error-box {
+      padding: 18px;
+
+      border-radius: 13px;
+
+      text-align: center;
+
+      color: #a33;
+
+      background: #fff2f2;
+
+      border: 1px solid #ffd7d7;
+
+      font-size: 13px;
+    }
+
+    .error-box i {
+      display: block;
+
+      margin-bottom: 7px;
+
+      font-size: 28px;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      padding: 18px 14px 25px;
+
+      text-align: center;
+
+      color: #999;
+
+      font-size: 11px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- HEADER -->
+
+  <header class="header">
+
+    <button
+      class="back-btn"
+      onclick="goBack()"
+      aria-label="Back"
+    >
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    <div class="header-title">
+
+      <h1>Rater Tara Video Apps</h1>
+
+      <span>
+        Published Videos
+      </span>
+
+    </div>
+
+    <a
+      class="profile-btn"
+      href="profile.html"
+      aria-label="Profile"
+    >
+      <i class="fa-solid fa-user"></i>
+    </a>
+
+  </header>
+
+
+  <main class="content">
+
+    <!-- INTRO -->
+
+    <section class="intro">
+
+      <h2>
+        <i class="fa-solid fa-circle-play"></i>
+        Rater Tara Video
+      </h2>
+
+      <p>
+        Google Drive, Blogger, Telegram এবং অন্যান্য
+        উৎসের প্রকাশিত ভিডিও এখানে দেখুন।
+      </p>
+
+    </section>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+      <i class="fa-solid fa-magnifying-glass"></i>
+
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="ভিডিও খুঁজুন..."
+        oninput="filterVideos()"
+      >
+
+    </div>
+
+
+    <!-- STATUS -->
+
+    <div
+      id="status"
+      class="status show loading"
+    >
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      ভিডিও লোড হচ্ছে...
+    </div>
+
+
+    <!-- VIDEO LIST -->
+
+    <div id="videoList"></div>
+
+  </main>
+
+
+  <footer class="footer">
+    © 2026 Rater Tara • All Rights Reserved
+  </footer>
+
+</div>
+
+
+<script>
+
+  /* =====================================================
+     RATER TARA VIDEO APPS
+     Firebase Project:
+     rater-tara-video-apps
+
+     IMPORTANT:
+     New videos collection = newVideos
+     Only published videos are displayed.
+     ===================================================== */
+
+
+  const firebaseConfig = {
+
+    apiKey:
+      "AIzaSyD7MR0gTPVeqMUMRTIip9Zp6oV0J7iVIaY",
+
+    authDomain:
+      "rater-tara-video-apps.firebaseapp.com",
+
+    databaseURL:
+      "https://rater-tara-video-apps-default-rtdb.firebaseio.com",
+
+    projectId:
+      "rater-tara-video-apps",
+
+    storageBucket:
+      "rater-tara-video-apps.firebasestorage.app",
+
+    messagingSenderId:
+      "622484215343",
+
+    appId:
+      "1:622484215343:web:90e995aa400cd103ea18da",
+
+    measurementId:
+      "G-3G9Z0WVSDE"
+
+  };
+
+
+  /* Firebase Initialize */
+
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+
+
+  const db = firebase.firestore();
+
+
+  let allVideos = [];
+
+
+  /* =====================================================
+     LOAD PUBLISHED VIDEOS
+     ===================================================== */
+
+  async function loadVideos() {
+
+    const status =
+      document.getElementById("status");
+
+    try {
+
+      status.className =
+        "status show loading";
+
+      status.innerHTML = `
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        ভিডিও লোড হচ্ছে...
+      `;
+
+
+      /*
+       * IMPORTANT:
+       * Only newVideos collection.
+       * Only status = published.
+       */
+
+      const snapshot = await db
+        .collection("newVideos")
+        .where("status", "==", "published")
+        .get();
+
+
+      allVideos = [];
+
+
+      snapshot.forEach(doc => {
+
+        allVideos.push({
+
+          id: doc.id,
+
+          ...doc.data()
+
+        });
+
+      });
+
+
+      /* Newest first */
+
+      allVideos.sort((a, b) => {
+
+        const aTime =
+          getTimestamp(a.createdAt);
+
+        const bTime =
+          getTimestamp(b.createdAt);
+
+        return bTime - aTime;
+
+      });
+
+
+      status.className = "status";
+
+
+      renderVideos(allVideos);
+
+
+    } catch (error) {
+
+      console.error(
+        "Video loading error:",
+        error
+      );
+
+
+      status.className =
+        "status show";
+
+
+      status.innerHTML = `
+        <div class="error-box">
+
+          <i class="fa-solid fa-triangle-exclamation"></i>
+
+          <strong>ভিডিও লোড করা যায়নি</strong>
+
+          <div style="margin-top:5px;">
+            অনুগ্রহ করে কিছুক্ষণ পরে আবার চেষ্টা করুন।
+          </div>
+
+        </div>
+      `;
+
+    }
+
+  }
+
+
+  /* =====================================================
+     RENDER VIDEOS
+     ===================================================== */
+
+  function renderVideos(videos) {
+
+    const list =
+      document.getElementById("videoList");
+
+
+    if (!videos.length) {
+
+      list.innerHTML = `
+
+        <div class="empty">
+
+          <i class="fa-solid fa-video-slash"></i>
+
+          <strong>
+            কোনো প্রকাশিত ভিডিও নেই
+          </strong>
+
+          <span>
+            Admin approval-এর পর ভিডিও এখানে দেখা যাবে।
+          </span>
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    list.innerHTML =
+      videos.map(video => {
+
+        const title =
+          escapeHTML(video.title || "Untitled Video");
+
+
+        const name =
+          escapeHTML(video.name || "Rater Tara");
+
+
+        const bio =
+          escapeHTML(video.bio || "");
+
+
+        const image =
+          escapeAttribute(
+            video.img ||
+            "https://via.placeholder.com/800x450?text=Rater+Tara+Video"
+          );
+
+
+        const source =
+          getSourceLabel(video.videoType);
+
+
+        const views =
+          Number(video.views || 0);
+
+
+        const date =
+          formatDate(video.createdAt);
+
+
+        return `
+
+          <article
+            class="video-card"
+            onclick="openPlayer('${escapeJS(video.id)}')"
+          >
+
+            <div class="thumbnail-wrap">
+
+              <img
+                class="thumbnail"
+                src="${image}"
+                alt="${escapeAttribute(title)}"
+                loading="lazy"
+                onerror="this.src='https://via.placeholder.com/800x450?text=Rater+Tara+Video'"
+              >
+
+              <div class="play-overlay">
+
+                <i class="fa-solid fa-play"></i>
+
+              </div>
+
+            </div>
+
+
+            <div class="video-info">
+
+              <div class="video-title">
+                ${title}
+              </div>
+
+
+              <div class="video-name">
+
+                <i class="fa-solid fa-user"></i>
+
+                ${name}
+
+              </div>
+
+
+              ${
+                bio
+                  ? `
+                    <div class="video-bio">
+                      ${bio}
+                    </div>
+                  `
+                  : ""
+              }
+
+
+              <div class="meta">
+
+                <span>
+                  <i class="fa-solid fa-eye"></i>
+                  ${formatNumber(views)}
+                </span>
+
+
+                <span>
+                  <i class="fa-regular fa-calendar"></i>
+                  ${date}
+                </span>
+
+
+                <span class="source-badge">
+                  ${source}
+                </span>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        `;
+
+      }).join("");
+
+  }
+
+
+  /* =====================================================
+     SEARCH
+     ===================================================== */
+
+  function filterVideos() {
+
+    const query =
+      document
+        .getElementById("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    if (!query) {
+
+      renderVideos(allVideos);
+
+      return;
+
+    }
+
+
+    const filtered =
+      allVideos.filter(video => {
+
+        const title =
+          String(video.title || "")
+            .toLowerCase();
+
+        const name =
+          String(video.name || "")
+            .toLowerCase();
+
+        const bio =
+          String(video.bio || "")
+            .toLowerCase();
+
+        const description =
+          String(video.description || "")
+            .toLowerCase();
+
+        return (
+          title.includes(query) ||
+          name.includes(query) ||
+          bio.includes(query) ||
+          description.includes(query)
+        );
+
+      });
+
+
+    renderVideos(filtered);
+
+  }
+
+
+  /* =====================================================
+     OPEN PLAYER
+     ===================================================== */
+
+  function openPlayer(id) {
+
+    if (!id) {
+      return;
+    }
+
+
+    window.location.href =
+      "player.html?id=" +
+      encodeURIComponent(id) +
+      "&collection=newVideos";
+
+  }
+
+
+  /* =====================================================
+     SOURCE LABEL
+     ===================================================== */
+
+  function getSourceLabel(type) {
+
+    switch (type) {
+
+      case "google_drive":
+        return "Google Drive";
+
+      case "blogger":
+        return "Blogger";
+
+      case "telegram":
+        return "Telegram";
+
+      case "direct":
+        return "Direct";
+
+      case "iframe":
+        return "Embedded";
+
+      default:
+        return "Video";
+
+    }
+
+  }
+
+
+  /* =====================================================
+     TIMESTAMP
+     ===================================================== */
+
+  function getTimestamp(timestamp) {
+
+    if (!timestamp) {
+      return 0;
+    }
+
+
+    if (
+      timestamp.seconds !== undefined
+    ) {
+
+      return timestamp.seconds * 1000;
+
+    }
+
+
+    if (
+      timestamp.toDate
+    ) {
+
+      return timestamp
+        .toDate()
+        .getTime();
+
+    }
+
+
+    if (
+      timestamp instanceof Date
+    ) {
+
+      return timestamp.getTime();
+
+    }
+
+
+    const date =
+      new Date(timestamp);
+
+
+    const time =
+      date.getTime();
+
+
+    return isNaN(time) ? 0 : time;
+
+  }
+
+
+  /* =====================================================
+     DATE FORMAT
+     ===================================================== */
+
+  function formatDate(timestamp) {
+
+    const time =
+      getTimestamp(timestamp);
+
+
+    if (!time) {
+      return "আজ";
+    }
+
+
+    const date =
+      new Date(time);
+
+
+    return date.toLocaleDateString(
+      "bn-BD",
+      {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      }
+    );
+
+  }
+
+
+  /* =====================================================
+     NUMBER FORMAT
+     ===================================================== */
+
+  function formatNumber(number) {
+
+    try {
+
+      return Number(number || 0)
+        .toLocaleString("bn-BD");
+
+    } catch (error) {
+
+      return String(number || 0);
+
+    }
+
+  }
+
+
+  /* =====================================================
+     ESCAPE HELPERS
+     ===================================================== */
+
+  function escapeHTML(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  function escapeAttribute(value) {
+
+    return escapeHTML(value);
+
+  }
+
+
+  function escapeJS(value) {
+
+    return String(value ?? "")
+      .replace(/\\/g, "\\\\")
+      .replace(/'/g, "\\'")
+      .replace(/"/g, '\\"')
+      .replace(/\n/g, "\\n")
+      .replace(/\r/g, "\\r");
+
+  }
+
+
+  /* =====================================================
+     BACK
+     ===================================================== */
+
+  function goBack() {
+
+    if (history.length > 1) {
+
+      history.back();
+
+    } else {
+
+      window.location.href =
+        "profile.html";
+
+    }
+
+  }
+
+
+  /* =====================================================
+     START
+     ===================================================== */
+
+  loadVideos();
+
+</script>
+
+</body>
+</html>
