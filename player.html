@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <script src="https://pl28030591.profitableratecpmnetwork.com/58/67/e1/5867e18023cf6a8b2d757323591ba74f.js"></script>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-<title>Rater Tara Video Apps</title>
+<meta name="referrer"
+      content="strict-origin-when-cross-origin">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Rater Tara Video Player</title>
+
+<link rel="preconnect"
+      href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap"
+      rel="stylesheet">
 
 <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <!-- Firebase 9.6.1 Compat -->
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
+
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -41,7 +53,11 @@ body{
     background:#fff;
 }
 
-/* HEADER */
+
+/* =====================================================
+   HEADER
+===================================================== */
+
 .header{
     height:58px;
     background:#004444;
@@ -60,23 +76,17 @@ body{
     font-weight:600;
 }
 
-.header button{
-    width:38px;
-    height:38px;
-    border:0;
-    border-radius:50%;
-    background:rgba(255,255,255,.12);
-    color:#fff;
-    font-size:17px;
-    cursor:pointer;
-}
 
-/* PLAYER */
+/* =====================================================
+   PLAYER
+===================================================== */
+
 .player-section{
     background:#000;
     width:100%;
     aspect-ratio:16/9;
     position:relative;
+    overflow:hidden;
 }
 
 .player-section iframe,
@@ -114,7 +124,7 @@ body{
     flex-direction:column;
     text-align:center;
     padding:20px;
-    z-index:6;
+    z-index:10;
 }
 
 .error-box i{
@@ -126,13 +136,17 @@ body{
 .error-box a{
     margin-top:12px;
     padding:9px 16px;
-    background:#ff0000;
+    background:#008b8b;
     color:#fff;
-    border-radius:6px;
+    border-radius:7px;
     text-decoration:none;
 }
 
-/* CONTENT */
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
 .content{
     padding:15px;
 }
@@ -146,6 +160,7 @@ body{
 
 .meta{
     display:flex;
+    flex-wrap:wrap;
     gap:15px;
     color:#777;
     font-size:14px;
@@ -158,7 +173,11 @@ body{
     gap:5px;
 }
 
-/* SHARE */
+
+/* =====================================================
+   SHARE
+===================================================== */
+
 .share-row{
     display:flex;
     gap:8px;
@@ -180,7 +199,11 @@ body{
     margin-right:5px;
 }
 
-/* INFO */
+
+/* =====================================================
+   INFO
+===================================================== */
+
 .info-box{
     background:#f6f8f8;
     border-radius:10px;
@@ -200,7 +223,11 @@ body{
     line-height:1.6;
 }
 
-/* MORE VIDEOS */
+
+/* =====================================================
+   MORE
+===================================================== */
+
 .more-title{
     display:flex;
     justify-content:space-between;
@@ -217,7 +244,11 @@ body{
     font-weight:400;
 }
 
-/* VIDEO CARD */
+
+/* =====================================================
+   VIDEO CARD
+===================================================== */
+
 .video-card{
     display:flex;
     gap:10px;
@@ -284,7 +315,11 @@ body{
     font-size:12px;
 }
 
-/* LOADING */
+
+/* =====================================================
+   LOADING / EMPTY
+===================================================== */
+
 .more-loading{
     text-align:center;
     padding:20px;
@@ -292,7 +327,6 @@ body{
     font-size:14px;
 }
 
-/* EMPTY */
 .empty{
     text-align:center;
     padding:20px 5px;
@@ -305,7 +339,35 @@ body{
     margin-bottom:7px;
 }
 
-/* FOOTER */
+
+/* =====================================================
+   OPEN EXTERNAL BUTTON
+===================================================== */
+
+.external-btn{
+    display:none;
+    width:100%;
+    margin-top:12px;
+    border:0;
+    border-radius:9px;
+    background:#008b8b;
+    color:#fff;
+    padding:11px;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.external-btn i{
+    margin-right:5px;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
 .footer{
     text-align:center;
     padding:20px 10px;
@@ -314,170 +376,231 @@ body{
     border-top:1px solid #eee;
     margin-top:15px;
 }
+
 </style>
+
 </head>
+
 
 <body>
 
 <div class="app">
 
-    <!-- HEADER -->
-    <div class="header">
 
-     
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-        <div class="header-title">
-            Rater Tara Video Player 
-        </div>
+<div class="header">
 
-
-    </div>
-
-
-    <!-- PLAYER -->
-    <div class="player-section" id="playerBox">
-
-        <div class="loading" id="loading">
-            <i class="fa-solid fa-spinner fa-spin"></i>
-            ভিডিও লোড হচ্ছে...
-        </div>
-
-        <div class="error-box" id="errorBox">
-
-            <i class="fa-solid fa-circle-exclamation"></i>
-
-            <div id="errorText">
-                ভিডিও চালানো যাচ্ছে না
-            </div>
-
-            <a id="youtubeLink"
-               href="#"
-               target="_blank"
-               style="display:none;">
-
-                <i class="fa-brands fa-youtube"></i>
-                YouTube-এ দেখুন
-
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- CONTENT -->
-    <div class="content">
-
-        <h1 class="title" id="videoTitle">
-            ভিডিও লোড হচ্ছে...
-        </h1>
-
-
-        <!-- VIEWS + DATE -->
-        <div class="meta">
-
-            <span>
-                <i class="fa-solid fa-eye"></i>
-
-                <span id="views">
-                    0
-                </span>
-                বার দেখা
-            </span>
-
-            <span>
-                <i class="fa-regular fa-calendar"></i>
-
-                <span id="date">
-                    —
-                </span>
-            </span>
-
-        </div>
-
-
-        <!-- SHARE -->
-        <div class="share-row">
-
-            <button class="share-btn"
-                    onclick="sharePage()">
-
-                <i class="fa-solid fa-share-nodes"></i>
-                শেয়ার
-
-            </button>
-
-
-            <button class="share-btn"
-                    onclick="copyLink()">
-
-                <i class="fa-solid fa-link"></i>
-                লিংক কপি
-
-            </button>
-
-        </div>
-
-
-        <!-- DESCRIPTION -->
-        <div class="info-box"
-             id="descriptionBox"
-             style="display:none;">
-
-            <h3>
-                <i class="fa-solid fa-circle-info"></i>
-                বিস্তারিত
-            </h3>
-
-            <p id="description"></p>
-
-        </div>
-
-
-        <!-- MORE VIDEOS -->
-        <div class="more-title">
-
-            <div>
-                <i class="fa-solid fa-clapperboard"></i>
-                আরও ভিডিও
-            </div>
-
-            <span id="videoCount"></span>
-
-        </div>
-
-
-        <div id="moreVideos">
-
-            <div class="more-loading">
-
-                <i class="fa-solid fa-spinner fa-spin"></i>
-                অন্যান্য ভিডিও লোড হচ্ছে...
-
-            </div>
-
-        </div>
-
-
-        <div class="empty" id="emptyVideos">
-
-            <i class="fa-regular fa-folder-open"></i>
-
-            <div>
-                অন্য কোনো ভিডিও পাওয়া যায়নি
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- FOOTER -->
-    <div class="footer">
-        © 2026 Rater Tara • All Rights Reserved
+    <div class="header-title">
+        Rater Tara Video Player
     </div>
 
 </div>
+
+
+
+<!-- =====================================================
+     PLAYER
+===================================================== -->
+
+<div class="player-section"
+     id="playerBox">
+
+
+    <div class="loading"
+         id="loading">
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+
+        ভিডিও লোড হচ্ছে...
+
+    </div>
+
+
+    <div class="error-box"
+         id="errorBox">
+
+
+        <i class="fa-solid fa-circle-exclamation"></i>
+
+
+        <div id="errorText">
+            ভিডিও চালানো যাচ্ছে না
+        </div>
+
+
+        <a id="externalLink"
+           href="#"
+           target="_blank"
+           rel="noopener"
+           style="display:none;">
+
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+            ভিডিও খুলুন
+
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     CONTENT
+===================================================== -->
+
+<div class="content">
+
+
+    <h1 class="title"
+        id="videoTitle">
+
+        ভিডিও লোড হচ্ছে...
+
+    </h1>
+
+
+
+    <!-- META -->
+
+    <div class="meta">
+
+        <span>
+
+            <i class="fa-solid fa-eye"></i>
+
+            <span id="views">
+                0
+            </span>
+
+            বার দেখা
+
+        </span>
+
+
+        <span>
+
+            <i class="fa-regular fa-calendar"></i>
+
+            <span id="date">
+                —
+            </span>
+
+        </span>
+
+    </div>
+
+
+
+    <!-- SHARE -->
+
+    <div class="share-row">
+
+        <button class="share-btn"
+                onclick="sharePage()">
+
+            <i class="fa-solid fa-share-nodes"></i>
+
+            শেয়ার
+
+        </button>
+
+
+        <button class="share-btn"
+                onclick="copyLink()">
+
+            <i class="fa-solid fa-link"></i>
+
+            লিংক কপি
+
+        </button>
+
+    </div>
+
+
+
+    <!-- DESCRIPTION -->
+
+    <div class="info-box"
+         id="descriptionBox"
+         style="display:none;">
+
+        <h3>
+
+            <i class="fa-solid fa-circle-info"></i>
+
+            বিস্তারিত
+
+        </h3>
+
+
+        <p id="description"></p>
+
+    </div>
+
+
+
+    <!-- MORE VIDEOS -->
+
+    <div class="more-title">
+
+        <div>
+
+            <i class="fa-solid fa-clapperboard"></i>
+
+            আরও ভিডিও
+
+        </div>
+
+
+        <span id="videoCount"></span>
+
+    </div>
+
+
+    <div id="moreVideos">
+
+        <div class="more-loading">
+
+            <i class="fa-solid fa-spinner fa-spin"></i>
+
+            অন্যান্য ভিডিও লোড হচ্ছে...
+
+        </div>
+
+    </div>
+
+
+    <div class="empty"
+         id="emptyVideos">
+
+        <i class="fa-regular fa-folder-open"></i>
+
+        <div>
+            অন্য কোনো ভিডিও পাওয়া যায়নি
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+    © 2026 Rater Tara • All Rights Reserved
+
+</div>
+
+
+</div>
+
 
 
 <script>
@@ -511,12 +634,15 @@ const firebaseConfig = {
 
     measurementId:
     "G-3G9Z0WVSDE"
+
 };
 
 
 if(!firebase.apps.length){
 
-    firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(
+        firebaseConfig
+    );
 
 }
 
@@ -525,8 +651,9 @@ const db =
     firebase.firestore();
 
 
+
 /* =========================================================
-   VARIABLES
+   URL PARAMETERS
 ========================================================= */
 
 const params =
@@ -534,12 +661,45 @@ const params =
         window.location.search
     );
 
+
 const postId =
     params.get("id");
 
 
+/*
+ * Admin এখন এভাবে পাঠাবে:
+ *
+ * player.html?id=ABC&collection=newVideos
+ *
+ * অথবা
+ *
+ * player.html?id=ABC&collection=profiles
+ */
+
+
+let collection =
+    params.get("collection");
+
+
+/*
+ * নিরাপত্তার জন্য শুধু এই দুই collection
+ * গ্রহণ করা হবে।
+ */
+
+if(
+    collection !== "profiles" &&
+    collection !== "newVideos"
+){
+
+    collection = "newVideos";
+
+}
+
+
 let currentVideoUrl = "";
+
 let currentVideoTitle = "";
+
 
 
 /* =========================================================
@@ -548,12 +708,16 @@ let currentVideoTitle = "";
 
 function getYouTubeId(url){
 
-    if(!url) return null;
+    if(!url){
+        return null;
+    }
+
 
     try{
 
         const u =
             new URL(url);
+
 
         if(
             u.hostname.includes("youtu.be")
@@ -573,7 +737,10 @@ function getYouTubeId(url){
             const v =
                 u.searchParams.get("v");
 
-            if(v) return v;
+
+            if(v){
+                return v;
+            }
 
 
             const parts =
@@ -584,10 +751,15 @@ function getYouTubeId(url){
 
             const index =
                 parts.findIndex(
-                    x =>
-                    x === "embed" ||
-                    x === "shorts" ||
-                    x === "live"
+                    function(x){
+
+                        return (
+                            x === "embed" ||
+                            x === "shorts" ||
+                            x === "live"
+                        );
+
+                    }
                 );
 
 
@@ -602,10 +774,20 @@ function getYouTubeId(url){
 
         }
 
-    }catch(e){}
+    }catch(error){
+
+        console.log(
+            "YouTube URL error:",
+            error
+        );
+
+    }
+
 
     return null;
+
 }
+
 
 
 /* =========================================================
@@ -614,33 +796,43 @@ function getYouTubeId(url){
 
 function getDriveId(url){
 
-    if(!url) return null;
-
-    const match =
-        url.match(
-            /\/file\/d\/([^\/]+)/
-        );
-
-    if(match){
-
-        return match[1];
-
+    if(!url){
+        return null;
     }
 
 
     try{
 
+        const match =
+            url.match(
+                /\/file\/d\/([^\/?#]+)/
+            );
+
+
+        if(match){
+
+            return match[1];
+
+        }
+
+
         const u =
             new URL(url);
 
-        return u.searchParams.get("id");
 
-    }catch(e){
+        return (
+            u.searchParams.get("id") ||
+            null
+        );
+
+    }catch(error){
 
         return null;
 
     }
+
 }
+
 
 
 /* =========================================================
@@ -655,10 +847,29 @@ function formatDate(timestamp){
 
     }
 
+
     try{
 
-        return timestamp
-            .toDate()
+        if(
+            typeof timestamp.toDate ===
+            "function"
+        ){
+
+            return timestamp
+                .toDate()
+                .toLocaleDateString(
+                    "bn-BD",
+                    {
+                        year:"numeric",
+                        month:"long",
+                        day:"numeric"
+                    }
+                );
+
+        }
+
+
+        return new Date(timestamp)
             .toLocaleDateString(
                 "bn-BD",
                 {
@@ -668,21 +879,93 @@ function formatDate(timestamp){
                 }
             );
 
-    }catch(e){
+    }catch(error){
 
         return "—";
 
     }
+
 }
 
 
+
 /* =========================================================
-   ERROR
+   TIMESTAMP
+========================================================= */
+
+function getMillis(timestamp){
+
+    if(!timestamp){
+
+        return 0;
+
+    }
+
+
+    try{
+
+        if(
+            typeof timestamp.toMillis ===
+            "function"
+        ){
+
+            return timestamp.toMillis();
+
+        }
+
+
+        if(
+            typeof timestamp.toDate ===
+            "function"
+        ){
+
+            return timestamp
+                .toDate()
+                .getTime();
+
+        }
+
+
+        if(
+            typeof timestamp === "number"
+        ){
+
+            return timestamp;
+
+        }
+
+
+        if(
+            typeof timestamp === "string"
+        ){
+
+            const value =
+                new Date(timestamp)
+                    .getTime();
+
+
+            return isNaN(value)
+                ? 0
+                : value;
+
+        }
+
+    }catch(error){}
+
+
+    return 0;
+
+}
+
+
+
+/* =========================================================
+   SHOW ERROR
 ========================================================= */
 
 function showError(
     message,
-    youtubeUrl = null
+    externalUrl = null
 ){
 
     document.getElementById(
@@ -706,28 +989,61 @@ function showError(
         message;
 
 
-    if(youtubeUrl){
+    if(externalUrl){
 
         const link =
             document.getElementById(
-                "youtubeLink"
+                "externalLink"
             );
 
+
         link.href =
-            youtubeUrl;
+            externalUrl;
+
 
         link.style.display =
-            "block";
+            "inline-block";
 
     }
+
 }
+
+
+
+/* =========================================================
+   HIDE LOADING
+========================================================= */
+
+function hideLoading(){
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "none";
+
+}
+
 
 
 /* =========================================================
    PLAY VIDEO
 ========================================================= */
 
-function playVideo(url){
+function playVideo(
+    url,
+    videoType = ""
+){
+
+    if(!url){
+
+        showError(
+            "ভিডিও লিংক পাওয়া যায়নি।"
+        );
+
+        return;
+
+    }
+
 
     const playerBox =
         document.getElementById(
@@ -739,7 +1055,9 @@ function playVideo(url){
         getYouTubeId(url);
 
 
-    /* YOUTUBE */
+    /* =====================================================
+       YOUTUBE
+    ===================================================== */
 
     if(youtubeId){
 
@@ -749,33 +1067,25 @@ function playVideo(url){
             );
 
 
-        const origin =
-            window.location.origin;
-
-
-        const referrer =
-            window.location.href;
-
-
         iframe.src =
             "https://www.youtube.com/embed/" +
             encodeURIComponent(youtubeId) +
-
             "?autoplay=0" +
-
             "&controls=1" +
-
             "&rel=0" +
+            "&playsinline=1";
 
-            "&playsinline=1" +
 
-            "&enablejsapi=1" +
+        iframe.setAttribute(
+            "allow",
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        );
 
-            "&origin=" +
-            encodeURIComponent(origin) +
 
-            "&widget_referrer=" +
-            encodeURIComponent(referrer);
+        iframe.setAttribute(
+            "allowfullscreen",
+            "true"
+        );
 
 
         iframe.setAttribute(
@@ -784,37 +1094,44 @@ function playVideo(url){
         );
 
 
-        iframe.allow =
-            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-
-
-        iframe.allowFullscreen =
-            true;
-
-
         playerBox.appendChild(
             iframe
         );
 
 
-        document.getElementById(
-            "loading"
-        ).style.display =
-            "none";
-
+        hideLoading();
 
         return;
 
     }
 
 
-    /* GOOGLE DRIVE */
+
+    /* =====================================================
+       GOOGLE DRIVE
+    ===================================================== */
 
     const driveId =
         getDriveId(url);
 
 
-    if(driveId){
+    if(
+        driveId ||
+        videoType === "google_drive" ||
+        videoType === "google-drive"
+    ){
+
+        if(!driveId){
+
+            showError(
+                "Google Drive ভিডিও ID পাওয়া যায়নি।",
+                url
+            );
+
+            return;
+
+        }
+
 
         const iframe =
             document.createElement(
@@ -830,12 +1147,14 @@ function playVideo(url){
 
         iframe.setAttribute(
             "allow",
-            "autoplay"
+            "autoplay; fullscreen"
         );
 
 
-        iframe.allowFullscreen =
-            true;
+        iframe.setAttribute(
+            "allowfullscreen",
+            "true"
+        );
 
 
         playerBox.appendChild(
@@ -843,21 +1162,20 @@ function playVideo(url){
         );
 
 
-        document.getElementById(
-            "loading"
-        ).style.display =
-            "none";
-
+        hideLoading();
 
         return;
 
     }
 
 
-    /* DIRECT VIDEO */
+
+    /* =====================================================
+       DIRECT VIDEO
+    ===================================================== */
 
     if(
-        /\.(mp4|webm|ogg)(\?.*)?$/i
+        /\.(mp4|webm|ogg|m4v)(\?.*)?$/i
         .test(url)
     ){
 
@@ -870,11 +1188,30 @@ function playVideo(url){
         video.src =
             url;
 
+
         video.controls =
             true;
 
+
         video.playsInline =
             true;
+
+
+        video.preload =
+            "metadata";
+
+
+        video.addEventListener(
+            "error",
+            function(){
+
+                showError(
+                    "Direct ভিডিওটি চালানো যাচ্ছে না।",
+                    url
+                );
+
+            }
+        );
 
 
         playerBox.appendChild(
@@ -882,20 +1219,49 @@ function playVideo(url){
         );
 
 
-        document.getElementById(
-            "loading"
-        ).style.display =
-            "none";
-
+        hideLoading();
 
         return;
 
     }
 
 
-    /* GENERIC IFRAME */
 
-    if(url){
+    /* =====================================================
+       TELEGRAM
+       
+       Telegram-এর অনেক post URL iframe-এর ভিতরে
+       চালানোর অনুমতি দেয় না।
+       
+       তাই Telegram হলে external open button দেখানো হবে।
+    ===================================================== */
+
+    if(
+        videoType === "telegram" ||
+        url.includes("t.me/")
+    ){
+
+        showError(
+            "Telegram ভিডিওটি সরাসরি Player-এর ভিতরে চালানো যাচ্ছে না। নিচের বাটনে চাপ দিয়ে ভিডিওটি খুলুন।",
+            url
+        );
+
+        return;
+
+    }
+
+
+
+    /* =====================================================
+       BLOGGER / IFRAME / EMBEDDED
+    ===================================================== */
+
+    if(
+        videoType === "blogger" ||
+        videoType === "iframe" ||
+        videoType === "embedded" ||
+        videoType === ""
+    ){
 
         const iframe =
             document.createElement(
@@ -908,13 +1274,21 @@ function playVideo(url){
 
 
         iframe.setAttribute(
-            "referrerpolicy",
-            "strict-origin-when-cross-origin"
+            "allow",
+            "autoplay; fullscreen; picture-in-picture"
         );
 
 
-        iframe.allowFullscreen =
-            true;
+        iframe.setAttribute(
+            "allowfullscreen",
+            "true"
+        );
+
+
+        iframe.setAttribute(
+            "referrerpolicy",
+            "strict-origin-when-cross-origin"
+        );
 
 
         playerBox.appendChild(
@@ -922,39 +1296,73 @@ function playVideo(url){
         );
 
 
-        document.getElementById(
-            "loading"
-        ).style.display =
-            "none";
-
+        hideLoading();
 
         return;
 
     }
 
 
-    showError(
-        "ভিডিও লিংক পাওয়া যায়নি"
+
+    /* =====================================================
+       FINAL FALLBACK
+    ===================================================== */
+
+    const iframe =
+        document.createElement(
+            "iframe"
+        );
+
+
+    iframe.src =
+        url;
+
+
+    iframe.setAttribute(
+        "allow",
+        "autoplay; fullscreen; picture-in-picture"
     );
+
+
+    iframe.setAttribute(
+        "allowfullscreen",
+        "true"
+    );
+
+
+    iframe.setAttribute(
+        "referrerpolicy",
+        "strict-origin-when-cross-origin"
+    );
+
+
+    playerBox.appendChild(
+        iframe
+    );
+
+
+    hideLoading();
+
 }
 
 
+
 /* =========================================================
-   VIEWS UPDATE
+   INCREASE VIEWS
 ========================================================= */
 
-async function increaseViews(id){
+async function increaseViews(
+    id,
+    targetCollection
+){
 
     try{
 
         const ref =
-            db.collection("profiles")
-              .doc(id);
+            db
+            .collection(targetCollection)
+            .doc(id);
 
-
-        /*
-         প্রথমে বর্তমান document নেওয়া হচ্ছে।
-        */
 
         const snapshot =
             await ref.get();
@@ -962,11 +1370,8 @@ async function increaseViews(id){
 
         if(!snapshot.exists){
 
-            console.log(
-                "Post not found"
-            );
+            return;
 
-            return 0;
         }
 
 
@@ -974,46 +1379,35 @@ async function increaseViews(id){
             snapshot.data();
 
 
-        /*
-         views না থাকলে 0 ধরা হবে।
-        */
-
-        let oldViews =
+        let views =
             Number(data.views);
 
 
         if(
-            !Number.isFinite(oldViews) ||
-            oldViews < 0
+            !Number.isFinite(views) ||
+            views < 0
         ){
 
-            oldViews = 0;
+            views = 0;
 
         }
 
 
         const newViews =
-            oldViews + 1;
+            views + 1;
 
-
-        /*
-         নতুন views Firestore-এ save।
-        */
 
         await ref.update({
 
-            views: newViews,
+            views:newViews,
 
             updatedAt:
                 firebase.firestore
-                .FieldValue.serverTimestamp()
+                .FieldValue
+                .serverTimestamp()
 
         });
 
-
-        /*
-         স্ক্রিনে নতুন সংখ্যা দেখানো।
-        */
 
         document.getElementById(
             "views"
@@ -1023,31 +1417,22 @@ async function increaseViews(id){
             );
 
 
-        console.log(
-            "Views updated:",
-            newViews
-        );
-
-
-        return newViews;
-
     }catch(error){
 
-        console.error(
-            "VIEW UPDATE ERROR:",
+        /*
+         Views update ব্যর্থ হলেও
+         ভিডিও বন্ধ হবে না।
+        */
+
+        console.log(
+            "Views update error:",
             error
         );
 
-
-        /*
-         update permission না থাকলে
-         বর্তমান views অন্তত দেখাবে।
-        */
-
-        return null;
-
     }
+
 }
+
 
 
 /* =========================================================
@@ -1059,7 +1444,7 @@ async function loadVideo(){
     if(!postId){
 
         showError(
-            "ভিডিও ID পাওয়া যায়নি"
+            "ভিডিও ID পাওয়া যায়নি।"
         );
 
         return;
@@ -1069,9 +1454,17 @@ async function loadVideo(){
 
     try{
 
+        console.log(
+            "Loading:",
+            collection,
+            postId
+        );
+
+
         const ref =
-            db.collection("profiles")
-              .doc(postId);
+            db
+            .collection(collection)
+            .doc(postId);
 
 
         const snapshot =
@@ -1081,7 +1474,7 @@ async function loadVideo(){
         if(!snapshot.exists){
 
             showError(
-                "ভিডিও পাওয়া যায়নি"
+                "এই ভিডিওটি পাওয়া যায়নি।"
             );
 
             return;
@@ -1093,7 +1486,15 @@ async function loadVideo(){
             snapshot.data();
 
 
-        if(data.status !== "published"){
+        /*
+         * শুধুমাত্র Published ভিডিও Player-এ
+         * দেখানো হবে।
+         */
+
+        if(
+            data.status &&
+            data.status !== "published"
+        ){
 
             showError(
                 "এই ভিডিওটি বর্তমানে প্রকাশিত নয়।"
@@ -1121,18 +1522,18 @@ async function loadVideo(){
             currentVideoTitle;
 
 
-        /* INITIAL VIEWS */
+        /* VIEWS */
 
-        let initialViews =
+        let views =
             Number(data.views);
 
 
         if(
-            !Number.isFinite(initialViews) ||
-            initialViews < 0
+            !Number.isFinite(views) ||
+            views < 0
         ){
 
-            initialViews = 0;
+            views = 0;
 
         }
 
@@ -1140,7 +1541,7 @@ async function loadVideo(){
         document.getElementById(
             "views"
         ).textContent =
-            initialViews.toLocaleString(
+            views.toLocaleString(
                 "bn-BD"
             );
 
@@ -1176,22 +1577,25 @@ async function loadVideo(){
         /* PLAY */
 
         playVideo(
-            currentVideoUrl
+            currentVideoUrl,
+            data.videoType || ""
         );
 
 
         /*
-         ভিডিও দেখার জন্য 1 view যোগ।
-        */
+         * View count
+         * একই collection-এ update হবে।
+         */
 
-        await increaseViews(
-            postId
+        increaseViews(
+            postId,
+            collection
         );
 
 
         /*
-         অন্যান্য ভিডিও।
-        */
+         * More videos
+         */
 
         loadMoreVideos(
             postId
@@ -1211,11 +1615,14 @@ async function loadVideo(){
         );
 
     }
+
 }
+
 
 
 /* =========================================================
    LOAD MORE VIDEOS
+   BOTH COLLECTIONS
 ========================================================= */
 
 async function loadMoreVideos(
@@ -1230,85 +1637,111 @@ async function loadMoreVideos(
 
     try{
 
-        /*
-         এখানে orderBy ব্যবহার করছি না,
-         যাতে Firestore composite index
-         সমস্যায় না পড়ে।
-        */
+        const results =
+            await Promise.all([
 
-        const snapshot =
-            await db.collection(
-                "profiles"
-            )
-            .where(
-                "status",
-                "==",
-                "published"
-            )
-            .get();
+                db.collection("profiles")
+                  .where(
+                      "status",
+                      "==",
+                      "published"
+                  )
+                  .get(),
 
+                db.collection("newVideos")
+                  .where(
+                      "status",
+                      "==",
+                      "published"
+                  )
+                  .get()
 
-        container.innerHTML = "";
+            ]);
 
 
         let videos = [];
 
 
-        snapshot.forEach(doc => {
+        /* OLD */
 
-            if(doc.id === currentId){
+        results[0].forEach(
+            function(doc){
 
-                return;
+                if(
+                    doc.id === currentId &&
+                    collection === "profiles"
+                ){
 
-            }
+                    return;
 
-
-            videos.push({
-
-                id:doc.id,
-
-                ...doc.data()
-
-            });
-
-        });
+                }
 
 
-        /*
-         নতুন ভিডিও আগে।
-        */
+                videos.push({
 
-        videos.sort(
-            (a,b) => {
+                    id:doc.id,
 
-                const aTime =
-                    a.createdAt &&
-                    typeof a.createdAt.toMillis ===
-                    "function"
-                    ? a.createdAt.toMillis()
-                    : 0;
+                    collection:"profiles",
 
+                    ...doc.data()
 
-                const bTime =
-                    b.createdAt &&
-                    typeof b.createdAt.toMillis ===
-                    "function"
-                    ? b.createdAt.toMillis()
-                    : 0;
-
-
-                return bTime - aTime;
+                });
 
             }
         );
 
 
-        /*
-         সর্বোচ্চ 20টি।
-        */
+        /* NEW */
+
+        results[1].forEach(
+            function(doc){
+
+                if(
+                    doc.id === currentId &&
+                    collection === "newVideos"
+                ){
+
+                    return;
+
+                }
+
+
+                videos.push({
+
+                    id:doc.id,
+
+                    collection:"newVideos",
+
+                    ...doc.data()
+
+                });
+
+            }
+        );
+
+
+        /* SORT */
+
+        videos.sort(
+            function(a,b){
+
+                return (
+                    getMillis(b.createdAt) -
+                    getMillis(a.createdAt)
+                );
+
+            }
+        );
+
+
+        /* LIMIT */
 
         videos =
             videos.slice(0,20);
+
+
+        container.innerHTML =
+            "";
 
 
         document.getElementById(
@@ -1331,8 +1764,14 @@ async function loadMoreVideos(
         }
 
 
+        document.getElementById(
+            "emptyVideos"
+        ).style.display =
+            "none";
+
+
         videos.forEach(
-            video => {
+            function(video){
 
                 container.appendChild(
                     createVideoCard(
@@ -1352,7 +1791,8 @@ async function loadMoreVideos(
         );
 
 
-        container.innerHTML = "";
+        container.innerHTML =
+            "";
 
 
         document.getElementById(
@@ -1361,7 +1801,9 @@ async function loadMoreVideos(
             "block";
 
     }
+
 }
+
 
 
 /* =========================================================
@@ -1397,13 +1839,13 @@ function createVideoCard(
     let imageUrl =
         video.img ||
         video.thumbnail ||
+        video.image ||
         "";
 
 
     /*
-     Thumbnail না থাকলে YouTube
-     thumbnail নেওয়া হবে।
-    */
+     YouTube thumbnail
+     */
 
     const youtubeId =
         getYouTubeId(
@@ -1461,7 +1903,7 @@ function createVideoCard(
     }
 
 
-    /* PLAY */
+    /* PLAY ICON */
 
     const play =
         document.createElement(
@@ -1527,7 +1969,9 @@ function createVideoCard(
 
     p.innerHTML =
         '<i class="fa-solid fa-eye"></i> ' +
-        views.toLocaleString("bn-BD") +
+        views.toLocaleString(
+            "bn-BD"
+        ) +
         ' বার দেখা';
 
 
@@ -1561,6 +2005,10 @@ function createVideoCard(
                 "player.html?id=" +
                 encodeURIComponent(
                     video.id
+                ) +
+                "&collection=" +
+                encodeURIComponent(
+                    video.collection
                 );
 
         }
@@ -1568,7 +2016,9 @@ function createVideoCard(
 
 
     return card;
+
 }
+
 
 
 /* =========================================================
@@ -1599,18 +2049,20 @@ async function sharePage(){
 
             });
 
-        }catch(e){}
+        }catch(error){}
 
     }else{
 
         copyLink();
 
     }
+
 }
 
 
+
 /* =========================================================
-   COPY
+   COPY LINK
 ========================================================= */
 
 async function copyLink(){
@@ -1629,12 +2081,54 @@ async function copyLink(){
 
     }catch(error){
 
-        alert(
-            "লিংক কপি করা যায়নি।"
+        /*
+         পুরোনো browser fallback
+         */
+
+        const textarea =
+            document.createElement(
+                "textarea"
+            );
+
+
+        textarea.value =
+            window.location.href;
+
+
+        document.body.appendChild(
+            textarea
         );
 
+
+        textarea.select();
+
+
+        try{
+
+            document.execCommand(
+                "copy"
+            );
+
+
+            alert(
+                "ভিডিও লিংক কপি হয়েছে।"
+            );
+
+        }catch(e){
+
+            alert(
+                "লিংক কপি করা যায়নি।"
+            );
+
+        }
+
+
+        textarea.remove();
+
     }
+
 }
+
 
 
 /* =========================================================
@@ -1644,6 +2138,6 @@ async function copyLink(){
 loadVideo();
 
 </script>
-<script src="https://pl28030600.profitableratecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
+
 </body>
 </html>
