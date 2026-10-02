@@ -26,7 +26,7 @@
 
   <!-- =====================================================
        FIREBASE COMPAT
-       SAME PROJECT: love-ads-6e6f6
+       RATER TARA VIDEO APPS
        ===================================================== -->
 
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
@@ -878,18 +878,12 @@
   <header class="header">
 
 
-    <div
-      class="header-title">
+    <div class="header-title">
 
-      Rater Tara Video Apps
+      YOU TUB VIDEO
 
     </div>
 
-
-    <!-- =================================================
-         PROFILE BUTTON
-         ONLY THIS PART UPDATED
-         ================================================= -->
 
     <a
       href="profile.html"
@@ -1010,13 +1004,18 @@
    HOME / INDEX PAGE
 
    FIREBASE PROJECT:
-   love-ads-6e6f6
+   rater-tara-video-apps
 
    COLLECTION:
    profiles
 
    PUBLISHED:
    status = "published"
+
+   IMPORTANT:
+   এই পেজের ভিডিওগুলো profiles collection থেকে আসে।
+   তাই player.html-এ যাওয়ার সময়
+   collection=profiles পাঠানো হচ্ছে।
    ========================================================= */
 
 
@@ -1024,16 +1023,32 @@
    FIREBASE CONFIG
    ========================================================= */
 
-
 const firebaseConfig = {
-  apiKey: "AIzaSyD7MR0gTPVeqMUMRTIip9Zp6oV0J7iVIaY",
- 
-  databaseURL: "https://rater-tara-video-apps-default-rtdb.firebaseio.com",
-  projectId: "rater-tara-video-apps",
-  storageBucket: "rater-tara-video-apps.firebasestorage.app",
-  messagingSenderId: "622484215343",
-  appId: "1:622484215343:web:90e995aa400cd103ea18da",
-  measurementId: "G-3G9Z0WVSDE"
+
+  apiKey:
+    "AIzaSyD7MR0gTPVeqMUMRTIip9Zp6oV0J7iVIaY",
+
+  authDomain:
+    "rater-tara-video-apps.firebaseapp.com",
+
+  databaseURL:
+    "https://rater-tara-video-apps-default-rtdb.firebaseio.com",
+
+  projectId:
+    "rater-tara-video-apps",
+
+  storageBucket:
+    "rater-tara-video-apps.firebasestorage.app",
+
+  messagingSenderId:
+    "622484215343",
+
+  appId:
+    "1:622484215343:web:90e995aa400cd103ea18da",
+
+  measurementId:
+    "G-3G9Z0WVSDE"
+
 };
 
 
@@ -1210,23 +1225,9 @@ async function loadPosts() {
       "none";
 
 
-    if (
-      error &&
-      error.code ===
-      "permission-denied"
-    ) {
-
-      showErrorMessage(
-        "Firestore permission denied। Firestore Rules পরীক্ষা করুন।"
-      );
-
-    } else {
-
-      showErrorMessage(
-        "পোস্ট লোড করা যাচ্ছে না। ইন্টারনেট অথবা Firebase সেটিংস পরীক্ষা করুন।"
-      );
-
-    }
+    showErrorMessage(
+      "ভিডিও লোড করা যাচ্ছে না। ইন্টারনেট সংযোগ ও Firebase সেটিংস পরীক্ষা করুন।"
+    );
 
   }
 
@@ -1278,11 +1279,9 @@ function renderPost(
       imageUrl;
 
     img.alt =
-      escapeHtml(
-        data.title ||
-        data.name ||
-        "Rater Tara Video"
-      );
+      data.title ||
+      data.name ||
+      "Rater Tara Video";
 
 
     img.loading =
@@ -1467,9 +1466,14 @@ function renderPost(
       date.toLocaleDateString(
         "bn-BD",
         {
-          year: "numeric",
-          month: "short",
-          day: "numeric"
+          year:
+            "numeric",
+
+          month:
+            "short",
+
+          day:
+            "numeric"
         }
       );
 
@@ -1506,7 +1510,9 @@ function renderPost(
     "click",
     function () {
 
-      openPlayer(id);
+      openPlayer(
+        id
+      );
 
     }
   );
@@ -1521,6 +1527,18 @@ function renderPost(
 
 /* =========================================================
    OPEN PLAYER
+
+   IMPORTANT FIX:
+   এই Home page "profiles" collection ব্যবহার করছে।
+
+   আগের কোড:
+   player.html?id=VIDEO_ID
+
+   নতুন সঠিক URL:
+   player.html?id=VIDEO_ID&collection=profiles
+
+   এর ফলে player.html সঠিক Firestore collection
+   থেকে ভিডিওটি খুঁজে পাবে।
    ========================================================= */
 
 function openPlayer(id) {
@@ -1528,7 +1546,7 @@ function openPlayer(id) {
   if (!id) {
 
     showToast(
-      "ভিডিও আইডি পাওয়া যায়নি"
+      "ভিডিও পাওয়া যায়নি"
     );
 
     return;
@@ -1536,9 +1554,14 @@ function openPlayer(id) {
   }
 
 
-  window.location.href =
+  const playerUrl =
     "player.html?id=" +
-    encodeURIComponent(id);
+    encodeURIComponent(id) +
+    "&collection=profiles";
+
+
+  window.location.href =
+    playerUrl;
 
 }
 
@@ -1860,6 +1883,7 @@ async function shareHome() {
     try {
 
       await navigator.share({
+
         title:
           title,
 
@@ -1868,6 +1892,7 @@ async function shareHome() {
 
         url:
           url
+
       });
 
       return;
@@ -1922,6 +1947,6 @@ function goBack() {
 
 </script>
 
-<script src="https://pl28030600.profitableratecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
+
 </body>
-</html>
+</html>)
