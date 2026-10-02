@@ -394,7 +394,7 @@ body{
 <div class="header">
 
     <div class="header-title">
-        Rater Tara Video Player
+       Video Player
     </div>
 
 </div>
@@ -568,7 +568,7 @@ body{
 
             <i class="fa-solid fa-spinner fa-spin"></i>
 
-            অন্যান্য ভিডিও লোড হচ্ছে...
+            
 
         </div>
 
@@ -1124,7 +1124,7 @@ function playVideo(
         if(!driveId){
 
             showError(
-                "Google Drive ভিডিও ID পাওয়া যায়নি।",
+                "",
                 url
             );
 
@@ -1206,7 +1206,7 @@ function playVideo(
             function(){
 
                 showError(
-                    "Direct ভিডিওটি চালানো যাচ্ছে না।",
+                    "",
                     url
                 );
 
@@ -1242,7 +1242,7 @@ function playVideo(
     ){
 
         showError(
-            "Telegram ভিডিওটি সরাসরি Player-এর ভিতরে চালানো যাচ্ছে না। নিচের বাটনে চাপ দিয়ে ভিডিওটি খুলুন।",
+            "",
             url
         );
 
@@ -1444,7 +1444,7 @@ async function loadVideo(){
     if(!postId){
 
         showError(
-            "ভিডিও ID পাওয়া যায়নি।"
+            ""
         );
 
         return;
@@ -1497,7 +1497,7 @@ async function loadVideo(){
         ){
 
             showError(
-                "এই ভিডিওটি বর্তমানে প্রকাশিত নয়।"
+                ""
             );
 
             return;
