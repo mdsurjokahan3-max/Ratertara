@@ -1,1952 +1,677 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+  <title>Rater Tara Profile</title>
+  <meta name="description" content="Welcome to Rater Tara Profile">
 
-  <title>Rater Tara Video Apps</title>
-
-  <!-- Google Font -->
-  <link rel="preconnect"
-        href="https://fonts.googleapis.com">
-
-  <link rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
-
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Font Awesome -->
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <!-- =====================================================
-       FIREBASE COMPAT
-       RATER TARA VIDEO APPS
-       ===================================================== -->
-
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-
-
   <style>
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
-
-      font-family:
-        "Hind Siliguri",
-        sans-serif;
-
-      background:
-        #f4f5f7;
-
-      color:
-        #222;
-
+      background: #f2f4f7;
+      font-family: "Hind Siliguri", sans-serif;
+      color: #222;
     }
 
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: inherit;
+    }
 
     .app {
-
-      width:
-        100%;
-
-      max-width:
-        450px;
-
-      min-height:
-        100vh;
-
-      margin:
-        auto;
-
-      background:
-        #fff;
-
-      overflow-x:
-        hidden;
-
+      width: 100%;
+      max-width: 520px;
+      min-height: 100vh;
+      margin: auto;
+      background: #fff;
+      position: relative;
+      overflow-x: hidden;
+      box-shadow: 0 0 25px rgba(0,0,0,.08);
     }
 
-
-    /* =====================================================
-       HEADER
-       ===================================================== */
-
+    /* HEADER */
     .header {
-
-      height:
-        58px;
-
-      background:
-        linear-gradient(
-          135deg,
-          #008b8b,
-          #006666
-        );
-
-      color:
-        #fff;
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        space-between;
-
-      padding:
-        0 15px;
-
-      position:
-        sticky;
-
-      top:
-        0;
-
-      z-index:
-        100;
-
-      box-shadow:
-        0 2px 10px rgba(0,0,0,.15);
-
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 17px;
+      border-bottom: 1px solid #eee;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 50;
     }
 
-
-    .back-btn {
-
-      width:
-        40px;
-
-      height:
-        40px;
-
-      border:
-        none;
-
-      background:
-        rgba(255,255,255,.15);
-
-      color:
-        #fff;
-
-      border-radius:
-        50%;
-
-      font-size:
-        18px;
-
-      cursor:
-        pointer;
-
-      flex-shrink:
-        0;
-
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #004444;
     }
 
-
-    .header-title {
-
-      font-size:
-        19px;
-
-      font-weight:
-        700;
-
-      white-space:
-        nowrap;
-
-      overflow:
-        hidden;
-
-      text-overflow:
-        ellipsis;
-
-      margin:
-        0 10px;
-
-      flex:
-        1;
-
-      text-align:
-        center;
-
+    .header-btn {
+      width: 39px;
+      height: 39px;
+      border: 0;
+      border-radius: 50%;
+      background: #f5f6f7;
+      color: #333;
+      font-size: 17px;
+      cursor: pointer;
     }
 
-
-    .header-share {
-
-      width:
-        40px;
-
-      height:
-        40px;
-
-      border:
-        none;
-
-      background:
-        rgba(255,255,255,.15);
-
-      color:
-        #fff;
-
-      border-radius:
-        50%;
-
-      font-size:
-        17px;
-
-      cursor:
-        pointer;
-
-      flex-shrink:
-        0;
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        center;
-
-      text-decoration:
-        none;
-
+    /* PROFILE */
+    .profile-section {
+      text-align: center;
+      padding: 27px 18px 20px;
     }
 
-
-    .header-share:active {
-
-      transform:
-        scale(.92);
-
+    .profile-photo-wrap {
+      width: 112px;
+      height: 112px;
+      margin: auto;
+      position: relative;
     }
 
-
-    /* =====================================================
-       LOADING
-       ===================================================== */
-
-    .loading {
-
-      min-height:
-        70vh;
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        center;
-
-      flex-direction:
-        column;
-
-      gap:
-        12px;
-
-      color:
-        #008b8b;
-
+    .profile-photo,
+    .default-photo {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      box-shadow: 0 5px 18px rgba(0,0,0,.16),
+                  0 0 0 2px #004444;
     }
 
-
-    .loading i {
-
-      font-size:
-        35px;
-
+    .profile-photo {
+      object-fit: cover;
+      display: block;
     }
 
-
-    .loading p {
-
-      font-size:
-        15px;
-
+    .default-photo {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg,#004444,#008080);
+      color: #fff;
+      font-size: 43px;
     }
 
-
-    /* =====================================================
-       EMPTY / ERROR
-       ===================================================== */
-
-    .empty-box {
-
-      margin:
-        35px 18px;
-
-      padding:
-        30px 18px;
-
-      border-radius:
-        16px;
-
-      background:
-        #f7ffff;
-
-      border:
-        1px solid #d8eeee;
-
-      text-align:
-        center;
-
-      color:
-        #008b8b;
-
+    .photo-edit-badge {
+      position: absolute;
+      right: 0;
+      bottom: 3px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #004444;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #fff;
+      z-index: 2;
     }
 
-
-    .empty-box i {
-
-      font-size:
-        45px;
-
-      margin-bottom:
-        12px;
-
+    .profile-name {
+      margin-top: 15px;
+      font-size: 25px;
+      font-weight: 700;
     }
 
-
-    .empty-box h3 {
-
-      margin-bottom:
-        6px;
-
-      font-size:
-        19px;
-
-      color:
-        #222;
-
+    .username {
+      margin-top: 2px;
+      color: #777;
+      font-size: 15px;
     }
 
-
-    .empty-box p {
-
-      font-size:
-        14px;
-
-      color:
-        #666;
-
-      line-height:
-        1.6;
-
+    .bio {
+      max-width: 420px;
+      margin: 9px auto 0;
+      color: #555;
+      line-height: 1.65;
+      font-size: 15px;
     }
 
-
-    .retry-btn {
-
-      margin-top:
-        18px;
-
-      display:
-        inline-flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        center;
-
-      gap:
-        7px;
-
-      border:
-        none;
-
-      background:
-        #008b8b;
-
-      color:
-        #fff;
-
-      padding:
-        10px 18px;
-
-      border-radius:
-        25px;
-
-      font-family:
-        inherit;
-
-      font-size:
-        14px;
-
-      cursor:
-        pointer;
-
+    /* SOCIAL LINKS */
+    .stats {
+      margin: 15px;
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      border: 1px solid #e9e9e9;
+      border-radius: 15px;
+      overflow: hidden;
+      background: #fff;
     }
 
-
-    /* =====================================================
-       POST LIST
-       ===================================================== */
-
-    .posts {
-
-      padding:
-        15px;
-
+    .stat-item {
+      min-height: 84px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid #eee;
+      gap: 3px;
+      padding: 8px 3px;
+      text-align: center;
     }
 
-
-    .section-heading {
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        space-between;
-
-      margin-bottom:
-        14px;
-
+    .stat-item:last-child {
+      border-right: 0;
     }
 
-
-    .section-heading h2 {
-
-      font-size:
-        19px;
-
-      font-weight:
-        700;
-
+    .stat-icon {
+      font-size: 22px;
     }
 
-
-    .section-heading span {
-
-      font-size:
-        12px;
-
-      color:
-        #777;
-
+    .telegram-icon {
+      color: #229ED9;
     }
 
-
-    /* =====================================================
-       POST CARD
-       ===================================================== */
-
-    .post-card {
-
-      background:
-        #fff;
-
-      border:
-        1px solid #e8e8e8;
-
-      border-radius:
-        16px;
-
-      overflow:
-        hidden;
-
-      margin-bottom:
-        15px;
-
-      box-shadow:
-        0 4px 15px rgba(0,0,0,.06);
-
-      cursor:
-        pointer;
-
-      transition:
-        .2s;
-
+    .whatsapp-icon {
+      color: #25D366;
     }
 
-
-    .post-card:active {
-
-      transform:
-        scale(.99);
-
+    .stat-title {
+      font-size: 14px;
+      font-weight: 600;
     }
 
-
-    /* =====================================================
-       IMAGE
-       ===================================================== */
-
-    .post-image {
-
-      width:
-        100%;
-
-      aspect-ratio:
-        16 / 9;
-
-      background:
-        #000;
-
-      position:
-        relative;
-
-      overflow:
-        hidden;
-
+    .stat-number {
+      font-size: 12px;
+      color: #888;
     }
 
-
-    .post-image img {
-
-      width:
-        100%;
-
-      height:
-        100%;
-
-      display:
-        block;
-
-      object-fit:
-        cover;
-
+    /* ADVERTISEMENT AREA */
+    .ad-container {
+      width: 100%;
+      margin: 12px auto;
+      text-align: center;
+      overflow: visible;
     }
 
-
-    .image-fallback {
-
-      width:
-        100%;
-
-      height:
-        100%;
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        center;
-
-      color:
-        #aaa;
-
-      font-size:
-        45px;
-
+    /* PROFILE LINKS */
+    .links-section {
+      padding: 20px 15px 0;
     }
 
-
-    .play-overlay {
-
-      position:
-        absolute;
-
-      left:
-        50%;
-
-      top:
-        50%;
-
-      transform:
-        translate(-50%, -50%);
-
-      width:
-        58px;
-
-      height:
-        58px;
-
-      border-radius:
-        50%;
-
-      background:
-        rgba(0,139,139,.92);
-
-      color:
-        #fff;
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        center;
-
-      font-size:
-        22px;
-
-      box-shadow:
-        0 5px 20px rgba(0,0,0,.3);
-
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 11px;
     }
 
-
-    /* =====================================================
-       CARD CONTENT
-       ===================================================== */
-
-    .post-content {
-
-      padding:
-        13px;
-
+    .profile-link {
+      min-height: 61px;
+      border: 1px solid #e9e9e9;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      padding: 9px 13px;
+      margin-bottom: 9px;
+      background: #fff;
+      gap: 11px;
+      transition: .2s;
     }
 
-
-    .post-title {
-
-      font-size:
-        18px;
-
-      font-weight:
-        700;
-
-      line-height:
-        1.4;
-
-      color:
-        #222;
-
-      display:
-        -webkit-box;
-
-      -webkit-line-clamp:
-        2;
-
-      -webkit-box-orient:
-        vertical;
-
-      overflow:
-        hidden;
-
+    .profile-link:active {
+      transform: scale(.98);
     }
 
-
-    .post-name {
-
-      margin-top:
-        4px;
-
-      font-size:
-        13px;
-
-      color:
-        #008b8b;
-
-      font-weight:
-        600;
-
+    .link-icon {
+      width: 43px;
+      height: 43px;
+      min-width: 43px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
     }
 
-
-    .post-bio {
-
-      margin-top:
-        7px;
-
-      font-size:
-        13px;
-
-      color:
-        #666;
-
-      line-height:
-        1.6;
-
-      display:
-        -webkit-box;
-
-      -webkit-line-clamp:
-        2;
-
-      -webkit-box-orient:
-        vertical;
-
-      overflow:
-        hidden;
-
+    .link-youtube {
+      background: #fff0f0;
+      color: #ff0000;
     }
 
-
-    .post-meta {
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      gap:
-        12px;
-
-      flex-wrap:
-        wrap;
-
-      margin-top:
-        10px;
-
-      font-size:
-        12px;
-
-      color:
-        #888;
-
+    .link-rater {
+      background: #e9f5f5;
+      color: #004444;
     }
 
-
-    .post-meta span {
-
-      display:
-        inline-flex;
-
-      align-items:
-        center;
-
-      gap:
-        5px;
-
+    .casino-icon {
+      width: 52px;
+      height: 52px;
+      min-width: 52px;
+      background: #fff;
     }
 
-
-    .post-meta i {
-
-      color:
-        #008b8b;
-
+    .casino-logo {
+      width: 90%;
+      height: 100%;
+      object-fit: contain;
     }
 
+    .link-content {
+      flex: 1;
+      min-width: 0;
+    }
 
-    /* =====================================================
-       FOOTER
-       ===================================================== */
+    .link-title {
+      font-size: 15px;
+      font-weight: 700;
+    }
 
+    .link-subtitle {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .link-arrow {
+      color: #999;
+      font-size: 14px;
+    }
+
+    /* MENU */
+    .menu {
+      display: none;
+      position: absolute;
+      top: 56px;
+      right: 12px;
+      width: 210px;
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.15);
+      overflow: hidden;
+      z-index: 100;
+    }
+
+    .menu.show {
+      display: block;
+    }
+
+    .menu a {
+      min-height: 47px;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #f1f1f1;
+      font-size: 14px;
+    }
+
+    .menu a:last-child {
+      border-bottom: 0;
+    }
+
+    .menu a:hover {
+      background: #f7f7f7;
+    }
+
+    .menu i {
+      width: 20px;
+      color: #004444;
+    }
+
+    /* FOOTER */
     .footer {
-
-      text-align:
-        center;
-
-      padding:
-        18px 10px 25px;
-
-      color:
-        #999;
-
-      font-size:
-        12px;
-
+      text-align: center;
+      padding: 27px 15px 22px;
+      color: #999;
+      font-size: 12px;
     }
 
-
-    /* =====================================================
-       TOAST
-       ===================================================== */
-
-    .toast {
-
-      position:
-        fixed;
-
-      left:
-        50%;
-
-      bottom:
-        25px;
-
-      transform:
-        translate(-50%, 100px);
-
-      background:
-        #222;
-
-      color:
-        #fff;
-
-      padding:
-        11px 18px;
-
-      border-radius:
-        25px;
-
-      font-size:
-        14px;
-
-      z-index:
-        9999;
-
-      opacity:
-        0;
-
-      transition:
-        .3s ease;
-
-      max-width:
-        calc(100% - 30px);
-
-      text-align:
-        center;
-
-    }
-
-
-    .toast.show {
-
-      transform:
-        translate(-50%, 0);
-
-      opacity:
-        1;
-
-    }
-
-
-    /* =====================================================
-       DESKTOP
-       ===================================================== */
-
-    @media (min-width:451px) {
-
-      body {
-
-        padding:
-          20px 0;
-
+    /* MOBILE */
+    @media (max-width: 380px) {
+      .brand {
+        font-size: 18px;
       }
 
-
-      .app {
-
-        border-radius:
-          18px;
-
-        min-height:
-          calc(100vh - 40px);
-
-        box-shadow:
-          0 5px 30px rgba(0,0,0,.08);
-
+      .profile-name {
+        font-size: 22px;
       }
 
-
-      .header {
-
-        border-radius:
-          18px 18px 0 0;
-
+      .stat-title {
+        font-size: 12px;
       }
 
+      .stats {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+      .links-section {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
     }
-
   </style>
-
 </head>
 
-
 <body>
-
-
 <div class="app">
 
-
-  <!-- =====================================================
-       HEADER
-       ===================================================== -->
-
+  <!-- HEADER -->
   <header class="header">
+    <div class="brand">Rater Tara</div>
 
-
-    <div class="header-title">
-
-      YOU TUB VIDEO
-
-    </div>
-
-
-    <a
-      href="profile.html"
-      class="header-share"
-      aria-label="Profile"
-      title="Profile">
-
-      <i class="fa-solid fa-user"></i>
-
-    </a>
-
-
+    <button class="header-btn"
+            id="menuButton"
+            type="button"
+            aria-label="মেনু খুলুন"
+            aria-expanded="false">
+      <i class="fa-solid fa-ellipsis-vertical"></i>
+    </button>
   </header>
 
+  <!-- MENU -->
+  <nav class="menu" id="profileMenu">
+    <a href="https://ratertara.vercel.app/">
+      <i class="fa-solid fa-user"></i>
+      <span>প্রোফাইল</span>
+    </a>
 
-  <!-- =====================================================
-       LOADING
-       ===================================================== -->
+    <a href="https://ratertara.vercel.app/edit-profile.html">
+      <i class="fa-solid fa-pen"></i>
+      <span>প্রোফাইল এডিট</span>
+    </a>
 
-  <div
-    id="loading"
-    class="loading">
+    <a href="https://ratertara.vercel.app/post.html">
+      <i class="fa-solid fa-video"></i>
+      <span>নতুন পোস্ট</span>
+    </a>
 
-    <i class="fa-solid fa-spinner fa-spin"></i>
+    <a href="https://ratertara.vercel.app/messages.html">
+      <i class="fa-solid fa-message"></i>
+      <span>মেসেজ</span>
+    </a>
 
-    <p>
-      পোস্ট লোড হচ্ছে...
-    </p>
+    <a href="https://ratertara.vercel.app/settings.html">
+      <i class="fa-solid fa-gear"></i>
+      <span>সেটিংস</span>
+    </a>
+  </nav>
 
-  </div>
+  <!-- PROFILE -->
+  <section class="profile-section">
+    <div class="profile-photo-wrap">
+      <img
+        id="profileImage"
+        class="profile-photo"
+        src="https://res.cloudinary.com/rawaad4u/image/upload/v1792095571/FB_IMG_1792095556921.jpg"
+        alt="Rater Tara Profile"
+      >
 
+      <div id="defaultPhoto" class="default-photo">
+        <i class="fa-solid fa-user"></i>
+      </div>
 
-  <!-- =====================================================
-       EMPTY
-       ===================================================== -->
-
-  <div
-    id="emptyBox"
-    class="empty-box"
-    style="display:none;">
-
-    <i class="fa-solid fa-video-slash"></i>
-
-    <h3>
-      কোনো প্রকাশিত পোস্ট নেই
-    </h3>
-
-    <p>
-      বর্তমানে কোনো অনুমোদিত ভিডিও পোস্ট পাওয়া যায়নি।
-    </p>
-
-    <button
-      class="retry-btn"
-      onclick="loadPosts()">
-
-      <i class="fa-solid fa-rotate"></i>
-
-      আবার চেষ্টা করুন
-
-    </button>
-
-  </div>
-
-
-  <!-- =====================================================
-       POSTS
-       ===================================================== -->
-
-  <main
-    id="posts"
-    class="posts"
-    style="display:none;">
-
-
-    <div class="section-heading">
-
-      <h2>
-        সর্বশেষ ভিডিও
-      </h2>
-
-      <span id="postCount">
-        ০ পোস্ট
-      </span>
-
+      <a href="https://ratertara.vercel.app/edit-profile.html"
+         class="photo-edit-badge"
+         title="প্রোফাইল এডিট করুন">
+        <i class="fa-solid fa-camera"></i>
+      </a>
     </div>
 
+    <h1 class="profile-name" id="profileName">Rater Tara</h1>
+    <div class="username" id="username">@rater_tara</div>
 
-    <div
-      id="postList">
-    </div>
+    <p class="bio" id="bio">
+      একটা সুন্দর গল্পের অপেক্ষায়… তুমি হবে গল্পের সবচেয়ে সুন্দর অধ্যায়…
+    </p>
+  </section>
 
+  <!-- SOCIAL LINKS -->
+  <section class="stats">
+    <a href="https://t.me/+JFZS8yG0GpA4OTI1"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="stat-item">
+      <i class="fa-brands fa-telegram stat-icon telegram-icon"></i>
+      <span class="stat-title">Inbox</span>
+      <span class="stat-number">Telegram</span>
+    </a>
 
-  </main>
+    <a href="https://wa.me/8801816818428"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="stat-item">
+      <i class="fa-brands fa-whatsapp stat-icon whatsapp-icon"></i>
+      <span class="stat-title">WhatsApp</span>
+      <span class="stat-number">Contact</span>
+    </a>
 
+    <a href="https://www.profitableratecpmnetwork.com/gq15z0df?key=850e3cfa8399fe6169eefc37ba83e82b"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="stat-item">
+      <i class="fa-solid fa-circle-play stat-icon"></i>
+      <span class="stat-title">Video</span>
+      <span class="stat-number">Watch</span>
+    </a>
+  </section>
 
-  <div class="footer">
+  <!-- ADVERTISEMENT -->
+  <div class="ad-container" id="adContainer"></div>
 
+  <!-- CONNECTED WEBSITES -->
+  <section class="links-section">
+    <h2 class="section-title">সংযুক্ত</h2>
+
+    <a href="https://ratertara.vercel.app/index.html"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="profile-link">
+      <div class="link-icon link-youtube">
+        <i class="fa-brands fa-youtube"></i>
+      </div>
+
+      <div class="link-content">
+        <div class="link-title">YouTube</div>
+        <div class="link-subtitle">Rater Tara</div>
+      </div>
+
+      <i class="fa-solid fa-chevron-right link-arrow"></i>
+    </a>
+
+    <a href="https://rater-tara-bot.vercel.app/"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="profile-link">
+      <div class="link-icon link-rater">
+        <i class="fa-solid fa-circle-play"></i>
+      </div>
+
+      <div class="link-content">
+        <div class="link-title">Private Video</div>
+        <div class="link-subtitle">Video platform</div>
+      </div>
+
+      <i class="fa-solid fa-chevron-right link-arrow"></i>
+    </a>
+
+    <a href="https://casino-lime-ten.vercel.app/"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="profile-link">
+      <div class="link-icon link-rater casino-icon">
+        <img
+          src="https://res.cloudinary.com/rawaad4u/image/upload/v1792190128/20261017_043449.png"
+          alt="Casino Platform"
+          class="casino-logo"
+        >
+      </div>
+
+      <div class="link-content">
+        <div class="link-title">Casino Platform</div>
+        <div class="link-subtitle">Casino Games &amp; Entertainment</div>
+      </div>
+
+      <i class="fa-solid fa-chevron-right link-arrow"></i>
+    </a>
+  </section>
+
+  <footer class="footer">
     © 2026 Rater Tara • All Rights Reserved
-
-  </div>
-
+  </footer>
 
 </div>
 
+<!-- TOAST -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<!-- Toast -->
-
-<div
-  id="toast"
-  class="toast">
-</div>
-
-
+<!-- PROFILE SCRIPT -->
 <script>
+  "use strict";
 
-/* =========================================================
-   RATER TARA VIDEO APPS
-   HOME / INDEX PAGE
+  const PROFILE_STORAGE_KEY = "raterTaraProfile";
 
-   FIREBASE PROJECT:
-   rater-tara-video-apps
+  const defaultProfile = {
+    name: "Rater Tara",
+    username: "@rater_tara",
+    bio: "একটা সুন্দর গল্পের অপেক্ষায়… তুমি হবে গল্পের সবচেয়ে সুন্দর অধ্যায়…",
+    photoURL: ""
+  };
 
-   COLLECTION:
-   profiles
+  const fallbackPhoto =
+    "https://res.cloudinary.com/rawaad4u/image/upload/v1792095571/FB_IMG_1792095556921.jpg";
 
-   PUBLISHED:
-   status = "published"
-
-   IMPORTANT:
-   এই পেজের ভিডিওগুলো profiles collection থেকে আসে।
-   তাই player.html-এ যাওয়ার সময়
-   collection=profiles পাঠানো হচ্ছে।
-   ========================================================= */
-
-
-/* =========================================================
-   FIREBASE CONFIG
-   ========================================================= */
-
-const firebaseConfig = {
-
-  apiKey:
-    "AIzaSyD7MR0gTPVeqMUMRTIip9Zp6oV0J7iVIaY",
-
-  authDomain:
-    "rater-tara-video-apps.firebaseapp.com",
-
-  databaseURL:
-    "https://rater-tara-video-apps-default-rtdb.firebaseio.com",
-
-  projectId:
-    "rater-tara-video-apps",
-
-  storageBucket:
-    "rater-tara-video-apps.firebasestorage.app",
-
-  messagingSenderId:
-    "622484215343",
-
-  appId:
-    "1:622484215343:web:90e995aa400cd103ea18da",
-
-  measurementId:
-    "G-3G9Z0WVSDE"
-
-};
-
-
-/* =========================================================
-   FIREBASE INITIALIZE
-   ========================================================= */
-
-if (!firebase.apps.length) {
-
-  firebase.initializeApp(
-    firebaseConfig
-  );
-
-}
-
-
-/* =========================================================
-   FIRESTORE
-   ========================================================= */
-
-const db =
-  firebase.firestore();
-
-
-/* =========================================================
-   DOM
-   ========================================================= */
-
-const loading =
-  document.getElementById("loading");
-
-const emptyBox =
-  document.getElementById("emptyBox");
-
-const posts =
-  document.getElementById("posts");
-
-const postList =
-  document.getElementById("postList");
-
-const postCount =
-  document.getElementById("postCount");
-
-
-/* =========================================================
-   START
-   ========================================================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function () {
-
-    loadPosts();
-
-  }
-);
-
-
-/* =========================================================
-   LOAD PUBLISHED POSTS
-   ========================================================= */
-
-async function loadPosts() {
-
-  loading.style.display =
-    "flex";
-
-  emptyBox.style.display =
-    "none";
-
-  posts.style.display =
-    "none";
-
-  postList.innerHTML =
-    "";
-
-
-  try {
-
-    const snapshot =
-      await db
-        .collection("profiles")
-        .where(
-          "status",
-          "==",
-          "published"
-        )
-        .get();
-
-
-    loading.style.display =
-      "none";
-
-
-    if (snapshot.empty) {
-
-      emptyBox.style.display =
-        "block";
-
-      return;
-
-    }
-
-
-    /* =====================================================
-       LOCAL SORT
-       ===================================================== */
-
-    const documents =
-      snapshot.docs.sort(
-        function (a, b) {
-
-          const aData =
-            a.data();
-
-          const bData =
-            b.data();
-
-
-          const aTime =
-            getTimestamp(
-              aData.createdAt
-            );
-
-
-          const bTime =
-            getTimestamp(
-              bData.createdAt
-            );
-
-
-          return bTime - aTime;
-
-        }
-      );
-
-
-    /* =====================================================
-       RENDER
-       ===================================================== */
-
-    documents.forEach(
-      function (doc) {
-
-        renderPost(
-          doc.id,
-          doc.data()
-        );
-
-      }
-    );
-
-
-    postCount.textContent =
-      toBanglaNumber(
-        documents.length
-      ) +
-      " পোস্ট";
-
-
-    posts.style.display =
-      "block";
-
-
-  } catch (error) {
-
-    console.error(
-      "INDEX FIRESTORE ERROR:",
-      error
-    );
-
-
-    loading.style.display =
-      "none";
-
-
-    showErrorMessage(
-      "ভিডিও লোড করা যাচ্ছে না। ইন্টারনেট সংযোগ ও Firebase সেটিংস পরীক্ষা করুন।"
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   RENDER POST
-   ========================================================= */
-
-function renderPost(
-  id,
-  data
-) {
-
-  const card =
-    document.createElement("article");
-
-  card.className =
-    "post-card";
-
-
-  /* =====================================================
-     IMAGE AREA
-     ===================================================== */
-
-  const image =
-    document.createElement("div");
-
-  image.className =
-    "post-image";
-
-
-  const imageUrl =
-    String(
-      data.img ||
-      data.thumbnail ||
-      data.image ||
-      ""
-    ).trim();
-
-
-  if (imageUrl) {
-
-    const img =
-      document.createElement("img");
-
-    img.src =
-      imageUrl;
-
-    img.alt =
-      data.title ||
-      data.name ||
-      "Rater Tara Video";
-
-
-    img.loading =
-      "lazy";
-
-
-    img.onerror =
-      function () {
-
-        this.remove();
-
-        const fallback =
-          document.createElement("div");
-
-        fallback.className =
-          "image-fallback";
-
-        fallback.innerHTML =
-          '<i class="fa-solid fa-image"></i>';
-
-        image.insertBefore(
-          fallback,
-          image.firstChild
-        );
-
-      };
-
-
-    image.appendChild(
-      img
-    );
-
-
-  } else {
-
-    const fallback =
-      document.createElement("div");
-
-    fallback.className =
-      "image-fallback";
-
-    fallback.innerHTML =
-      '<i class="fa-solid fa-image"></i>';
-
-    image.appendChild(
-      fallback
-    );
-
-  }
-
-
-  /* =====================================================
-     PLAY BUTTON
-     ===================================================== */
-
-  const play =
-    document.createElement("div");
-
-  play.className =
-    "play-overlay";
-
-  play.innerHTML =
-    '<i class="fa-solid fa-play"></i>';
-
-  image.appendChild(
-    play
-  );
-
-
-  /* =====================================================
-     CONTENT
-     ===================================================== */
-
-  const content =
-    document.createElement("div");
-
-  content.className =
-    "post-content";
-
-
-  const title =
-    document.createElement("h2");
-
-  title.className =
-    "post-title";
-
-  title.textContent =
-    data.title ||
-    data.name ||
-    "Rater Tara Video";
-
-
-  const name =
-    document.createElement("div");
-
-  name.className =
-    "post-name";
-
-  name.innerHTML =
-    '<i class="fa-solid fa-user"></i> ' +
-    escapeHtml(
-      data.name ||
-      "Rater Tara"
-    );
-
-
-  content.appendChild(
-    title
-  );
-
-
-  content.appendChild(
-    name
-  );
-
-
-  /* =====================================================
-     BIO
-     ===================================================== */
-
-  if (
-    data.bio &&
-    String(data.bio).trim()
-  ) {
-
-    const bio =
-      document.createElement("div");
-
-    bio.className =
-      "post-bio";
-
-    bio.textContent =
-      String(data.bio);
-
-    content.appendChild(
-      bio
-    );
-
-  }
-
-
-  /* =====================================================
-     META
-     ===================================================== */
-
-  const meta =
-    document.createElement("div");
-
-  meta.className =
-    "post-meta";
-
-
-  const views =
-    document.createElement("span");
-
-  views.innerHTML =
-    '<i class="fa-solid fa-eye"></i> ' +
-    toBanglaNumber(
-      Number(data.views || 0)
-    ) +
-    " বার";
-
-
-  meta.appendChild(
-    views
-  );
-
-
-  const date =
-    convertFirebaseDate(
-      data.createdAt
-    );
-
-
-  if (date) {
-
-    const dateElement =
-      document.createElement("span");
-
-    dateElement.innerHTML =
-      '<i class="fa-regular fa-calendar"></i> ' +
-      date.toLocaleDateString(
-        "bn-BD",
-        {
-          year:
-            "numeric",
-
-          month:
-            "short",
-
-          day:
-            "numeric"
-        }
-      );
-
-    meta.appendChild(
-      dateElement
-    );
-
-  }
-
-
-  content.appendChild(
-    meta
-  );
-
-
-  /* =====================================================
-     CARD
-     ===================================================== */
-
-  card.appendChild(
-    image
-  );
-
-  card.appendChild(
-    content
-  );
-
-
-  /* =====================================================
-     OPEN PLAYER
-     ===================================================== */
-
-  card.addEventListener(
-    "click",
-    function () {
-
-      openPlayer(
-        id
-      );
-
-    }
-  );
-
-
-  postList.appendChild(
-    card
-  );
-
-}
-
-
-/* =========================================================
-   OPEN PLAYER
-
-   IMPORTANT FIX:
-   এই Home page "profiles" collection ব্যবহার করছে।
-
-   আগের কোড:
-   player.html?id=VIDEO_ID
-
-   নতুন সঠিক URL:
-   player.html?id=VIDEO_ID&collection=profiles
-
-   এর ফলে player.html সঠিক Firestore collection
-   থেকে ভিডিওটি খুঁজে পাবে।
-   ========================================================= */
-
-function openPlayer(id) {
-
-  if (!id) {
-
-    showToast(
-      "ভিডিও পাওয়া যায়নি"
-    );
-
-    return;
-
-  }
-
-
-  const playerUrl =
-    "player.html?id=" +
-    encodeURIComponent(id) +
-    "&collection=profiles";
-
-
-  window.location.href =
-    playerUrl;
-
-}
-
-
-/* =========================================================
-   FIREBASE TIMESTAMP
-   ========================================================= */
-
-function getTimestamp(value) {
-
-  try {
-
-    if (
-      value &&
-      typeof value.toMillis ===
-      "function"
-    ) {
-
-      return value.toMillis();
-
-    }
-
-
-    if (
-      value &&
-      typeof value.toDate ===
-      "function"
-    ) {
-
-      return value.toDate().getTime();
-
-    }
-
-
-    if (
-      typeof value ===
-      "number"
-    ) {
-
-      return value;
-
-    }
-
-
-    if (
-      typeof value ===
-      "string"
-    ) {
-
-      const date =
-        new Date(value);
-
-      if (
-        !isNaN(
-          date.getTime()
-        )
-      ) {
-
-        return date.getTime();
-
-      }
-
-    }
-
-  } catch (error) {
-
-    console.warn(
-      "Timestamp error:",
-      error
-    );
-
-  }
-
-
-  return 0;
-
-}
-
-
-/* =========================================================
-   FIREBASE DATE
-   ========================================================= */
-
-function convertFirebaseDate(
-  value
-) {
-
-  try {
-
-    if (
-      value &&
-      typeof value.toDate ===
-      "function"
-    ) {
-
-      return value.toDate();
-
-    }
-
-
-    if (
-      value instanceof Date
-    ) {
-
-      return value;
-
-    }
-
-
-    if (
-      typeof value ===
-      "number"
-    ) {
-
-      return new Date(
-        value
-      );
-
-    }
-
-
-    if (
-      typeof value ===
-      "string"
-    ) {
-
-      const date =
-        new Date(value);
-
-      if (
-        !isNaN(
-          date.getTime()
-        )
-      ) {
-
-        return date;
-
-      }
-
-    }
-
-  } catch (error) {
-
-    console.warn(
-      "Date conversion error:",
-      error
-    );
-
-  }
-
-
-  return null;
-
-}
-
-
-/* =========================================================
-   BANGLA NUMBER
-   ========================================================= */
-
-function toBanglaNumber(
-  number
-) {
-
-  const n =
-    Number(number || 0);
-
-  return String(n)
-    .replace(
-      /\d/g,
-      function (digit) {
-
-        return "০১২৩৪৫৬৭৮৯"[
-          Number(digit)
-        ];
-
-      }
-    );
-
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-   ========================================================= */
-
-function escapeHtml(
-  value
-) {
-
-  return String(value)
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
-}
-
-
-/* =========================================================
-   ERROR
-   ========================================================= */
-
-function showErrorMessage(
-  text
-) {
-
-  emptyBox.innerHTML = `
-
-    <i class="fa-solid fa-circle-exclamation"></i>
-
-    <h3>
-      সমস্যা হয়েছে
-    </h3>
-
-    <p>
-      ${escapeHtml(text)}
-    </p>
-
-    <button
-      class="retry-btn"
-      onclick="loadPosts()">
-
-      <i class="fa-solid fa-rotate"></i>
-
-      আবার চেষ্টা করুন
-
-    </button>
-
-  `;
-
-
-  emptyBox.style.display =
-    "block";
-
-}
-
-
-/* =========================================================
-   TOAST
-   ========================================================= */
-
-let toastTimer;
-
-
-function showToast(
-  text
-) {
-
-  const toast =
-    document.getElementById(
-      "toast"
-    );
-
-
-  toast.textContent =
-    text;
-
-
-  toast.classList.add(
-    "show"
-  );
-
-
-  clearTimeout(
-    toastTimer
-  );
-
-
-  toastTimer =
-    setTimeout(
-      function () {
-
-        toast.classList.remove(
-          "show"
-        );
-
-      },
-      2500
-    );
-
-}
-
-
-/* =========================================================
-   SHARE HOME
-   ========================================================= */
-
-async function shareHome() {
-
-  const url =
-    window.location.href;
-
-
-  const title =
-    "Rater Tara Video Apps";
-
-
-  if (
-    navigator.share
-  ) {
-
+  function isValidImageURL(url) {
     try {
-
-      await navigator.share({
-
-        title:
-          title,
-
-        text:
-          "Rater Tara Video Apps",
-
-        url:
-          url
-
-      });
-
-      return;
-
-    } catch (error) {
-
+      const parsed = new URL(url);
+      return parsed.protocol === "https:" ||
+             parsed.protocol === "http:";
+    } catch {
+      return false;
     }
-
   }
 
+  function getProfile() {
+    try {
+      const saved = localStorage.getItem(PROFILE_STORAGE_KEY);
 
-  try {
+      if (!saved) {
+        return { ...defaultProfile };
+      }
 
-    await navigator.clipboard
-      .writeText(url);
+      const data = JSON.parse(saved);
 
-    showToast(
-      "হোম পেজের লিংক কপি হয়েছে ✓"
-    );
+      if (!data || typeof data !== "object") {
+        return { ...defaultProfile };
+      }
 
-  } catch (error) {
-
-    showToast(
-      "লিংক কপি করা যায়নি"
-    );
-
+      return { ...defaultProfile, ...data };
+    } catch (error) {
+      console.error("Profile loading error:", error);
+      return { ...defaultProfile };
+    }
   }
 
-}
-
-
-/* =========================================================
-   BACK
-   ========================================================= */
-
-function goBack() {
-
-  if (
-    window.history.length > 1
-  ) {
-
-    window.history.back();
-
-  } else {
-
-    window.location.href =
-      "index.html";
-
+  function showDefaultPhoto() {
+    document.getElementById("profileImage").style.display = "none";
+    document.getElementById("defaultPhoto").style.display = "flex";
   }
 
-}
+  function loadProfile() {
+    const profile = getProfile();
 
+    document.getElementById("profileName").textContent =
+      profile.name || defaultProfile.name;
+
+    document.getElementById("username").textContent =
+      profile.username || defaultProfile.username;
+
+    document.getElementById("bio").textContent =
+      profile.bio || defaultProfile.bio;
+
+    const image = document.getElementById("profileImage");
+
+    const photoURL =
+      profile.photoURL && isValidImageURL(profile.photoURL)
+        ? profile.photoURL
+        : fallbackPhoto;
+
+    document.getElementById("defaultPhoto").style.display = "none";
+
+    image.style.display = "block";
+
+    if (image.getAttribute("src") !== photoURL) {
+      image.src = photoURL;
+    }
+  }
+
+  document.getElementById("profileImage").addEventListener("error", function() {
+    showDefaultPhoto();
+  });
+
+  const menuButton = document.getElementById("menuButton");
+  const profileMenu = document.getElementById("profileMenu");
+
+  menuButton.addEventListener("click", function(event) {
+    event.stopPropagation();
+
+    const isOpen = profileMenu.classList.toggle("show");
+
+    menuButton.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  document.addEventListener("click", function(event) {
+    if (!profileMenu.contains(event.target) &&
+        !menuButton.contains(event.target)) {
+      profileMenu.classList.remove("show");
+      menuButton.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  window.addEventListener("storage", function(event) {
+    if (event.key === PROFILE_STORAGE_KEY) {
+      loadProfile();
+    }
+  });
+
+  document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "visible") {
+      loadProfile();
+    }
+  });
+
+  loadProfile();
 </script>
 
-<script src="https://pl28030600.profitableratecpmnetwork.com/3a/39/2e/3a392ef12ec9411fdf1fcc8c22f2cc9d.js"></script>
+<!-- ADVERTISEMENT SCRIPT: YOUR SUPPLIED ZONE -->
+<script
+  src="https://quge5.com/88/tag.min.js"
+  data-zone="299958"
+  async
+  data-cfasync="false">
+</script>
+
 </body>
-</html>)
+</html>
