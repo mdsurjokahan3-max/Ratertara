@@ -1,16 +1,2231 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>replace</title>
 
-    <script>
-        window.location.replace("https://asiafilm.org/4/54455471da61e0adfd5a478fb3c01aa5");
-    </script>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Home | Rater Tara Video Apps</title>
+
+<!-- Google Font -->
+<link rel="preconnect"
+      href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap"
+      rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:
+        "Hind Siliguri",
+        sans-serif;
+
+    background:#f3f5f7;
+
+    color:#222;
+
+}
+
+
+/* =====================================================
+   APP
+===================================================== */
+
+.app{
+
+    width:100%;
+
+    max-width:450px;
+
+    min-height:100vh;
+
+    margin:auto;
+
+    background:#fff;
+
+    overflow-x:hidden;
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+
+    height:60px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #008b8b,
+            #006666
+        );
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 14px;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,.15);
+
+}
+
+.header-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    min-width:0;
+
+}
+
+.logo{
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:12px;
+
+    background:
+        rgba(255,255,255,.15);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:20px;
+
+    flex-shrink:0;
+
+}
+
+.header-title{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+.profile-btn{
+
+    width:40px;
+
+    height:40px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.15);
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:17px;
+
+    text-decoration:none;
+
+    flex-shrink:0;
+
+}
+
+.profile-btn:active{
+
+    transform:scale(.92);
+
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero{
+
+    padding:18px 15px 10px;
+
+}
+
+.hero-box{
+
+    background:
+        linear-gradient(
+            135deg,
+            #eaffff,
+            #f7ffff
+        );
+
+    border:
+        1px solid #d5eeee;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    box-shadow:
+        0 5px 18px rgba(0,139,139,.08);
+
+}
+
+.hero-title{
+
+    font-size:21px;
+
+    font-weight:700;
+
+    color:#006666;
+
+}
+
+.hero-text{
+
+    margin-top:4px;
+
+    font-size:13px;
+
+    line-height:1.6;
+
+    color:#666;
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.search-box{
+
+    padding:5px 15px 15px;
+
+}
+
+.search{
+
+    width:100%;
+
+    height:45px;
+
+    border:
+        1px solid #ddd;
+
+    border-radius:25px;
+
+    display:flex;
+
+    align-items:center;
+
+    background:#fff;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,.05);
+
+}
+
+.search i{
+
+    color:#008b8b;
+
+    margin-left:16px;
+
+}
+
+.search input{
+
+    width:100%;
+
+    height:100%;
+
+    border:none;
+
+    outline:none;
+
+    padding:0 14px;
+
+    font-family:inherit;
+
+    font-size:14px;
+
+    background:transparent;
+
+}
+
+
+/* =====================================================
+   SECTION
+===================================================== */
+
+.section{
+
+    padding:0 15px;
+
+}
+
+.section-head{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:12px;
+
+}
+
+.section-head h2{
+
+    font-size:19px;
+
+    font-weight:700;
+
+}
+
+.count{
+
+    font-size:12px;
+
+    color:#888;
+
+}
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading{
+
+    min-height:300px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+    color:#008b8b;
+
+}
+
+.loading i{
+
+    font-size:32px;
+
+}
+
+.loading p{
+
+    font-size:14px;
+
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.message-box{
+
+    margin:20px 15px;
+
+    padding:28px 18px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+    background:#f7ffff;
+
+    border:1px solid #d8eeee;
+
+}
+
+.message-box i{
+
+    font-size:42px;
+
+    color:#008b8b;
+
+    margin-bottom:10px;
+
+}
+
+.message-box h3{
+
+    font-size:18px;
+
+    margin-bottom:5px;
+
+}
+
+.message-box p{
+
+    font-size:13px;
+
+    color:#777;
+
+    line-height:1.6;
+
+}
+
+.retry{
+
+    margin-top:15px;
+
+    border:none;
+
+    background:#008b8b;
+
+    color:#fff;
+
+    padding:10px 18px;
+
+    border-radius:25px;
+
+    font-family:inherit;
+
+    font-size:14px;
+
+}
+
+
+/* =====================================================
+   VIDEO LIST
+===================================================== */
+
+.video-list{
+
+    padding-bottom:5px;
+
+}
+
+
+/* =====================================================
+   VIDEO CARD
+===================================================== */
+
+.video-card{
+
+    background:#fff;
+
+    border:
+        1px solid #e7e7e7;
+
+    border-radius:17px;
+
+    overflow:hidden;
+
+    margin-bottom:15px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.06);
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.video-card:active{
+
+    transform:scale(.985);
+
+}
+
+
+/* =====================================================
+   THUMBNAIL
+===================================================== */
+
+.thumbnail{
+
+    width:100%;
+
+    aspect-ratio:16/9;
+
+    background:#111;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.thumbnail img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    display:block;
+
+}
+
+.no-image{
+
+    width:100%;
+
+    height:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#777;
+
+    font-size:42px;
+
+}
+
+
+/* =====================================================
+   PLAY
+===================================================== */
+
+.play-button{
+
+    position:absolute;
+
+    left:50%;
+
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    width:58px;
+
+    height:58px;
+
+    border-radius:50%;
+
+    background:
+        rgba(0,139,139,.94);
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:21px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.3);
+
+}
+
+
+/* =====================================================
+   VIDEO TYPE
+===================================================== */
+
+.source-badge{
+
+    position:absolute;
+
+    left:10px;
+
+    top:10px;
+
+    padding:4px 9px;
+
+    border-radius:15px;
+
+    background:
+        rgba(0,0,0,.65);
+
+    color:#fff;
+
+    font-size:10px;
+
+    backdrop-filter:blur(5px);
+
+}
+
+
+/* =====================================================
+   CARD CONTENT
+===================================================== */
+
+.card-content{
+
+    padding:13px;
+
+}
+
+.video-title{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    line-height:1.4;
+
+    color:#222;
+
+    display:-webkit-box;
+
+    -webkit-line-clamp:2;
+
+    -webkit-box-orient:vertical;
+
+    overflow:hidden;
+
+}
+
+.video-name{
+
+    margin-top:5px;
+
+    color:#008b8b;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+.video-bio{
+
+    margin-top:6px;
+
+    color:#666;
+
+    font-size:13px;
+
+    line-height:1.5;
+
+    display:-webkit-box;
+
+    -webkit-line-clamp:2;
+
+    -webkit-box-orient:vertical;
+
+    overflow:hidden;
+
+}
+
+.meta{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-top:9px;
+
+    color:#888;
+
+    font-size:12px;
+
+}
+
+.meta span{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:5px;
+
+}
+
+.meta i{
+
+    color:#008b8b;
+
+}
+
+
+/* =====================================================
+   EMPTY SEARCH
+===================================================== */
+
+.no-result{
+
+    display:none;
+
+    text-align:center;
+
+    padding:35px 15px;
+
+    color:#888;
+
+}
+
+.no-result i{
+
+    font-size:38px;
+
+    color:#aaa;
+
+    margin-bottom:10px;
+
+}
+
+.no-result p{
+
+    font-size:14px;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer{
+
+    text-align:center;
+
+    padding:20px 10px 28px;
+
+    color:#999;
+
+    font-size:12px;
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
+
+    position:fixed;
+
+    left:50%;
+
+    bottom:25px;
+
+    transform:
+        translate(-50%,100px);
+
+    opacity:0;
+
+    background:#222;
+
+    color:#fff;
+
+    padding:11px 18px;
+
+    border-radius:25px;
+
+    font-size:13px;
+
+    z-index:9999;
+
+    transition:.3s;
+
+    max-width:
+        calc(100% - 30px);
+
+    text-align:center;
+
+}
+
+.toast.show{
+
+    opacity:1;
+
+    transform:
+        translate(-50%,0);
+
+}
+
+
+/* =====================================================
+   DESKTOP
+===================================================== */
+
+@media(min-width:451px){
+
+    body{
+
+        padding:20px 0;
+
+    }
+
+    .app{
+
+        min-height:
+            calc(100vh - 40px);
+
+        border-radius:18px;
+
+        box-shadow:
+            0 5px 30px rgba(0,0,0,.08);
+
+    }
+
+    .header{
+
+        border-radius:
+            18px 18px 0 0;
+
+    }
+
+}
+
+</style>
+
 </head>
+
+
 <body>
-    লিংকে নিয়ে যাওয়া হচ্ছে...
+
+
+<div class="app">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="header-left">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-play"></i>
+
+        </div>
+
+        <div class="header-title">
+
+            Rater Tara Video Apps
+
+        </div>
+
+    </div>
+
+
+    <a
+        href="profile.html"
+        class="profile-btn"
+        title="Profile">
+
+        <i class="fa-solid fa-user"></i>
+
+    </a>
+
+</header>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+
+
+
+
+<!-- =====================================================
+     SEARCH
+===================================================== -->
+
+<div class="search-box">
+
+    <div class="search">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input
+            type="search"
+            id="searchInput"
+            placeholder="ভিডিও খুঁজুন..."
+            autocomplete="off">
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SECTION
+===================================================== -->
+
+<section class="section">
+
+    <div class="section-head">
+
+        <h2>
+            ভিডিও
+        </h2>
+
+        <span
+            class="count"
+            id="videoCount">
+
+            ০ পোস্ট
+
+        </span>
+
+    </div>
+
+
+    <!-- Loading -->
+
+    <div
+        id="loading"
+        class="loading">
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+
+        <p>
+            ভিডিও লোড হচ্ছে...
+        </p>
+
+    </div>
+
+
+    <!-- Error / Empty -->
+
+    <div
+        id="messageBox"
+        class="message-box"
+        style="display:none;">
+
+        <i class="fa-solid fa-video-slash"></i>
+
+        <h3>
+            কোনো ভিডিও পাওয়া যায়নি
+        </h3>
+
+        <p id="messageText">
+
+            বর্তমানে কোনো প্রকাশিত ভিডিও নেই।
+
+        </p>
+
+        <button
+            class="retry"
+            onclick="loadVideos()">
+
+            <i class="fa-solid fa-rotate"></i>
+
+            আবার চেষ্টা করুন
+
+        </button>
+
+    </div>
+
+
+    <!-- Video List -->
+
+    <div
+        id="videoList"
+        class="video-list"
+        style="display:none;">
+    </div>
+
+
+    <!-- Search Result -->
+
+    <div
+        id="noResult"
+        class="no-result">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <p>
+            আপনার খোঁজার সাথে কোনো ভিডিও পাওয়া যায়নি।
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    © 2026 Rater Tara • All Rights Reserved
+
+</footer>
+
+
+</div>
+
+
+
+<!-- Toast -->
+
+<div
+    id="toast"
+    class="toast">
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   RATER TARA VIDEO APPS
+   HOME PAGE
+
+   FIREBASE PROJECT:
+   rater-tara-video-apps
+
+   COLLECTIONS:
+   1. profiles
+   2. newVideos
+
+   ONLY:
+   status = published
+
+   IMPORTANT:
+   দুই collection-এর ভিডিও একসাথে দেখাবে।
+===================================================== */
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyD7MR0gTPVeqMUMRTIip9Zp6oV0J7iVIaY",
+
+    authDomain:
+        "rater-tara-video-apps.firebaseapp.com",
+
+    databaseURL:
+        "https://rater-tara-video-apps-default-rtdb.firebaseio.com",
+
+    projectId:
+        "rater-tara-video-apps",
+
+    storageBucket:
+        "rater-tara-video-apps.firebasestorage.app",
+
+    messagingSenderId:
+        "622484215343",
+
+    appId:
+        "1:622484215343:web:90e995aa400cd103ea18da",
+
+    measurementId:
+        "G-3G9Z0WVSDE"
+
+};
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+if(!firebase.apps.length){
+
+    firebase.initializeApp(
+        firebaseConfig
+    );
+
+}
+
+
+/* =====================================================
+   FIRESTORE
+===================================================== */
+
+const db =
+    firebase.firestore();
+
+
+/* =====================================================
+   DOM
+===================================================== */
+
+const loading =
+    document.getElementById("loading");
+
+const messageBox =
+    document.getElementById("messageBox");
+
+const messageText =
+    document.getElementById("messageText");
+
+const videoList =
+    document.getElementById("videoList");
+
+const videoCount =
+    document.getElementById("videoCount");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const noResult =
+    document.getElementById("noResult");
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let allVideos = [];
+
+
+/* =====================================================
+   START
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        loadVideos();
+
+    }
+);
+
+
+/* =====================================================
+   LOAD BOTH COLLECTIONS
+===================================================== */
+
+async function loadVideos(){
+
+    loading.style.display =
+        "flex";
+
+    messageBox.style.display =
+        "none";
+
+    videoList.style.display =
+        "none";
+
+    noResult.style.display =
+        "none";
+
+    videoList.innerHTML =
+        "";
+
+    allVideos = [];
+
+
+    try{
+
+        /*
+         * profiles
+         */
+
+        const oldVideosPromise =
+            db
+                .collection("profiles")
+                .where(
+                    "status",
+                    "==",
+                    "published"
+                )
+                .get();
+
+
+        /*
+         * newVideos
+         */
+
+        const newVideosPromise =
+            db
+                .collection("newVideos")
+                .where(
+                    "status",
+                    "==",
+                    "published"
+                )
+                .get();
+
+
+        const results =
+            await Promise.all([
+                oldVideosPromise,
+                newVideosPromise
+            ]);
+
+
+        const oldSnapshot =
+            results[0];
+
+        const newSnapshot =
+            results[1];
+
+
+        /* =================================================
+           OLD PROFILES
+        ================================================= */
+
+        oldSnapshot.docs.forEach(
+            function(doc){
+
+                allVideos.push({
+
+                    id:
+                        doc.id,
+
+                    collection:
+                        "profiles",
+
+                    data:
+                        doc.data()
+
+                });
+
+            }
+        );
+
+
+        /* =================================================
+           NEW VIDEOS
+        ================================================= */
+
+        newSnapshot.docs.forEach(
+            function(doc){
+
+                allVideos.push({
+
+                    id:
+                        doc.id,
+
+                    collection:
+                        "newVideos",
+
+                    data:
+                        doc.data()
+
+                });
+
+            }
+        );
+
+
+        /* =================================================
+           SORT NEWEST FIRST
+        ================================================= */
+
+        allVideos.sort(
+            function(a,b){
+
+                const aTime =
+                    getTimestamp(
+                        a.data.createdAt
+                    );
+
+                const bTime =
+                    getTimestamp(
+                        b.data.createdAt
+                    );
+
+                return bTime - aTime;
+
+            }
+        );
+
+
+        loading.style.display =
+            "none";
+
+
+        /* =================================================
+           EMPTY
+        ================================================= */
+
+        if(!allVideos.length){
+
+            messageText.textContent =
+                "বর্তমানে কোনো অনুমোদিত ভিডিও পোস্ট পাওয়া যায়নি।";
+
+            messageBox.style.display =
+                "block";
+
+            videoCount.textContent =
+                "০ পোস্ট";
+
+            return;
+
+        }
+
+
+        videoCount.textContent =
+            banglaNumber(
+                allVideos.length
+            ) +
+            " পোস্ট";
+
+
+        renderVideos(
+            allVideos
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "HOME FIRESTORE ERROR:",
+            error
+        );
+
+
+        loading.style.display =
+            "none";
+
+
+        messageText.textContent =
+            "ভিডিও লোড করা যাচ্ছে না। Firebase সংযোগ অথবা ইন্টারনেট সংযোগ পরীক্ষা করুন।";
+
+
+        messageBox.style.display =
+            "block";
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER VIDEOS
+===================================================== */
+
+function renderVideos(videos){
+
+    videoList.innerHTML =
+        "";
+
+    noResult.style.display =
+        "none";
+
+
+    if(!videos.length){
+
+        videoList.style.display =
+            "none";
+
+        noResult.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    videos.forEach(
+        function(video){
+
+            createVideoCard(
+                video
+            );
+
+        }
+    );
+
+
+    videoList.style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   CREATE VIDEO CARD
+===================================================== */
+
+function createVideoCard(video){
+
+    const data =
+        video.data;
+
+
+    const card =
+        document.createElement(
+            "article"
+        );
+
+    card.className =
+        "video-card";
+
+
+    /* =================================================
+       THUMBNAIL
+    ================================================= */
+
+    const thumbnail =
+        document.createElement(
+            "div"
+        );
+
+    thumbnail.className =
+        "thumbnail";
+
+
+    const imageUrl =
+        String(
+            data.img ||
+            data.thumbnail ||
+            data.image ||
+            ""
+        ).trim();
+
+
+    if(imageUrl){
+
+        const img =
+            document.createElement(
+                "img"
+            );
+
+        img.src =
+            imageUrl;
+
+        img.alt =
+            data.title ||
+            data.name ||
+            "Rater Tara Video";
+
+        img.loading =
+            "lazy";
+
+
+        img.onerror =
+            function(){
+
+                this.remove();
+
+                const noImage =
+                    document.createElement(
+                        "div"
+                    );
+
+                noImage.className =
+                    "no-image";
+
+                noImage.innerHTML =
+                    '<i class="fa-solid fa-image"></i>';
+
+                thumbnail.insertBefore(
+                    noImage,
+                    thumbnail.firstChild
+                );
+
+            };
+
+
+        thumbnail.appendChild(
+            img
+        );
+
+
+    }else{
+
+        const noImage =
+            document.createElement(
+                "div"
+            );
+
+        noImage.className =
+            "no-image";
+
+        noImage.innerHTML =
+            '<i class="fa-solid fa-image"></i>';
+
+        thumbnail.appendChild(
+            noImage
+        );
+
+    }
+
+
+    /* =================================================
+       SOURCE BADGE
+    ================================================= */
+
+    const badge =
+        document.createElement(
+            "div"
+        );
+
+    badge.className =
+        "source-badge";
+
+
+    badge.textContent =
+        getSourceName(
+            data,
+            video.collection
+        );
+
+
+    thumbnail.appendChild(
+        badge
+    );
+
+
+    /* =================================================
+       PLAY BUTTON
+    ================================================= */
+
+    const play =
+        document.createElement(
+            "div"
+        );
+
+    play.className =
+        "play-button";
+
+    play.innerHTML =
+        '<i class="fa-solid fa-play"></i>';
+
+    thumbnail.appendChild(
+        play
+    );
+
+
+    /* =================================================
+       CONTENT
+    ================================================= */
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+    content.className =
+        "card-content";
+
+
+    /* TITLE */
+
+    const title =
+        document.createElement(
+            "div"
+        );
+
+    title.className =
+        "video-title";
+
+    title.textContent =
+        data.title ||
+        data.name ||
+        "Rater Tara Video";
+
+
+    content.appendChild(
+        title
+    );
+
+
+    /* NAME */
+
+    const name =
+        document.createElement(
+            "div"
+        );
+
+    name.className =
+        "video-name";
+
+    name.innerHTML =
+        '<i class="fa-solid fa-user"></i> ' +
+        escapeHtml(
+            data.name ||
+            "Rater Tara"
+        );
+
+
+    content.appendChild(
+        name
+    );
+
+
+    /* BIO */
+
+    if(
+        data.bio &&
+        String(data.bio).trim()
+    ){
+
+        const bio =
+            document.createElement(
+                "div"
+            );
+
+        bio.className =
+            "video-bio";
+
+        bio.textContent =
+            String(
+                data.bio
+            );
+
+        content.appendChild(
+            bio
+        );
+
+    }
+
+
+    /* META */
+
+    const meta =
+        document.createElement(
+            "div"
+        );
+
+    meta.className =
+        "meta";
+
+
+    const views =
+        document.createElement(
+            "span"
+        );
+
+    views.innerHTML =
+        '<i class="fa-solid fa-eye"></i> ' +
+        banglaNumber(
+            Number(
+                data.views || 0
+            )
+        ) +
+        " বার";
+
+
+    meta.appendChild(
+        views
+    );
+
+
+    const date =
+        convertDate(
+            data.createdAt
+        );
+
+
+    if(date){
+
+        const dateSpan =
+            document.createElement(
+                "span"
+            );
+
+        dateSpan.innerHTML =
+            '<i class="fa-regular fa-calendar"></i> ' +
+            date.toLocaleDateString(
+                "bn-BD",
+                {
+                    year:
+                        "numeric",
+
+                    month:
+                        "short",
+
+                    day:
+                        "numeric"
+                }
+            );
+
+
+        meta.appendChild(
+            dateSpan
+        );
+
+    }
+
+
+    content.appendChild(
+        meta
+    );
+
+
+    /* =================================================
+       APPEND
+    ================================================= */
+
+    card.appendChild(
+        thumbnail
+    );
+
+    card.appendChild(
+        content
+    );
+
+
+    /* =================================================
+       OPEN PLAYER
+
+       VERY IMPORTANT:
+       collection URL-এর সাথে যাবে।
+
+       profiles:
+       player.html?id=xxx&collection=profiles
+
+       newVideos:
+       player.html?id=xxx&collection=newVideos
+    ================================================= */
+
+    card.addEventListener(
+        "click",
+        function(){
+
+            openPlayer(
+                video.id,
+                video.collection
+            );
+
+        }
+    );
+
+
+    videoList.appendChild(
+        card
+    );
+
+}
+
+
+/* =====================================================
+   OPEN PLAYER
+===================================================== */
+
+function openPlayer(
+    id,
+    collection
+){
+
+    if(!id){
+
+        showToast(
+            "ভিডিও পাওয়া যায়নি"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        collection !== "profiles" &&
+        collection !== "newVideos"
+    ){
+
+        collection =
+            "profiles";
+
+    }
+
+
+    const url =
+        "player.html?id=" +
+        encodeURIComponent(id) +
+        "&collection=" +
+        encodeURIComponent(collection);
+
+
+    window.location.href =
+        url;
+
+}
+
+
+/* =====================================================
+   SOURCE NAME
+===================================================== */
+
+function getSourceName(
+    data,
+    collection
+){
+
+    if(
+        collection === "profiles"
+    ){
+
+        return "YouTube";
+
+    }
+
+
+    const type =
+        String(
+            data.videoType ||
+            ""
+        ).toLowerCase();
+
+
+    if(
+        type === "google_drive"
+    ){
+
+        return "ratertara";
+
+    }
+
+
+    if(
+        type === "blogger"
+    ){
+
+        return "ratertara";
+
+    }
+
+
+    if(
+        type === "telegram"
+    ){
+
+        return "ratertara";
+
+    }
+
+
+    if(
+        type === "direct"
+    ){
+
+        return "ratertara";
+
+    }
+
+
+    if(
+        type === "iframe" ||
+        type === "embedded"
+    ){
+
+        return "Embedded";
+
+    }
+
+
+    return "Video";
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+searchInput.addEventListener(
+    "input",
+    function(){
+
+        const query =
+            String(
+                this.value || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        if(!query){
+
+            renderVideos(
+                allVideos
+            );
+
+            videoCount.textContent =
+                banglaNumber(
+                    allVideos.length
+                ) +
+                " পোস্ট";
+
+            return;
+
+        }
+
+
+        const filtered =
+            allVideos.filter(
+                function(video){
+
+                    const data =
+                        video.data;
+
+
+                    const text =
+                        [
+                            data.title,
+                            data.name,
+                            data.bio,
+                            data.description,
+                            data.videoType
+                        ]
+                        .filter(Boolean)
+                        .join(" ")
+                        .toLowerCase();
+
+
+                    return text.includes(
+                        query
+                    );
+
+                }
+            );
+
+
+        videoCount.textContent =
+            banglaNumber(
+                filtered.length
+            ) +
+            " পোস্ট";
+
+
+        renderVideos(
+            filtered
+        );
+
+    }
+);
+
+
+/* =====================================================
+   FIREBASE TIMESTAMP
+===================================================== */
+
+function getTimestamp(value){
+
+    try{
+
+        if(
+            value &&
+            typeof value.toMillis ===
+            "function"
+        ){
+
+            return value.toMillis();
+
+        }
+
+
+        if(
+            value &&
+            typeof value.toDate ===
+            "function"
+        ){
+
+            return value.toDate().getTime();
+
+        }
+
+
+        if(
+            typeof value ===
+            "number"
+        ){
+
+            return value;
+
+        }
+
+
+        if(
+            typeof value ===
+            "string"
+        ){
+
+            const date =
+                new Date(
+                    value
+                );
+
+            if(
+                !isNaN(
+                    date.getTime()
+                )
+            ){
+
+                return date.getTime();
+
+            }
+
+        }
+
+    }catch(error){
+
+        console.warn(
+            "Timestamp error:",
+            error
+        );
+
+    }
+
+
+    return 0;
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function convertDate(value){
+
+    try{
+
+        if(
+            value &&
+            typeof value.toDate ===
+            "function"
+        ){
+
+            return value.toDate();
+
+        }
+
+
+        if(
+            value instanceof Date
+        ){
+
+            return value;
+
+        }
+
+
+        if(
+            typeof value ===
+            "number"
+        ){
+
+            return new Date(
+                value
+            );
+
+        }
+
+
+        if(
+            typeof value ===
+            "string"
+        ){
+
+            const date =
+                new Date(
+                    value
+                );
+
+
+            if(
+                !isNaN(
+                    date.getTime()
+                )
+            ){
+
+                return date;
+
+            }
+
+        }
+
+    }catch(error){
+
+        console.warn(
+            "Date error:",
+            error
+        );
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =====================================================
+   BANGLA NUMBER
+===================================================== */
+
+function banglaNumber(number){
+
+    return String(
+        Number(
+            number || 0
+        )
+    )
+    .replace(
+        /\d/g,
+        function(digit){
+
+            return "০১২৩৪৫৬৭৮৯"[
+                Number(digit)
+            ];
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value){
+
+    return String(
+        value
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+
+function showToast(text){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        text;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(
+            function(){
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2500
+        );
+
+}
+
+</script>
+
+
 </body>
 </html>
